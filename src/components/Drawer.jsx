@@ -1,4 +1,6 @@
+/* eslint-disable no-undef */
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItem from '@material-ui/core/ListItem'
@@ -11,16 +13,45 @@ import red from '@material-ui/core/colors/red'
 import { Typography } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
+import MusicorumAPI from '../api/main'
+
 export default class Drawer extends Component {
   constructor (props) {
     super(props)
     // Define your state object here
     this.state = {
       loaded: false,
-      account: {
-        user: 'metehus',
-        avatar: 'https://material-ui.com/static/images/avatar/2.jpg'
-      }
+      account: null
+    }
+  }
+
+  componentDidMount () {
+    this.checkAuth()
+  }
+
+  checkAuth () {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      this.setState({
+        loaded: true,
+        account: null
+      })
+    } else {
+      MusicorumAPI.getAuthStatus(token).then(res => {
+        const account = res.data.twitter
+        this.setState({
+          loaded: true,
+          account
+        })
+      }).catch(e => {
+        if (e.response.status === 401) {
+          this.setState({
+            loaded: true,
+            account: null
+          })
+          localStorage.removeItem('token')
+        }
+      })
     }
   }
 
@@ -33,12 +64,14 @@ export default class Drawer extends Component {
             <ListItem button>
               <ListItemAvatar>
                 {this.state.account ? (
-                  <Avatar alt={this.state.account.user} src={this.state.account.avatar} />
+                  <Avatar alt={this.state.account.user} src={this.state.account.profilePicture} />
                 ) : (
                   <Avatar><Icon>account_circle</Icon></Avatar>
                 )}
               </ListItemAvatar>
-              <ListItemText primary={this.state.account ? this.state.account.user : 'Log in'}/>
+              <ListItemText
+                primary={this.state.account ? this.state.account.name : 'Log in with Twitter'}
+                secondary={this.state.account ? '@' + this.state.account.user : null}/>
             </ListItem>
             {this.state.account ? (
               <div>

@@ -66,6 +66,8 @@ export default function App () {
 
   const drawer = (<DrawerComponent />)
 
+  const draweComponent = ({ drawer })
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
@@ -86,7 +88,7 @@ export default function App () {
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
+        <Hidden smUp implementation="js">
           <Drawer
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -102,7 +104,7 @@ export default function App () {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden xsDown implementation="css">
+        <Hidden xsDown implementation="js">
           <Drawer
             classes={{
               paper: classes.drawerPaper
