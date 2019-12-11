@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://23.100.31.163:4500'
+import { API_URL } from '../../env.json'
 
 export default class MusicorumAPI {
   static getAuthStatus (token) {
