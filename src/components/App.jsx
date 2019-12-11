@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { Component } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
@@ -54,7 +55,6 @@ const useStyles = makeStyles(theme => ({
 export default function App () {
   const classes = useStyles()
   const [mobileOpen, setMobileOpen] = React.useState(false)
-  const [profileOpen, setProfileOpen] = React.useState(false)
   const theme = useTheme()
 
   const handleDrawerToggle = () => {
@@ -66,52 +66,56 @@ export default function App () {
   return (
     <div className={classes.root}>
       <BrowserRouter>
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon/>
-            </IconButton>
-            <Typography variant="h6" noWrap>
-              MUSICORUM
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <nav className={classes.drawer} aria-label="mailbox folders">
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="js">
-            <Drawer
-              variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper
-              }}
-              ModalProps={{
-                keepMounted: true // Better open performance on mobile.
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="js">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper
-              }}
-              variant="permanent"
-              open
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
+        { !location.pathname.startsWith('/auth/twitter') ? (
+          <div>
+            <AppBar position="fixed" className={classes.appBar}>
+              <Toolbar>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="start"
+                  onClick={handleDrawerToggle}
+                  className={classes.menuButton}
+                >
+                  <MenuIcon/>
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                  MUSICORUM
+                </Typography>
+              </Toolbar>
+            </AppBar>
+            <nav className={classes.drawer} aria-label="mailbox folders">
+              {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+              <Hidden smUp implementation="js">
+                <Drawer
+                  variant="temporary"
+                  anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                  open={mobileOpen}
+                  onClose={handleDrawerToggle}
+                  classes={{
+                    paper: classes.drawerPaper
+                  }}
+                  ModalProps={{
+                    keepMounted: true // Better open performance on mobile.
+                  }}
+                >
+                  {drawer}
+                </Drawer>
+              </Hidden>
+              <Hidden xsDown implementation="js">
+                <Drawer
+                  classes={{
+                    paper: classes.drawerPaper
+                  }}
+                  variant="permanent"
+                  open
+                >
+                  {drawer}
+                </Drawer>
+              </Hidden>
+            </nav>
+          </div>
+        ) : null }
         <main className={classes.content}>
           <div className={classes.toolbar}/>
           <Switch>

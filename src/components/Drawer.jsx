@@ -15,6 +15,18 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import MusicorumAPI from '../api/main'
 import { ExpandLess, ExpandMore } from '@material-ui/icons'
 import Collapse from '@material-ui/core/Collapse'
+import Slide from '@material-ui/core/Slide'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+
+// eslint-disable-next-line react/display-name
+const Transition = React.forwardRef((props, ref) => (
+  <Slide direction="up" ref={ref} {...props} />
+))
 
 export default class Drawer extends Component {
   constructor (props) {
@@ -23,9 +35,13 @@ export default class Drawer extends Component {
       profileOpened: false,
       loaded: false,
       authError: false,
-      account: null
+      account: null,
+      twitterAuthDialogOpened: false,
+      dialogStatus: 'LOADING'
     }
     this.handleProfileClick = this.handleProfileClick.bind(this)
+    this.handleDialogClose = this.handleDialogClose.bind(this)
+    this.openPopUp = this.openPopUp.bind(this)
     this.logOut = this.logOut.bind(this)
   }
 
@@ -35,8 +51,40 @@ export default class Drawer extends Component {
         profileOpened: !this.state.profileOpened
       })
     } else {
-
+      this.setState({
+        twitterAuthDialogOpened: true
+      })
+      this.openPopUp()
     }
+  }
+
+  openPopUp () {
+    this.setState({
+      dialogStatus: 'LOADING'
+    })
+
+    MusicorumAPI.getTwitterAuthURL().then(res => {
+      this.setState({
+        dialogStatus: 'SUCCESS'
+      })
+      localStorage.setItem('twitterAuthTokenId', res.data.tokenId)
+      const popUpWindow = window.open(res.data.url, 'Musicorum Twitter Authentication', 'width=600,height=800')
+      if (!popUpWindow) {
+        this.setState({
+          dialogStatus: 'ERROR_POPUP'
+        })
+      }
+    }).catch(e => {
+      this.setState({
+        dialogStatus: 'ERROR'
+      })
+    })
+  }
+
+  handleDialogClose () {
+    this.setState({
+      twitterAuthDialogOpened: false
+    })
   }
 
   componentDidMount () {
@@ -80,6 +128,20 @@ export default class Drawer extends Component {
   }
 
   render () {
+    let dialogText
+    switch (this.state.dialogStatus) {
+      case 'ERROR':
+        dialogText = 'An error ocorrured while getting your login URL. Please try again.'
+        break
+      case 'LOADING':
+        dialogText = 'Preparing your login...'
+        break
+      case 'SUCCESS':
+        dialogText = 'A pop-up window has opened for you to login. If not, please enable your pop-ups and try again.'
+        break
+      case 'ERROR_POPUP':
+        dialogText = "We couldn't open the pop-up window for your login. Please allow pop-ups on your browser configuration."
+    }
     return (
       <div>
         <Divider/>
@@ -159,6 +221,34 @@ export default class Drawer extends Component {
             </ListItem>
           </Link>
         </List>
+
+        <Dialog
+          open={this.state.twitterAuthDialogOpened}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={this.handleDialogClose}
+          aria-labelledby="auth-dialog-title"
+          aria-describedby="auth-dialog-description"
+        >
+          <DialogTitle id="auth-dialog-title">Log in into your Twitter Account</DialogTitle>
+          <DialogContent style={{ textAlign: 'center' }}>
+            <DialogContentText id="auth-dialog-description">
+              { dialogText }
+            </DialogContentText>
+            <br/>
+            {this.state.dialogStatus === 'LOADING' ? (<CircularProgress/>) : null}
+          </DialogContent>
+          <DialogActions>
+            {this.state.dialogStatus === 'ERROR' || this.state.dialogStatus === 'SUCCESS' ? (
+              <Button onClick={this.openPopUp} color="primary">
+                Try again
+              </Button>
+            ) : null}
+            <Button onClick={this.handleDialogClose} color="primary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>)
   }
 }
