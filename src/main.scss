@@ -3,3 +3,13 @@ $main: #8EE4AF;
 body {
   margin: 0px;
 }
+
+.routerLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.routerLink:focus {
+  text-decoration: none;
+  color: inherit;
+}

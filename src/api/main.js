@@ -10,4 +10,8 @@ export default class MusicorumAPI {
       }
     })
   }
+
+  static getTwitterAuthURL () {
+    return axios.get(`${API_URL}/auth/twitter`)
+  }
 }
