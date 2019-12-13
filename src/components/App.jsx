@@ -16,9 +16,10 @@ import Hidden from '@material-ui/core/Hidden'
 
 import Home from '../router/Home.jsx'
 import Generator from '../router/Generator.jsx'
+import Account from '../router/Account.jsx'
 import TwitterCallback from '../router/auth/TwitterCallback.jsx'
 
-const drawerWidth = 270
+const drawerWidth = 250
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles(theme => ({
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth
     },
+    color: '#fff'
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -122,6 +124,7 @@ export default function App () {
           <Switch>
             <Route path="/" exact={true} component={Home}/>
             <Route path="/generate" component={Generator}/>
+            <Route path="/account" component={Account}/>
             <Route path="/auth/twitter/callback" component={TwitterCallback}/>
           </Switch>
         </main>

@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Button from '@material-ui/core/Button'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import red from '@material-ui/core/colors/red'
+import pink from '@material-ui/core/colors/pink'
+import blue from '@material-ui/core/colors/blue'
 
 import App from './components/App.jsx'
 
@@ -12,7 +12,12 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 const theme = createMuiTheme({
   palette: {
     type: 'dark',
-    primary: red
+    primary: {
+      main: pink.A100
+    },
+    secondary: {
+      main: pink.A700
+    }
   }
 })
 

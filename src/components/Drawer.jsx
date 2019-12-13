@@ -112,7 +112,6 @@ export default class Drawer extends Component {
       let full = false
       if (profile) {
         const profileObj = JSON.parse(profile)
-        if (!profileObj.lastfm) full = true
         if ((new Date() - profileObj.cacheDate) > 432000000) full = true
       } else {
         full = true
@@ -258,7 +257,7 @@ export default class Drawer extends Component {
           <List>
             <ListItem button>
               <ListItemIcon>
-                <CircularProgress color="secondary"/>
+                <CircularProgress color="primary"/>
               </ListItemIcon>
               <ListItemText primary='Loading...'/>
             </ListItem>

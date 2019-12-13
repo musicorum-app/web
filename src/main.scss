@@ -13,3 +13,17 @@ body {
   text-decoration: none;
   color: inherit;
 }
+
+.bigAvatar {
+  width: 90px;
+  height: 90px;
+  border: solid 4px;
+}
+
+.bigAvatar.twitter {
+  border-color: rgba(29, 161, 242, 0.2)
+}
+
+.bigAvatar.twitter:hover {
+  border-color: rgba(29, 161, 242, 0.4)
+}
