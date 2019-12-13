@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, { Component } from 'react'
+import React  from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -16,6 +16,7 @@ import Hidden from '@material-ui/core/Hidden'
 
 import Home from '../router/Home.jsx'
 import Generator from '../router/Generator.jsx'
+import TwitterCallback from '../router/auth/TwitterCallback.jsx'
 
 const drawerWidth = 270
 
@@ -66,7 +67,7 @@ export default function App () {
   return (
     <div className={classes.root}>
       <BrowserRouter>
-        { !location.pathname.startsWith('/auth/twitter') ? (
+        { !location.pathname.startsWith('/auth/') ? (
           <div>
             <AppBar position="fixed" className={classes.appBar}>
               <Toolbar>
@@ -121,6 +122,7 @@ export default function App () {
           <Switch>
             <Route path="/" exact={true} component={Home}/>
             <Route path="/generate" component={Generator}/>
+            <Route path="/auth/twitter/callback" component={TwitterCallback}/>
           </Switch>
         </main>
       </BrowserRouter>

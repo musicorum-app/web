@@ -37,10 +37,12 @@ export default class Drawer extends Component {
       authError: false,
       account: null,
       twitterAuthDialogOpened: false,
-      dialogStatus: 'LOADING'
+      dialogStatus: 'LOADING',
+      lastfmAuthConsent: false
     }
     this.handleProfileClick = this.handleProfileClick.bind(this)
-    this.handleDialogClose = this.handleDialogClose.bind(this)
+    this.handleLoginDialogClose = this.handleLoginDialogClose.bind(this)
+    this.handleLastfmDialogClose = this.handleLastfmDialogClose.bind(this)
     this.openPopUp = this.openPopUp.bind(this)
     this.logOut = this.logOut.bind(this)
   }
@@ -81,10 +83,17 @@ export default class Drawer extends Component {
     })
   }
 
-  handleDialogClose () {
+  handleLoginDialogClose () {
     this.setState({
       twitterAuthDialogOpened: false
     })
+  }
+
+  handleLastfmDialogClose () {
+    this.setState({
+      lastfmAuthConsent: false
+    })
+    localStorage.setItem('lastfmAuthConsent', false)
   }
 
   componentDidMount () {
@@ -99,13 +108,51 @@ export default class Drawer extends Component {
         account: null
       })
     } else {
-      MusicorumAPI.getAuthStatus(token).then(res => {
-        const account = res.data.twitter
-        this.setState({
-          loaded: true,
-          account
-        })
+      const profile = localStorage.getItem('profile')
+      let full = false
+      if (profile) {
+        const profileObj = JSON.parse(profile)
+        if (!profileObj.lastfm) full = true
+        if ((new Date() - profileObj.cacheDate) > 432000000) full = true
+      } else {
+        full = true
+      }
+
+      MusicorumAPI.getAuthStatus(token, full).then(res => {
+        if (full) {
+          const profileObj = {
+            cacheDate: new Date().getTime(),
+            id: res.data.id,
+            twitter: res.data.twitter,
+            lastfm: res.data.lastfm
+          }
+          localStorage.setItem('profile', JSON.stringify(profileObj))
+          this.setState({
+            loaded: true,
+            account: {
+              user: res.data.twitter.user,
+              name: res.data.twitter.name,
+              profilePicture: res.data.twitter.profilePicture
+            }
+          })
+          this.doLastfmAuthConsent(profileObj)
+        } else {
+          const profileObj = JSON.parse(profile)
+          this.setState({
+            loaded: true,
+            account: {
+              user: profileObj.twitter.user,
+              name: profileObj.twitter.name,
+              profilePicture: profileObj.twitter.profilePicture
+            }
+          })
+          this.doLastfmAuthConsent(profileObj)
+        }
       }).catch(e => {
+        if (!e.response) {
+          console.error(e)
+          return
+        }
         if (e.response.status === 401) {
           this.setState({
             loaded: true,
@@ -122,8 +169,19 @@ export default class Drawer extends Component {
     }
   }
 
+  doLastfmAuthConsent (profileObj) {
+    if (profileObj.lastfm) return
+    const consent = localStorage.getItem('lastfmAuthConsent')
+    if (!consent) {
+      this.setState({
+        lastfmAuthConsent: true
+      })
+    }
+  }
+
   logOut () {
     localStorage.removeItem('token')
+    localStorage.removeItem('profile')
     window.location.reload()
   }
 
@@ -140,7 +198,7 @@ export default class Drawer extends Component {
         dialogText = 'A pop-up window has opened for you to login. If not, please enable your pop-ups and try again.'
         break
       case 'ERROR_POPUP':
-        dialogText = "We couldn't open the pop-up window for your login. Please allow pop-ups on your browser configuration."
+        dialogText = 'We couldn\'t open the pop-up window for your login. Please allow pop-ups on your browser configuration.'
     }
     return (
       <div>
@@ -226,14 +284,14 @@ export default class Drawer extends Component {
           open={this.state.twitterAuthDialogOpened}
           TransitionComponent={Transition}
           keepMounted
-          onClose={this.handleDialogClose}
+          onClose={this.handleLoginDialogClose}
           aria-labelledby="auth-dialog-title"
           aria-describedby="auth-dialog-description"
         >
           <DialogTitle id="auth-dialog-title">Log in into your Twitter Account</DialogTitle>
           <DialogContent style={{ textAlign: 'center' }}>
             <DialogContentText id="auth-dialog-description">
-              { dialogText }
+              {dialogText}
             </DialogContentText>
             <br/>
             {this.state.dialogStatus === 'LOADING' ? (<CircularProgress/>) : null}
@@ -244,8 +302,35 @@ export default class Drawer extends Component {
                 Try again
               </Button>
             ) : null}
-            <Button onClick={this.handleDialogClose} color="primary">
+            <Button onClick={this.handleLoginDialogClose} color="primary">
               Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog
+          open={this.state.lastfmAuthConsent}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={this.handleLastfmDialogClose}
+          aria-labelledby="auth-dialog-title"
+          aria-describedby="auth-dialog-description"
+        >
+          <DialogTitle id="auth-dialog-title">Connect to your Last.fm account</DialogTitle>
+          <DialogContent style={{ textAlign: 'center' }}>
+            <DialogContentText id="auth-dialog-description">
+              We noticed that your account isn&apos;t connected to a Last.fm account, do you want to connect it now?
+            </DialogContentText>
+            <br/>
+            <Link to="/account?lastfmConnect=true" className="routerLink">
+              <Button variant="outlined" onClick={this.handleLastfmDialogClose} color="primary">
+                Connect to Last.fm
+              </Button>
+            </Link>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleLastfmDialogClose} color="primary">
+              No, thanks
             </Button>
           </DialogActions>
         </Dialog>
