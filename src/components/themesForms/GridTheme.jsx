@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Generator () {
+export default function GridTheme () {
   const classes = useStyles()
 
   return (
@@ -21,7 +21,7 @@ export default function Generator () {
           select
           id="outlined-select-currency"
           label="Type"
-          helperText="Please select the type"
+          // helperText="Please select the type"
           className={classes.form}
           variant="outlined"
         >
@@ -51,7 +51,7 @@ export default function Generator () {
           select
           id="outlined-select-currency"
           label="Period"
-          helperText="Please select the period"
+          helperText="Please select the period of the grid"
           className={classes.form}
           variant="outlined"
         >
