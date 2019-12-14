@@ -40,7 +40,7 @@ export default function TopsTheme () {
           id="outlined-basic"
           label="Title"
           variant="outlined"
-          value="my month on music"
+          defaultValue="my month on music"
           // helperText="Please type in your Last.fm username"
           className={classes.form}
         />
@@ -51,7 +51,7 @@ export default function TopsTheme () {
           id="outlined-basic"
           label="Scrobbles subtext"
           variant="outlined"
-          value="SCROBBLES THIS MONTH"
+          defaultValue="SCROBBLES THIS MONTH"
           // helperText="Please type in your Last.fm username"
           className={classes.form}
         />
@@ -86,7 +86,7 @@ export default function TopsTheme () {
                     id="outlined-basic"
                     label="Text"
                     variant="outlined"
-                    value="TOP ALBUM"
+                    defaultValue="TOP ALBUM"
                     // helperText="Please type in your Last.fm username"
                     className={classes.form}
                   />
@@ -119,7 +119,7 @@ export default function TopsTheme () {
                   id="outlined-basic"
                   label="Text"
                   variant="outlined"
-                  value="TOP ALBUM"
+                  defaultValue="TOP ALBUM"
                   // helperText="Please type in your Last.fm username"
                   className={classes.form}
                 />
