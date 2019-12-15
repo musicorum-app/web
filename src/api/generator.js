@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GENERATOR_URL } from '../../env.js'
+import { GENERATOR_URL } from '../env.js'
 
 global.Buffer = global.Buffer || require('buffer').Buffer
 
