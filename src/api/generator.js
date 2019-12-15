@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { GENERATOR_URL } from '../env.js'
+
+const GENERATOR_URL = 'http://localhost:5000' || process.env.GENERATOR_URL
 
 global.Buffer = global.Buffer || require('buffer').Buffer
 
