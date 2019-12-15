@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { API_URL } from '../../env.json'
+import { API_URL } from '../../env.js'
 
 export default class MusicorumAPI {
   static getAuthStatus (token, full) {
