@@ -49,6 +49,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Generator () {
+  console.log(process.env)
+  console.log(Object.keys(process.env))
   const classes = useStyles()
   const [theme, setTheme] = useState('')
 
