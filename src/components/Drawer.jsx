@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -107,6 +108,7 @@ export default class Drawer extends Component {
         loaded: true,
         account: null
       })
+      this.props.onLoad(null)
     } else {
       const profile = localStorage.getItem('profile')
       let full = false
@@ -126,6 +128,7 @@ export default class Drawer extends Component {
             lastfm: res.data.lastfm
           }
           localStorage.setItem('profile', JSON.stringify(profileObj))
+          this.props.onLoad(profileObj)
           this.setState({
             loaded: true,
             account: {
@@ -145,6 +148,7 @@ export default class Drawer extends Component {
               profilePicture: profileObj.twitter.profilePicture
             }
           })
+          this.props.onLoad(profileObj)
           this.doLastfmAuthConsent(profileObj)
         }
       }).catch(e => {
@@ -164,6 +168,7 @@ export default class Drawer extends Component {
             authError: true
           })
         }
+        this.props.onLoad(null)
       })
     }
   }
@@ -239,7 +244,7 @@ export default class Drawer extends Component {
                     <Link to="/schedules" className="routerLink">
                       <ListItem button>
                         <ListItemIcon><Icon>today</Icon></ListItemIcon>
-                        <ListItemText primary='Schedulers'/>
+                        <ListItemText primary='Schedules'/>
                       </ListItem>
                     </Link>
                     <ListItem button onClick={this.logOut}>

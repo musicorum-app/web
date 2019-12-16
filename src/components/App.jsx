@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React  from 'react'
+import React, { useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -17,6 +17,7 @@ import Hidden from '@material-ui/core/Hidden'
 import Home from '../router/Home.jsx'
 import Generator from '../router/Generator.jsx'
 import Account from '../router/Account.jsx'
+import Schedules from '../router/Schedules.jsx'
 import TwitterCallback from '../router/auth/TwitterCallback.jsx'
 
 const drawerWidth = 250
@@ -56,6 +57,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function App () {
+  const schedulesRef = useRef()
+
   const classes = useStyles()
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const theme = useTheme()
@@ -64,7 +67,11 @@ export default function App () {
     setMobileOpen(!mobileOpen)
   }
 
-  const drawer = (<DrawerComponent/>)
+  const handleLoad = data => {
+    schedulesRef.current.onLoad(data)
+  }
+
+  const drawer = (<DrawerComponent onLoad={handleLoad}/>)
 
   return (
     <div className={classes.root}>
@@ -125,6 +132,7 @@ export default function App () {
             <Route path="/" exact={true} component={Home}/>
             <Route path="/generate" component={Generator}/>
             <Route path="/account" component={Account}/>
+            <Route path="/schedules" render={() => <Schedules ref={schedulesRef}/>}/>
             <Route path="/auth/twitter/callback" component={TwitterCallback}/>
           </Switch>
         </main>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://23.100.31.163:4500'
+const API_URL = process.env.API_URL || 'http://localhost:4500'
 
 export default class MusicorumAPI {
   static getAuthStatus (token, full) {
@@ -9,6 +9,11 @@ export default class MusicorumAPI {
         Authorization: token
       }
     })
+  }
+
+  static getToken () {
+    // eslint-disable-next-line no-undef
+    return localStorage.getItem('token')
   }
 
   static getTwitterAuthURL () {
@@ -20,6 +25,14 @@ export default class MusicorumAPI {
       oauthToken,
       oauthVerifier,
       tokenId
+    })
+  }
+
+  static getSchedules () {
+    return axios.get(`${API_URL}/schedules`, {
+      headers: {
+        Authorization: MusicorumAPI.getToken()
+      }
     })
   }
 }
