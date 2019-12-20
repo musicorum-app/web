@@ -20,6 +20,12 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
     backgroundColor: indigo.A100,
     marginBottom: '9px'
+  },
+  timezone: {
+    color: theme.palette.text.secondary,
+    fontSize: 13,
+    fontWeight: 400,
+    textDecoration: 'none'
   }
 }))
 
@@ -55,6 +61,12 @@ const SchedulesPage = forwardRef((props, ref) => {
     }
   }
 
+  const getTime = (minutes) => {
+    const hour = Math.floor(minutes / 60)
+    const minute = minutes - (60 * hour)
+    return { hour, minute }
+  }
+
   return (
     <Fragment>
       <h1>Schedules</h1>
@@ -68,7 +80,8 @@ const SchedulesPage = forwardRef((props, ref) => {
             <Grid container spacing={3}>
               {schedules ? (
                 schedules.map(schedule => {
-                  return <Grid key={schedule.id} xs={12}>
+                  const { hour, minute } = getTime(schedule.time)
+                  return <Grid item key={schedule.id} xs={12}>
                     <Card>
                       <CardContent>
                         <Typography variant="h5" component="h5">
@@ -79,6 +92,10 @@ const SchedulesPage = forwardRef((props, ref) => {
                           size="small"
                           label={schedule.schedule}
                           className={classes[schedule.schedule.toLowerCase()]} />
+                        <Typography variant="h6" component="h6">
+                          {hour}:{minute < 10 ? '0' + minute : minute}
+                          <span className={classes.timezone}>  ({schedule.timezone})</span>
+                        </Typography>
                       </CardContent>
                     </Card>
                   </Grid>
