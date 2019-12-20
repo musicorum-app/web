@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, forwardRef, useState, Fragment } from 'react'
+import React, { useImperativeHandle, forwardRef, useState, Fragment, useEffect } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid'
 import makeStyles from '@material-ui/core/styles/makeStyles'
@@ -35,6 +35,12 @@ const SchedulesPage = forwardRef((props, ref) => {
   const [profile, setProfile] = useState(null)
   const [schedules, setSchedules] = useState(null)
 
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    const profile = localStorage.getItem('profile')
+    onLoad(JSON.parse(profile))
+  }, [])
+
   const onLoad = data => {
     setProfile(data)
     if (!data) {
@@ -65,13 +71,14 @@ const SchedulesPage = forwardRef((props, ref) => {
                   return <Grid key={schedule.id} xs={12}>
                     <Card>
                       <CardContent>
+                        <Typography variant="h5" component="h5">
+                          {schedule.name}
+                        </Typography>
+                        <p></p>
                         <Chip
                           size="small"
                           label={schedule.schedule}
                           className={classes[schedule.schedule.toLowerCase()]} />
-                        <Typography variant="h5" component="h5">
-                          {schedule.name}
-                        </Typography>
                       </CardContent>
                     </Card>
                   </Grid>

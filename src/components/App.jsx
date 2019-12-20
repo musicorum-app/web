@@ -68,7 +68,13 @@ export default function App () {
   }
 
   const handleLoad = data => {
-    schedulesRef.current.onLoad(data)
+    if (schedulesRef.current) {
+      schedulesRef.current.onLoad(data)
+    }
+  }
+
+  const handleChange = (prev, next) => {
+
   }
 
   const drawer = (<DrawerComponent onLoad={handleLoad}/>)
