@@ -210,7 +210,7 @@ const SchedulesPage = (props, ref) => {
                 />
               </Grid>
               <Grid item xs={12} sm={8}>
-              <TextField
+                <TextField
                   select
                   error={!!scheduleNameHelperMessage}
                   id="outlined-select-currency"
@@ -232,7 +232,7 @@ const SchedulesPage = (props, ref) => {
                 </TextField>
               </Grid>
               <Grid item xs={12}>
-              <TextField
+                <TextField
                   select
                   error={!!scheduleNameHelperMessage}
                   id="outlined-select-currency"
@@ -384,6 +384,12 @@ const SchedulesPage = (props, ref) => {
             <Grid item xs={10} md={8} xl={6}>
               <Typography variant="h4" style={{ paddingBottom: '1em' }}>{currentStep[0]}</Typography>
               {currentStep[1]}
+              <Button startIcon={<Icon>navigate_before</Icon>}>
+                BACK
+              </Button>
+              <Button variant="contained" color="primary" endIcon={<Icon>navigate_next</Icon>}>
+                NEXT
+              </Button>
             </Grid>
             <Grid item xs={1} md={2} xl={3} />
           </Grid>
