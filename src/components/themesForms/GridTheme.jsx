@@ -43,8 +43,8 @@ const GridTheme = forwardRef((props, ref) => {
   const validate = () => {
     clearValues()
     let success = true
-    const { type, size, period } = getValues()
-    if (!type) {
+    const { top, size, period } = getValues()
+    if (!top) {
       setTypeHelperMessage('Please select a type')
       success = false
     }
@@ -61,7 +61,7 @@ const GridTheme = forwardRef((props, ref) => {
 
   const getValues = () => {
     return {
-      type: type.current.value,
+      top: type.current.value,
       size: Number(size.current.value),
       period: period.current.value,
       names: names.current.checked,
@@ -118,7 +118,8 @@ const GridTheme = forwardRef((props, ref) => {
           <MenuItem value="1month">1 month</MenuItem>
           <MenuItem value="3month">3 months</MenuItem>
           <MenuItem value="6month">6 months</MenuItem>
-          <MenuItem value="1year">1 year</MenuItem>
+          <MenuItem value="12month">1 year</MenuItem>
+          <MenuItem value="overall">Overall</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12}>

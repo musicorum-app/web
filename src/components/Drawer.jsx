@@ -108,6 +108,8 @@ export default class Drawer extends Component {
         loaded: true,
         account: null
       })
+      localStorage.removeItem('token')
+      localStorage.removeItem('profile')
       this.props.onLoad(null)
     } else {
       const profile = localStorage.getItem('profile')
@@ -115,6 +117,7 @@ export default class Drawer extends Component {
       if (profile) {
         const profileObj = JSON.parse(profile)
         if ((new Date() - profileObj.cacheDate) > 432000000) full = true
+        if (!profile.lastfm) full = true
       } else {
         full = true
       }
@@ -162,6 +165,7 @@ export default class Drawer extends Component {
             account: null
           })
           localStorage.removeItem('token')
+          localStorage.removeItem('profile')
         } else {
           this.setState({
             loaded: true,

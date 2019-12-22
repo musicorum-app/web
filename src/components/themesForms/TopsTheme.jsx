@@ -32,6 +32,7 @@ export default function TopsTheme () {
           <MenuItem value="3month">3 month</MenuItem>
           <MenuItem value="6month">6 month</MenuItem>
           <MenuItem value="1year">1 year</MenuItem>
+          <MenuItem value="overall">Overall</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12} lg={6}>

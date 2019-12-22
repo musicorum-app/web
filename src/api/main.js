@@ -20,11 +20,23 @@ export default class MusicorumAPI {
     return axios.get(`${API_URL}/auth/twitter`)
   }
 
+  static getLastfmAuthURL () {
+    return axios.get(`${API_URL}/auth/lastfm`)
+  }
+
   static twitterAuthCallback (oauthToken, oauthVerifier, tokenId) {
     return axios.post(`${API_URL}/auth/twitter/callback`, {
       oauthToken,
       oauthVerifier,
       tokenId
+    })
+  }
+
+  static lastfmAuthCallback (token) {
+    return axios.post(`${API_URL}/auth/lastfm/callback`, { token }, {
+      headers: {
+        Authorization: MusicorumAPI.getToken()
+      }
     })
   }
 

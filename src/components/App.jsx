@@ -19,6 +19,7 @@ import Generator from '../router/Generator.jsx'
 import Account from '../router/Account.jsx'
 import Schedules from '../router/Schedules.jsx'
 import TwitterCallback from '../router/auth/TwitterCallback.jsx'
+import LastfmCallback from '../router/auth/LastfmCallback.jsx'
 
 const drawerWidth = 250
 
@@ -58,6 +59,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function App () {
   const schedulesRef = useRef()
+  const accountRef = useRef()
 
   const classes = useStyles()
   const [mobileOpen, setMobileOpen] = React.useState(false)
@@ -68,16 +70,11 @@ export default function App () {
   }
 
   const handleLoad = data => {
-    if (schedulesRef.current) {
-      schedulesRef.current.onLoad(data)
-    }
+    if (schedulesRef.current) schedulesRef.current.onLoad(data)
+    if (accountRef.current) accountRef.current.onLoad(data)
   }
 
-  const handleChange = (prev, next) => {
-
-  }
-
-  const drawer = (<DrawerComponent onLoad={handleLoad}/>)
+  const drawer = (<DrawerComponent onLogin={handleLoad} onLoad={handleLoad}/>)
 
   return (
     <div className={classes.root}>
@@ -137,9 +134,10 @@ export default function App () {
           <Switch>
             <Route path="/" exact={true} component={Home}/>
             <Route path="/generate" component={Generator}/>
-            <Route path="/account" component={Account}/>
+            <Route path="/account" render={() => <Account ref={accountRef}/>} />
             <Route path="/schedules" render={() => <Schedules ref={schedulesRef}/>}/>
             <Route path="/auth/twitter/callback" component={TwitterCallback}/>
+            <Route path="/auth/lastfm/callback" component={LastfmCallback}/>
           </Switch>
         </main>
       </BrowserRouter>
