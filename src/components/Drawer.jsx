@@ -117,7 +117,7 @@ export default class Drawer extends Component {
       if (profile) {
         const profileObj = JSON.parse(profile)
         if ((new Date() - profileObj.cacheDate) > 432000000) full = true
-        if (!profile.lastfm) full = true
+        if (!profileObj.lastfm) full = true
       } else {
         full = true
       }

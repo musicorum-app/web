@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import makeStyles from '@material-ui/core/styles/makeStyles'
-import amber from '@material-ui/core/colors/amber'
 
 import GridTheme from '../components/themesForms/GridTheme.jsx'
 import TopsTheme from '../components/themesForms/TopsTheme.jsx'
@@ -17,7 +16,6 @@ import Icon from '@material-ui/core/Icon'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Snackbar from '@material-ui/core/Snackbar'
 import Slide from '@material-ui/core/Slide'
-import IconButton from '@material-ui/core/IconButton'
 
 const SlideTransition = props => {
   return <Slide {...props} direction="down" />
