@@ -5,6 +5,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 
 import MusicorumAPI from '../api/main.js'
 import Card from '@material-ui/core/Card'
+import Box from '@material-ui/core/Box'
 import CardHeader from '@material-ui/core/CardHeader'
 import Avatar from '@material-ui/core/Avatar'
 import Chip from '@material-ui/core/Chip'
@@ -25,6 +26,7 @@ import Stepper from '@material-ui/core/Stepper'
 import grey from '@material-ui/core/colors/grey'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
+import Divider from '@material-ui/core/Divider'
 import Paper from '@material-ui/core/Paper'
 import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
@@ -32,7 +34,7 @@ import DateFnsUtils from '@date-io/date-fns'
 import Timezones from '../api/timezones.js'
 import GridTheme from '../components/themesForms/GridTheme.jsx'
 import TopsTheme from '../components/themesForms/TopsTheme.jsx'
-import { Divider } from '@material-ui/core'
+import MusicorumGenerator from '../api/generator.js'
 
 const useStyles = makeStyles(theme => ({
   loading: {
@@ -91,11 +93,42 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3, 2),
     textAlign: 'center'
   },
+  previewImage: {
+    borderRadius: 13,
+    width: '100%'
+  },
+  previewBox: {
+    padding: theme.spacing(3, 2),
+    textAlign: 'center'
+  },
+  previewText: {
+    fontSize: 19
+  },
+  tweetText: {
+    fontSize: 23
+  },
+  card: {
+    backgroundColor: grey['900'],
+    maxWidth: '600px'
+  },
+  boxCard: {
+    textAlign: 'center'
+  }
 }))
 // eslint-disable-next-line react/display-name
 const Transition = forwardRef((props, ref) => (
   <Slide direction="up" ref={ref} {...props} />
 ))
+
+const previewResultDefault = {
+  success: false,
+  url: null,
+  error: {
+    code: 'W#???#000',
+    message: 'Unknown Error.',
+    error: 'UNKNOWN_ERROR'
+  }
+}
 
 const SchedulesPage = (props, ref) => {
   const themeRef = useRef()
@@ -114,6 +147,7 @@ const SchedulesPage = (props, ref) => {
   const [activeStep, setActiveStep] = useState(0)
   const [navButtonsDisabled, setNavButtonsDisabled] = useState(false)
   const [previewLoading, setPreviewLoading] = useState(false)
+  const [previewResult, setPreviewResult] = useState(previewResultDefault)
 
   // Helper messages
   const [scheduleNameHelperMessage, setScheduleNameHelperMessage] = useState(null)
@@ -280,7 +314,34 @@ const SchedulesPage = (props, ref) => {
     setNavButtonsDisabled(true)
     setPreviewLoading(true)
 
-    setTimeout(() => setPreviewLoading(false), 7E3)
+    const themeData = themeRef.current.getValues()
+
+    const data = {
+      theme,
+      options: {
+        user: profile.lastfm.user,
+        ...themeData
+      }
+    }
+
+    MusicorumGenerator.generate(data).then(url => {
+      setNavButtonsDisabled(false)
+      setPreviewLoading(false)
+      setPreviewResult({
+        success: true,
+        url
+      })
+    }).catch(({ error }) => {
+      console.error(error)
+      setNavButtonsDisabled(false)
+      setPreviewLoading(false)
+      setSnackbarMessage('Some error ocorrured while generating your preview image. Please try again or contact support.')
+      setSnackbarOpen(true)
+      setPreviewResult({
+        success: false,
+        error
+      })
+    })
   }
 
   let inputElement = (<span>Please select a theme</span>)
@@ -293,8 +354,11 @@ const SchedulesPage = (props, ref) => {
       break
   }
 
-  let timeString
-  timeString += timeValue.getHours
+  const convertTime = t => {
+    const hour = t.getHours() % 12 || 12
+    const ampm = t.getHours() < 12 ? 'AM' : 'PM'
+    return `${hour}:${t.getMinutes()} ${ampm}`
+  }
 
   const steps = [
     ['Schedule options', (
@@ -457,27 +521,54 @@ const SchedulesPage = (props, ref) => {
             ? (
               (
                 <Fragment>
-                  Every <b>{scheduleValue === 'WEEKLY' ? 'week' : 'month'}</b>
-                  {scheduleValue === 'WEEKLY' ? (<span> on <b>{weekDay}</b> </span>) : ' '}
-                  at <b>{timeString} ({scheduleTimezone}) </b>
-                  a tweet like the preview below will be posted on your profile.
-                  <Card className={classes.card}>
-                    <CardHeader
-                      avatar={
-                        <Avatar src={profile.twitter.profilePicture} />
-                      }
-                      title={profile.twitter.name}
-                      subheader={'@' + profile.twitter.user}
-                    />
-                    <CardContent>
-                      {tweetText}
-                    </CardContent>
-                  </Card>
-                </Fragment>
+                  <span className={classes.previewText}>
+                    Every <b>{scheduleValue === 'WEEKLY' ? 'week' : 'month'}</b>
+                    {scheduleValue === 'WEEKLY' ? (<span> on <b>{weekDay}</b> </span>) : ' '}
+                    at <b>{convertTime(timeValue)} ({scheduleTimezone}) </b>
+                    a tweet like the preview below* will be posted on your profile. If is that what you want, please click <b>Finish</b>.
+                  </span>
+                  <br /><br />
+                  <b>*</b> Preview picture based on current last.fm data
+                  <br /><br />
+                  <Box className={classes.boxCard}>
+                    <Card className={classes.card}>
+                      <CardHeader
+                        avatar={
+                          <Avatar src={profile.twitter.profilePicture} />
+                        }
+                        title={profile.twitter.name}
+                        subheader={'@' + profile.twitter.user}
+                      />
+                      <CardContent className={classes.tweetText}>
+                        {tweetText}
+                        <Box className={classes.previewBox}>
+                          {previewResult.success
+                            ? (
+                              <Fragment>
+                                <img src={previewResult.url} className={classes.previewImage} />
+                              </Fragment>
+                            ) : (
+                              <Fragment>
+                                <Icon style={{ fontSize: 50 }} color="error">close</Icon>
+                                <br />
+                                <Typography variant="h4">
+                                  {previewResult.error.message}
+                                </Typography>
+                                <br />
+                                <Typography color="textSecondary">
+                                  {previewResult.error.code}
+                                </Typography>
+                              </Fragment>
+                            )}
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                </Fragment >
               )
             ) : <Fragment></Fragment>}
-        <br /><br /><br />
-      </Fragment>)]
+        <br /> <br /> <br />
+      </Fragment >)]
   ]
 
   const currentStep = steps[activeStep]
@@ -614,13 +705,13 @@ const SchedulesPage = (props, ref) => {
                 </Grid>
                 <Grid item>
                   <Button
-                    disabled={activeStep === (steps.length - 1) || navButtonsDisabled}
+                    disabled={navButtonsDisabled}
                     onClick={nextStep}
                     variant="contained"
                     color="primary"
                     endIcon={<Icon>navigate_next</Icon>}
                   >
-                    NEXT
+                    {activeStep === (steps.length - 1) ? 'FINISH' : 'NEXT'}
                   </Button>
                 </Grid>
               </Grid>

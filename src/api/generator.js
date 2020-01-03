@@ -23,7 +23,17 @@ export default class MusicorumGenerator {
         const blob = new Blob(fileParts, { type: 'image/png' })
         resolve(URL.createObjectURL(blob))
       }).catch(e => {
-        reject(JSON.parse(Buffer.from(e.response.data, 'binary').toString()))
+        if (e.response) reject(JSON.parse(Buffer.from(e.response.data, 'binary').toString()))
+        else {
+          // eslint-disable-next-line prefer-promise-reject-errors
+          reject({
+            error: {
+              code: 'W#400#001',
+              message: 'Error while requesting the image. Please contact support for help.',
+              error: 'REQUEST_ERROR'
+            }
+          })
+        }
       })
     })
   }
