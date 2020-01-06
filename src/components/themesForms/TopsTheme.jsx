@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { forwardRef, useRef, useImperativeHandle } from 'react'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
-import Divider from '@material-ui/core/Divider'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { Typography } from '@material-ui/core'
 
@@ -12,8 +11,72 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function TopsTheme () {
+// eslint-disable-next-line react/display-name
+const TopsTheme = forwardRef((props, ref) => {
   const classes = useStyles()
+
+  const period = useRef('1month')
+  const title = useRef('my month on music')
+  const scrobblesText = useRef('SCROBBLES THIS MONTH')
+  const module1Type = useRef('albums')
+  const module1Text = useRef('TOP ALBUM')
+  const module2Type = useRef('artists')
+  const module2Text = useRef('TOP ARTIST')
+
+  // const [typeHelperMessage, setTypeHelperMessage] = useState(null)
+  // const [sizeHelperMessage, setSizeHelperMessage] = useState(null)
+  // const [periodHelperMessage, setPeriodHelperMessage] = useState(null)
+
+  useImperativeHandle(ref, () => ({
+    validate,
+    getValues
+  }))
+
+  // const clearValues = () => {
+  //   setTypeHelperMessage(null)
+  //   setSizeHelperMessage(null)
+  //   setPeriodHelperMessage(null)
+  // }
+
+  const validate = () => {
+    // clearValues()
+    // let success = true
+    // const { top, size, period } = getValues()
+    // if (!top) {
+    //   setTypeHelperMessage('Please select a type')
+    //   success = false
+    // }
+    // if (!size) {
+    //   setTypeHelperMessage('Please select a size')
+    //   success = false
+    // }
+    // if (!period) {
+    //   setTypeHelperMessage('Please select a period')
+    //   success = false
+    // }
+    // return success
+    return true
+  }
+
+  const getValues = () => {
+    return {
+      period: period.current.value,
+      modules: [
+        {
+          type: module1Type.current.value,
+          message: module1Text.current.value
+        },
+        {
+          type: module2Type.current.value,
+          message: module2Text.current.value
+        }
+      ],
+      messages: {
+        title: title.current.value,
+        scrobbles: scrobblesText.current.value
+      }
+    }
+  }
 
   return (
     <Grid container spacing={3}>
@@ -25,6 +88,7 @@ export default function TopsTheme () {
           label="Period"
           // helperText="Please select the period"
           className={classes.form}
+          defaultValue="1month"
           variant="outlined"
         >
           <MenuItem value="7day">7 days</MenuItem>
@@ -38,6 +102,9 @@ export default function TopsTheme () {
       <Grid item xs={12} lg={6}>
         <TextField
           required
+          inputProps={{
+            maxLength: 25
+          }}
           id="outlined-basic"
           label="Title"
           variant="outlined"
@@ -49,6 +116,9 @@ export default function TopsTheme () {
       <Grid item xs={12} lg={6}>
         <TextField
           required
+          inputProps={{
+            maxLength: 25
+          }}
           id="outlined-basic"
           label="Scrobbles subtext"
           variant="outlined"
@@ -75,6 +145,7 @@ export default function TopsTheme () {
                     label="Type"
                     className={classes.form}
                     variant="outlined"
+                    defaultValue="albums"
                   >
                     <MenuItem value="artists">Top artists</MenuItem>
                     <MenuItem value="albums">Top albums</MenuItem>
@@ -84,6 +155,9 @@ export default function TopsTheme () {
                 <Grid item xs={12} xl={6}>
                   <TextField
                     required
+                    inputProps={{
+                      maxLength: 20
+                    }}
                     id="outlined-basic"
                     label="Text"
                     variant="outlined"
@@ -108,6 +182,7 @@ export default function TopsTheme () {
                   label="Type"
                   className={classes.form}
                   variant="outlined"
+                  defaultValue="artists"
                 >
                   <MenuItem value="artists">Top artists</MenuItem>
                   <MenuItem value="albums">Top albums</MenuItem>
@@ -117,10 +192,13 @@ export default function TopsTheme () {
               <Grid item xs={12} xl={6}>
                 <TextField
                   required
+                  inputProps={{
+                    maxLength: 20
+                  }}
                   id="outlined-basic"
                   label="Text"
                   variant="outlined"
-                  defaultValue="TOP ALBUM"
+                  defaultValue="TOP ARTIST"
                   // helperText="Please type in your Last.fm username"
                   className={classes.form}
                 />
@@ -131,4 +209,6 @@ export default function TopsTheme () {
       </Grid>
     </Grid>
   )
-}
+})
+
+export default TopsTheme

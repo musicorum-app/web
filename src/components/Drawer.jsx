@@ -157,6 +157,10 @@ export default class Drawer extends Component {
       }).catch(e => {
         if (!e.response) {
           console.error(e)
+          this.setState({
+            loaded: true,
+            authError: true
+          })
           return
         }
         if (e.response.status === 401) {
