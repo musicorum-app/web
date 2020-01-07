@@ -90,6 +90,7 @@ const TopsTheme = forwardRef((props, ref) => {
           className={classes.form}
           defaultValue="1month"
           variant="outlined"
+          inputRef={period}
         >
           <MenuItem value="7day">7 days</MenuItem>
           <MenuItem value="1month">1 month</MenuItem>
@@ -111,6 +112,7 @@ const TopsTheme = forwardRef((props, ref) => {
           defaultValue="my month on music"
           // helperText="Please type in your Last.fm username"
           className={classes.form}
+          inputRef={title}
         />
       </Grid>
       <Grid item xs={12} lg={6}>
@@ -125,6 +127,7 @@ const TopsTheme = forwardRef((props, ref) => {
           defaultValue="SCROBBLES THIS MONTH"
           // helperText="Please type in your Last.fm username"
           className={classes.form}
+          inputRef={scrobblesText}
         />
       </Grid>
       <Grid item xs={12}>
@@ -146,6 +149,7 @@ const TopsTheme = forwardRef((props, ref) => {
                     className={classes.form}
                     variant="outlined"
                     defaultValue="albums"
+                    inputRef={module1Type}
                   >
                     <MenuItem value="artists">Top artists</MenuItem>
                     <MenuItem value="albums">Top albums</MenuItem>
@@ -164,6 +168,7 @@ const TopsTheme = forwardRef((props, ref) => {
                     defaultValue="TOP ALBUM"
                     // helperText="Please type in your Last.fm username"
                     className={classes.form}
+                    inputRef={module1Text}
                   />
                 </Grid>
               </Grid>
@@ -183,6 +188,7 @@ const TopsTheme = forwardRef((props, ref) => {
                   className={classes.form}
                   variant="outlined"
                   defaultValue="artists"
+                  inputRef={module2Type}
                 >
                   <MenuItem value="artists">Top artists</MenuItem>
                   <MenuItem value="albums">Top albums</MenuItem>
@@ -201,6 +207,7 @@ const TopsTheme = forwardRef((props, ref) => {
                   defaultValue="TOP ARTIST"
                   // helperText="Please type in your Last.fm username"
                   className={classes.form}
+                  inputRef={module2Type}
                 />
               </Grid>
             </Grid>
