@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = process.env.API_URL || 'http://api.musicorumapp.com'
+const API_URL = process.env.API_URL || 'https://api.musicorumapp.com'
 
 export default class MusicorumAPI {
   static getAuthStatus (token, full) {
