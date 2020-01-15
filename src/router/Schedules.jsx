@@ -11,7 +11,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Chip from '@material-ui/core/Chip'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import indigo from '@material-ui/core/colors/indigo'
+import red from '@material-ui/core/colors/red'
 import Icon from '@material-ui/core/Icon'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -28,6 +28,7 @@ import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import Divider from '@material-ui/core/Divider'
 import Paper from '@material-ui/core/Paper'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
 
@@ -42,10 +43,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center'
   },
   weekly: {
-    color: '#000',
-    fontWeight: 'bold',
-    backgroundColor: indigo.A100,
-    marginBottom: '9px'
+    backgroundColor: red[500],
   },
   timezone: {
     color: theme.palette.text.secondary,
@@ -98,8 +96,8 @@ const useStyles = makeStyles(theme => ({
     width: '100%'
   },
   previewBox: {
-    padding: theme.spacing(3, 2),
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: theme.spacing(3, 2)
   },
   previewText: {
     fontSize: 19
@@ -112,7 +110,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '600px'
   },
   boxCard: {
-    textAlign: 'center'
+    // textAlign: 'center'
   }
 }))
 // eslint-disable-next-line react/display-name
@@ -169,6 +167,8 @@ const SchedulesPage = (props, ref) => {
   const [tweetText, setTweetText] = useState('')
   const [theme, setTheme] = useState('')
 
+  const [themeOptions, setThemeOptions] = useState(null)
+
   useEffect(() => {
     // eslint-disable-next-line no-undef
     const profile = localStorage.getItem('profile')
@@ -176,6 +176,7 @@ const SchedulesPage = (props, ref) => {
   }, [])
 
   const onLoad = data => {
+    setLoading(true)
     setProfile(data)
     if (!data) {
       setLoading(false)
@@ -308,6 +309,9 @@ const SchedulesPage = (props, ref) => {
         generatePreview()
       }
     }
+    if (activeStep === 2) {
+      finish()
+    }
   }
 
   const generatePreview = () => {
@@ -315,6 +319,7 @@ const SchedulesPage = (props, ref) => {
     setPreviewLoading(true)
 
     const themeData = themeRef.current.getValues()
+    setThemeOptions(themeData)
 
     const data = {
       theme,
@@ -325,22 +330,59 @@ const SchedulesPage = (props, ref) => {
     }
 
     MusicorumGenerator.generate(data).then(url => {
-      setNavButtonsDisabled(false)
-      setPreviewLoading(false)
       setPreviewResult({
         success: true,
         url
       })
     }).catch(({ error }) => {
       console.error(error)
-      setNavButtonsDisabled(false)
-      setPreviewLoading(false)
       setSnackbarMessage('Some error ocorrured while generating your preview image. Please try again or contact support.')
       setSnackbarOpen(true)
       setPreviewResult({
         success: false,
         error
       })
+    }).finally(() => {
+      setNavButtonsDisabled(false)
+      setPreviewLoading(false)
+    })
+  }
+
+  const finish = () => {
+    const data = {
+      name: scheduleName,
+      schedule: scheduleValue,
+      time: (timeValue.getHours() * 60) + timeValue.getMinutes(),
+      timezone: scheduleTimezone,
+      day: Number(weekDay || 0),
+      text: tweetText,
+      theme,
+      themeOptions
+    }
+
+    setNavButtonsDisabled(true)
+
+    MusicorumAPI.createSchedule(data).then(a => {
+      console.log(a)
+      if (a.data.success) {
+        handleDialogClose()
+        // eslint-disable-next-line no-undef
+        const profile = localStorage.getItem('profile')
+        onLoad(JSON.parse(profile))
+      } else {
+        let err = 'Unknown error'
+        if (a && a.data && a.data.error && a.data.error.error) err = a.data.error.error
+        setSnackbarMessage('An error ocorrured while creating the schedule: ' + err)
+        setSnackbarOpen(true)
+      }
+    }).catch(e => {
+      console.error(e)
+      let err = 'Unknown error'
+      if (e && e.data && e.data.error && e.data.error.error) err = e.data.error.error
+      setSnackbarMessage('An error ocorrured while creating the schedule: ' + err)
+      setSnackbarOpen(true)
+    }).finally(() => {
+      setNavButtonsDisabled(false)
     })
   }
 
@@ -357,7 +399,7 @@ const SchedulesPage = (props, ref) => {
   const convertTime = t => {
     const hour = t.getHours() % 12 || 12
     const ampm = t.getHours() < 12 ? 'AM' : 'PM'
-    return `${hour}:${t.getMinutes()} ${ampm}`
+    return `${hour}:${t.getMinutes() < 10 ? t.getMinutes() + '0' : t.getMinutes()} ${ampm}`
   }
 
   const steps = [
@@ -607,17 +649,30 @@ const SchedulesPage = (props, ref) => {
                   const { hour, minute } = getTime(schedule.time)
                   return <Grid item key={schedule.id} xs={12}>
                     <Card>
+                      <CardHeader
+                        action={
+                          <IconButton aria-label="settings">
+                            <Icon>more_vert</Icon>
+                          </IconButton>
+                        }
+                        avatar={
+                          <Avatar aria-label="recipe" className={classes[schedule.schedule.toLowerCase()]}>
+                            {schedule.schedule.charAt(0)}
+                          </Avatar>
+                        }
+                        title={schedule.name}
+                        subheader={schedule.schedule}
+                      />
                       <CardContent>
-                        <Chip
-                          size="small"
-                          label={schedule.schedule}
-                          className={classes[schedule.schedule.toLowerCase()]} />
-                        <Typography variant="h5" component="h5">
-                          {schedule.name}
-                        </Typography>
+                        <span className={classes.timezone}>Tweet text:</span>
+                        {schedule.text
+                          ? (<Typography>{schedule.text}</Typography>)
+                          : (<i>None</i>)}
+                        <p></p>
+                        <p></p>
                         <p></p>
                         <Typography variant="h6" component="h6">
-                          {hour}:{minute < 10 ? '0' + minute : minute}
+                          {convertTime(new Date(`1/1/2000 ${hour}:${minute}`))}
                           <span className={classes.timezone}>  ({schedule.timezone})</span>
                         </Typography>
                       </CardContent>
@@ -679,6 +734,9 @@ const SchedulesPage = (props, ref) => {
             </Button>
           </Toolbar>
         </AppBar>
+        {navButtonsDisabled ? (
+          <LinearProgress />
+        ) : (<Fragment></Fragment>)}
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map(([label]) => (
             <Step key={label}>
