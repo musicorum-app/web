@@ -8,7 +8,6 @@ import Card from '@material-ui/core/Card'
 import Box from '@material-ui/core/Box'
 import CardHeader from '@material-ui/core/CardHeader'
 import Avatar from '@material-ui/core/Avatar'
-import Chip from '@material-ui/core/Chip'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import red from '@material-ui/core/colors/red'
@@ -36,6 +35,7 @@ import Timezones from '../api/timezones.js'
 import GridTheme from '../components/themesForms/GridTheme.jsx'
 import TopsTheme from '../components/themesForms/TopsTheme.jsx'
 import MusicorumGenerator from '../api/generator.js'
+import Schedule from '../components/Schedule.jsx'
 
 const useStyles = makeStyles(theme => ({
   loading: {
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center'
   },
   weekly: {
-    backgroundColor: red[500],
+    backgroundColor: red[500]
   },
   timezone: {
     color: theme.palette.text.secondary,
@@ -191,22 +191,13 @@ const SchedulesPage = (props, ref) => {
     }
   }
 
-  const getTime = minutes => {
-    const hour = Math.floor(minutes / 60)
-    const minute = minutes - (60 * hour)
-    return {
-      hour,
-      minute
-    }
-  }
-
   const handleSnackbarClose = () => {
     setSnackbarOpen(false)
   }
 
   const handleCreateNew = () => {
     if (!schedules) return
-    if (schedules.length >= 4) {
+    if (schedules.length >= 3) {
       setSnackbarMessage('You have reached out the schedules limit.')
       setSnackbarOpen(true)
     } else {
@@ -371,14 +362,15 @@ const SchedulesPage = (props, ref) => {
         onLoad(JSON.parse(profile))
       } else {
         let err = 'Unknown error'
-        if (a && a.data && a.data.error && a.data.error.error) err = a.data.error.error
+        if (a && a.data && a.data.error && a.data.error.error) err = a.data.error.message
         setSnackbarMessage('An error ocorrured while creating the schedule: ' + err)
         setSnackbarOpen(true)
       }
     }).catch(e => {
       console.error(e)
+      console.error(e.response.data)
       let err = 'Unknown error'
-      if (e && e.data && e.data.error && e.data.error.error) err = e.data.error.error
+      if (e && e.response && e.response.data && e.response.data.error) err = e.response.data.error.message
       setSnackbarMessage('An error ocorrured while creating the schedule: ' + err)
       setSnackbarOpen(true)
     }).finally(() => {
@@ -645,40 +637,10 @@ const SchedulesPage = (props, ref) => {
           <Grid container spacing={3}>
             {
               schedules ? (
-                schedules.map(schedule => {
-                  const { hour, minute } = getTime(schedule.time)
-                  return <Grid item key={schedule.id} xs={12}>
-                    <Card>
-                      <CardHeader
-                        action={
-                          <IconButton aria-label="settings">
-                            <Icon>more_vert</Icon>
-                          </IconButton>
-                        }
-                        avatar={
-                          <Avatar aria-label="recipe" className={classes[schedule.schedule.toLowerCase()]}>
-                            {schedule.schedule.charAt(0)}
-                          </Avatar>
-                        }
-                        title={schedule.name}
-                        subheader={schedule.schedule}
-                      />
-                      <CardContent>
-                        <span className={classes.timezone}>Tweet text:</span>
-                        {schedule.text
-                          ? (<Typography>{schedule.text}</Typography>)
-                          : (<i>None</i>)}
-                        <p></p>
-                        <p></p>
-                        <p></p>
-                        <Typography variant="h6" component="h6">
-                          {convertTime(new Date(`1/1/2000 ${hour}:${minute}`))}
-                          <span className={classes.timezone}>  ({schedule.timezone})</span>
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                })
+                schedules.map(schedule => (
+                  <Grid item xs={12} key={schedule.id}>
+                    <Schedule index={schedules.indexOf(schedule)} data={schedule} />
+                  </Grid>))
               ) : <CircularProgress />}
           </Grid>
         ) : (<div style={{
