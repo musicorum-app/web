@@ -114,7 +114,7 @@ const Schedule = forwardRef((props, ref) => {
         <p></p>
         <Divider />
         <p></p>
-        <Box color="primary.main">Tweet text:</Box>
+        <Box color="secondary.main">Tweet text:</Box>
         {text
           ? (<Typography>{text}</Typography>)
           : (<i>None</i>)}
@@ -122,11 +122,11 @@ const Schedule = forwardRef((props, ref) => {
       </CardContent>
       <CardActions>
         <Link className="routerLink" to={'/schedules/' + id + '/history'}>
-          <IconButton aria-label="History" className={classes.buttons} color="primary">
+          <IconButton aria-label="History" className={classes.buttons} color="secondary">
             <Icon>history</Icon>
           </IconButton>
         </Link>
-        <IconButton aria-label="Settings" onClick={handleMenuOpen} className={classes.buttons} color="primary">
+        <IconButton aria-label="Settings" onClick={handleMenuOpen} className={classes.buttons} color="secondary">
           <Icon>settings</Icon>
         </IconButton>
       </CardActions>
@@ -138,7 +138,7 @@ const Schedule = forwardRef((props, ref) => {
       open={!!anchorEl}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={() => { handleMenuClose(); props.onDelete(id) }}>
         <ListItemIcon>
           <DeleteIcon fontSize="small" />
         </ListItemIcon>

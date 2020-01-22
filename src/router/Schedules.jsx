@@ -26,6 +26,7 @@ import grey from '@material-ui/core/colors/grey'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import Divider from '@material-ui/core/Divider'
+import Alert from '@material-ui/lab/Alert'
 import Paper from '@material-ui/core/Paper'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers'
@@ -144,6 +145,7 @@ const SchedulesPage = (props, ref) => {
   const [dialogOpened, setDialogOpened] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
   const [navButtonsDisabled, setNavButtonsDisabled] = useState(false)
+  const [alertText, setAlertText] = useState(null)
   const [previewLoading, setPreviewLoading] = useState(false)
   const [previewResult, setPreviewResult] = useState(previewResultDefault)
 
@@ -178,6 +180,7 @@ const SchedulesPage = (props, ref) => {
   const onLoad = data => {
     setLoading(true)
     setProfile(data)
+    setAlertText(null)
     if (!data) {
       setLoading(false)
     } else {
@@ -186,6 +189,9 @@ const SchedulesPage = (props, ref) => {
         setLoading(false)
         setSchedules(res.data)
       }).catch(e => {
+        let err = { message: 'Unknown error', error: 'UNKNOWN_ERROR_FE' }
+        if (e && e.response && e.response.data && e.response.data.error) err = e.response.data
+        setAlertText('Error while loading schedules: ' + err.message + '. (' + err.error + ')')
         console.error(e)
       })
     }
@@ -337,6 +343,11 @@ const SchedulesPage = (props, ref) => {
       setNavButtonsDisabled(false)
       setPreviewLoading(false)
     })
+  }
+
+  const deleteSchedule = (id) => {
+    console.info('DELETE')
+    console.log(schedules.find(s => s.id === id))
   }
 
   const finish = () => {
@@ -626,29 +637,36 @@ const SchedulesPage = (props, ref) => {
         </Grid>
       </Grid>
       {
-        loading ? (
-          <div style={{
+        loading
+          ? alertText ? (
+            <Alert variant="outlined" severity="error">
+              {alertText}
+            </Alert>
+          ) : (
+            <div style={{
+              // eslint-disable-next-line indent
+                display: 'flex',
+              justifyContent: 'center'
+            }}>
+              <CircularProgress />
+            </div>
+          )
+          : (profile ? (
+            <Grid container spacing={3}>
+              {
+                schedules ? (
+                  schedules.map(schedule => (
+                    <Grid item xs={12} key={schedule.id}>
+                      <Schedule index={schedules.indexOf(schedule)} onDelete={deleteSchedule} data={schedule} />
+                    </Grid>))
+                ) : <CircularProgress />}
+            </Grid>
+          ) : (<div style={{
             display: 'flex',
             justifyContent: 'center'
           }}>
-            <CircularProgress />
-          </div>
-        ) : (profile ? (
-          <Grid container spacing={3}>
-            {
-              schedules ? (
-                schedules.map(schedule => (
-                  <Grid item xs={12} key={schedule.id}>
-                    <Schedule index={schedules.indexOf(schedule)} data={schedule} />
-                  </Grid>))
-              ) : <CircularProgress />}
-          </Grid>
-        ) : (<div style={{
-          display: 'flex',
-          justifyContent: 'center'
-        }}>
-          Please, log in to access this page.
-        </div>))
+            Please, log in to access this page.
+          </div>))
       }
 
       <Snackbar
@@ -740,7 +758,6 @@ const SchedulesPage = (props, ref) => {
           </Grid>
         </Fragment>
       </Dialog>
-
     </Fragment>
   )
 }
