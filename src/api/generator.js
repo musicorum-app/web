@@ -1,6 +1,5 @@
 import axios from 'axios'
-
-const GENERATOR_URL = process.env.GENERATOR_URL || 'https://generator.musicorumapp.com'
+import { GENERATOR_URL } from './vars.js'
 
 global.Buffer = global.Buffer || require('buffer').Buffer
 

@@ -11,13 +11,31 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+const scrobblesMonthsSuffix = {
+  '7day': 'THIS WEEK',
+  '1month': 'THIS MONTH',
+  '3month': 'LAST 3 MONTHS',
+  '6month': 'LAST 6 MONTHS',
+  '12month': 'THIS YEAR',
+  overall: 'ALL THE TIME'
+}
+
+const titleSuffix = {
+  '7day': 'week',
+  '1month': 'month',
+  '3month': 'last 3 months',
+  '6month': 'last 6 months',
+  '12month': 'year',
+  overall: 'overall'
+}
+
 // eslint-disable-next-line react/display-name
 const TopsTheme = forwardRef((props, ref) => {
   const classes = useStyles()
 
   const period = useRef('1month')
   const title = useRef('my month on music')
-  const scrobblesText = useRef('SCROBBLES THIS MONTH')
+  // const scrobblesText = useRef('SCROBBLES THIS MONTH')
   const module1Type = useRef('albums')
   const module1Text = useRef('TOP ALBUM')
   const module2Type = useRef('artists')
@@ -64,16 +82,19 @@ const TopsTheme = forwardRef((props, ref) => {
       modules: [
         {
           type: module1Type.current.value,
-          message: module1Text.current.value
+          message: `TOP ${module1Type.current.value.toUpperCase().slice(0, -1)}`
+          // message: module1Text.current.value
         },
         {
           type: module2Type.current.value,
-          message: module2Text.current.value
+          message: `TOP ${module2Type.current.value.toUpperCase().slice(0, -1)}`
+          // message: module2Text.current.value
         }
       ],
       messages: {
-        title: title.current.value,
-        scrobbles: scrobblesText.current.value
+        // title: title.current.value,
+        title: `%USER%'s ${titleSuffix[period.current.value]} on music`,
+        scrobbles: 'SCROBBLES ' + scrobblesMonthsSuffix[period.current.value]
       }
     }
   }
@@ -96,40 +117,40 @@ const TopsTheme = forwardRef((props, ref) => {
           <MenuItem value="1month">1 month</MenuItem>
           <MenuItem value="3month">3 month</MenuItem>
           <MenuItem value="6month">6 month</MenuItem>
-          <MenuItem value="1year">1 year</MenuItem>
+          <MenuItem value="12month">1 year</MenuItem>
           <MenuItem value="overall">Overall</MenuItem>
         </TextField>
       </Grid>
-      <Grid item xs={12} lg={6}>
-        <TextField
-          required
-          inputProps={{
-            maxLength: 25
-          }}
-          id="outlined-basic"
-          label="Title"
-          variant="outlined"
-          defaultValue="my month on music"
-          // helperText="Please type in your Last.fm username"
-          className={classes.form}
-          inputRef={title}
-        />
-      </Grid>
-      <Grid item xs={12} lg={6}>
-        <TextField
-          required
-          inputProps={{
-            maxLength: 25
-          }}
-          id="outlined-basic"
-          label="Scrobbles subtext"
-          variant="outlined"
-          defaultValue="SCROBBLES THIS MONTH"
-          // helperText="Please type in your Last.fm username"
-          className={classes.form}
-          inputRef={scrobblesText}
-        />
-      </Grid>
+      {/* <Grid item xs={12} lg={6}> */}
+      {/*  <TextField */}
+      {/*    required */}
+      {/*    inputProps={{ */}
+      {/*      maxLength: 25 */}
+      {/*    }} */}
+      {/*    id="outlined-basic" */}
+      {/*    label="Title" */}
+      {/*    variant="outlined" */}
+      {/*    defaultValue="my month on music" */}
+      {/*    // helperText="Please type in your Last.fm username" */}
+      {/*    className={classes.form} */}
+      {/*    inputRef={title} */}
+      {/*  /> */}
+      {/* </Grid> */}
+      {/* <Grid item xs={12} lg={6}> */}
+      {/* <TextField */}
+      {/*   required */}
+      {/*   inputProps={{ */}
+      {/*     maxLength: 25 */}
+      {/*   }} */}
+      {/*   id="outlined-basic" */}
+      {/*   label="Scrobbles subtext" */}
+      {/*   variant="outlined" */}
+      {/*   defaultValue="SCROBBLES THIS MONTH" */}
+      {/*   // helperText="Please type in your Last.fm username" */}
+      {/*   className={classes.form} */}
+      {/*   inputRef={scrobblesText} */}
+      {/* /> */}
+      {/* </Grid> */}
       <Grid item xs={12}>
         <Grid container spacing={5}>
           <Grid item xs={12} lg={6}>
@@ -151,26 +172,25 @@ const TopsTheme = forwardRef((props, ref) => {
                     defaultValue="albums"
                     inputRef={module1Type}
                   >
-                    <MenuItem value="artists">Top artists</MenuItem>
-                    <MenuItem value="albums">Top albums</MenuItem>
-                    <MenuItem value="tracks">Top tracks</MenuItem>
+                    <MenuItem value="artists">Top artist</MenuItem>
+                    <MenuItem value="albums">Top album</MenuItem>
+                    <MenuItem value="tracks">Top track</MenuItem>
                   </TextField>
                 </Grid>
-                <Grid item xs={12} xl={6}>
-                  <TextField
-                    required
-                    inputProps={{
-                      maxLength: 20
-                    }}
-                    id="outlined-basic"
-                    label="Text"
-                    variant="outlined"
-                    defaultValue="TOP ALBUM"
-                    // helperText="Please type in your Last.fm username"
-                    className={classes.form}
-                    inputRef={module1Text}
-                  />
-                </Grid>
+                {/* <Grid item xs={12} xl={6}> */}
+                {/*  <TextField */}
+                {/*    required */}
+                {/*    inputProps={{ */}
+                {/*      maxLength: 20 */}
+                {/*    }} */}
+                {/*    id="outlined-basic" */}
+                {/*    label="Text" */}
+                {/*    variant="outlined" */}
+                {/*    defaultValue="TOP ALBUM" */}
+                {/*    className={classes.form} */}
+                {/*    inputRef={module1Text} */}
+                {/*  /> */}
+                {/* </Grid> */}
               </Grid>
             </Grid>
           </Grid>
@@ -190,26 +210,25 @@ const TopsTheme = forwardRef((props, ref) => {
                   defaultValue="artists"
                   inputRef={module2Type}
                 >
-                  <MenuItem value="artists">Top artists</MenuItem>
-                  <MenuItem value="albums">Top albums</MenuItem>
-                  <MenuItem value="tracks">Top tracks</MenuItem>
+                  <MenuItem value="artists">Top artist</MenuItem>
+                  <MenuItem value="albums">Top album</MenuItem>
+                  <MenuItem value="tracks">Top track</MenuItem>
                 </TextField>
               </Grid>
-              <Grid item xs={12} xl={6}>
-                <TextField
-                  required
-                  inputProps={{
-                    maxLength: 20
-                  }}
-                  id="outlined-basic"
-                  label="Text"
-                  variant="outlined"
-                  defaultValue="TOP ARTIST"
-                  // helperText="Please type in your Last.fm username"
-                  className={classes.form}
-                  inputRef={module2Text}
-                />
-              </Grid>
+              {/* <Grid item xs={12} xl={6}> */}
+              {/*  <TextField */}
+              {/*    required */}
+              {/*    inputProps={{ */}
+              {/*      maxLength: 20 */}
+              {/*    }} */}
+              {/*    id="outlined-basic" */}
+              {/*    label="Text" */}
+              {/*    variant="outlined" */}
+              {/*    defaultValue="TOP ARTIST" */}
+              {/*    className={classes.form} */}
+              {/*    inputRef={module2Text} */}
+              {/*  /> */}
+              {/* </Grid> */}
             </Grid>
           </Grid>
         </Grid>
