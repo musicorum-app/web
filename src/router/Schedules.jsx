@@ -8,15 +8,18 @@ import Card from '@material-ui/core/Card'
 import Box from '@material-ui/core/Box'
 import CardHeader from '@material-ui/core/CardHeader'
 import Avatar from '@material-ui/core/Avatar'
-import Chip from '@material-ui/core/Chip'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import indigo from '@material-ui/core/colors/indigo'
+import red from '@material-ui/core/colors/red'
 import Icon from '@material-ui/core/Icon'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogActions from '@material-ui/core/DialogActions'
 import Slide from '@material-ui/core/Slide'
 import Toolbar from '@material-ui/core/Toolbar'
 import AppBar from '@material-ui/core/AppBar'
@@ -27,7 +30,9 @@ import grey from '@material-ui/core/colors/grey'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import Divider from '@material-ui/core/Divider'
+import Alert from '@material-ui/lab/Alert'
 import Paper from '@material-ui/core/Paper'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
 
@@ -35,6 +40,7 @@ import Timezones from '../api/timezones.js'
 import GridTheme from '../components/themesForms/GridTheme.jsx'
 import TopsTheme from '../components/themesForms/TopsTheme.jsx'
 import MusicorumGenerator from '../api/generator.js'
+import Schedule from '../components/Schedule.jsx'
 
 const useStyles = makeStyles(theme => ({
   loading: {
@@ -42,10 +48,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center'
   },
   weekly: {
-    color: '#000',
-    fontWeight: 'bold',
-    backgroundColor: indigo.A100,
-    marginBottom: '9px'
+    backgroundColor: red[500]
   },
   timezone: {
     color: theme.palette.text.secondary,
@@ -98,8 +101,8 @@ const useStyles = makeStyles(theme => ({
     width: '100%'
   },
   previewBox: {
-    padding: theme.spacing(3, 2),
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: theme.spacing(3, 2)
   },
   previewText: {
     fontSize: 19
@@ -112,7 +115,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '600px'
   },
   boxCard: {
-    textAlign: 'center'
+    // textAlign: 'center'
   }
 }))
 // eslint-disable-next-line react/display-name
@@ -146,6 +149,10 @@ const SchedulesPage = (props, ref) => {
   const [dialogOpened, setDialogOpened] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
   const [navButtonsDisabled, setNavButtonsDisabled] = useState(false)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [deleteScheduleItem, setDeleteScheduleItem] = useState('')
+  const [deleteScheduleLoading, setDeleteScheduleLoading] = useState(false)
+  const [alertText, setAlertText] = useState(null)
   const [previewLoading, setPreviewLoading] = useState(false)
   const [previewResult, setPreviewResult] = useState(previewResultDefault)
 
@@ -169,6 +176,8 @@ const SchedulesPage = (props, ref) => {
   const [tweetText, setTweetText] = useState('')
   const [theme, setTheme] = useState('')
 
+  const [themeOptions, setThemeOptions] = useState(null)
+
   useEffect(() => {
     // eslint-disable-next-line no-undef
     const profile = localStorage.getItem('profile')
@@ -176,7 +185,9 @@ const SchedulesPage = (props, ref) => {
   }, [])
 
   const onLoad = data => {
+    setLoading(true)
     setProfile(data)
+    setAlertText(null)
     if (!data) {
       setLoading(false)
     } else {
@@ -185,17 +196,11 @@ const SchedulesPage = (props, ref) => {
         setLoading(false)
         setSchedules(res.data)
       }).catch(e => {
+        let err = { message: 'Unknown error', error: 'UNKNOWN_ERROR_FE' }
+        if (e && e.response && e.response.data && e.response.data.error) err = e.response.data
+        setAlertText('Error while loading schedules: ' + err.message + '. (' + err.error + ')')
         console.error(e)
       })
-    }
-  }
-
-  const getTime = minutes => {
-    const hour = Math.floor(minutes / 60)
-    const minute = minutes - (60 * hour)
-    return {
-      hour,
-      minute
     }
   }
 
@@ -205,7 +210,7 @@ const SchedulesPage = (props, ref) => {
 
   const handleCreateNew = () => {
     if (!schedules) return
-    if (schedules.length >= 4) {
+    if (schedules.length >= 3) {
       setSnackbarMessage('You have reached out the schedules limit.')
       setSnackbarOpen(true)
     } else {
@@ -308,6 +313,9 @@ const SchedulesPage = (props, ref) => {
         generatePreview()
       }
     }
+    if (activeStep === 2) {
+      finish()
+    }
   }
 
   const generatePreview = () => {
@@ -315,6 +323,7 @@ const SchedulesPage = (props, ref) => {
     setPreviewLoading(true)
 
     const themeData = themeRef.current.getValues()
+    setThemeOptions(themeData)
 
     const data = {
       theme,
@@ -325,22 +334,94 @@ const SchedulesPage = (props, ref) => {
     }
 
     MusicorumGenerator.generate(data).then(url => {
-      setNavButtonsDisabled(false)
-      setPreviewLoading(false)
       setPreviewResult({
         success: true,
         url
       })
     }).catch(({ error }) => {
       console.error(error)
-      setNavButtonsDisabled(false)
-      setPreviewLoading(false)
       setSnackbarMessage('Some error ocorrured while generating your preview image. Please try again or contact support.')
       setSnackbarOpen(true)
       setPreviewResult({
         success: false,
         error
       })
+    }).finally(() => {
+      setNavButtonsDisabled(false)
+      setPreviewLoading(false)
+    })
+  }
+
+  const deleteSchedule = () => {
+    const { id } = deleteScheduleItem
+    setDeleteScheduleLoading(true)
+    MusicorumAPI.deleteSchedule(id).then(res => {
+      console.log(res)
+      if (res.data.success) {
+        handleDialogClose()
+        // eslint-disable-next-line no-undef
+        const profile = localStorage.getItem('profile')
+        onLoad(JSON.parse(profile))
+        setDialogOpened(false)
+      } else {
+        let err = 'Unknown error'
+        if (res && res.data && res.data.error && res.data.error.error) err = res.data.error.message
+        setSnackbarMessage('An error ocorrured while deleting the schedule: ' + err)
+        setSnackbarOpen(true)
+      }
+    }).catch(e => {
+      console.error(e)
+      console.error(e.response.data)
+      let err = 'Unknown error'
+      if (e && e.response && e.response.data && e.response.data.error) err = e.response.data.error.message
+      setSnackbarMessage('An error ocorrured while deleting the schedule: ' + err)
+      setSnackbarOpen(true)
+    }).finally(() => {
+      setDeleteScheduleLoading(false)
+    })
+  }
+
+  const deleteScheduleDialog = schedule => {
+    setDeleteScheduleItem(schedule)
+    setDeleteDialogOpen(true)
+  }
+
+  const finish = () => {
+    const data = {
+      name: scheduleName,
+      schedule: scheduleValue,
+      time: (timeValue.getHours() * 60) + timeValue.getMinutes(),
+      timezone: scheduleTimezone,
+      day: Number(weekDay || 0),
+      text: tweetText === '' ? null : tweetText,
+      theme,
+      themeOptions
+    }
+
+    setNavButtonsDisabled(true)
+
+    MusicorumAPI.createSchedule(data).then(a => {
+      console.log(a)
+      if (a.data.success) {
+        handleDialogClose()
+        // eslint-disable-next-line no-undef
+        const profile = localStorage.getItem('profile')
+        onLoad(JSON.parse(profile))
+      } else {
+        let err = 'Unknown error'
+        if (a && a.data && a.data.error && a.data.error.error) err = a.data.error.message
+        setSnackbarMessage('An error ocorrured while creating the schedule: ' + err)
+        setSnackbarOpen(true)
+      }
+    }).catch(e => {
+      console.error(e)
+      console.error(e.response.data)
+      let err = 'Unknown error'
+      if (e && e.response && e.response.data && e.response.data.error) err = e.response.data.error.message
+      setSnackbarMessage('An error ocorrured while creating the schedule: ' + err)
+      setSnackbarOpen(true)
+    }).finally(() => {
+      setNavButtonsDisabled(false)
     })
   }
 
@@ -357,7 +438,7 @@ const SchedulesPage = (props, ref) => {
   const convertTime = t => {
     const hour = t.getHours() % 12 || 12
     const ampm = t.getHours() < 12 ? 'AM' : 'PM'
-    return `${hour}:${t.getMinutes()} ${ampm}`
+    return `${hour}:${t.getMinutes() < 10 ? t.getMinutes() + '0' : t.getMinutes()} ${ampm}`
   }
 
   const steps = [
@@ -531,7 +612,7 @@ const SchedulesPage = (props, ref) => {
                   <b>*</b> Preview picture based on current last.fm data
                   <br /><br />
                   <Box className={classes.boxCard}>
-                    <Card className={classes.card}>
+                    <Card variant="outlined" className={classes.card}>
                       <CardHeader
                         avatar={
                           <Avatar src={profile.twitter.profilePicture} />
@@ -582,7 +663,7 @@ const SchedulesPage = (props, ref) => {
         <Grid item xs={6} className={classes.btnGrid}>
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             disabled={!profile}
             onClick={handleCreateNew}
             startIcon={<Icon>add</Icon>}
@@ -592,46 +673,36 @@ const SchedulesPage = (props, ref) => {
         </Grid>
       </Grid>
       {
-        loading ? (
-          <div style={{
+        loading
+          ? alertText ? (
+            <Alert variant="outlined" severity="error">
+              {alertText}
+            </Alert>
+          ) : (
+            <div style={{
+              // eslint-disable-next-line indent
+                display: 'flex',
+              justifyContent: 'center'
+            }}>
+              <CircularProgress />
+            </div>
+          )
+          : (profile ? (
+            <Grid container spacing={3}>
+              {
+                schedules ? (
+                  schedules.map(schedule => (
+                    <Grid item xs={12} key={schedule.id}>
+                      <Schedule index={schedules.indexOf(schedule)} onDelete={deleteScheduleDialog} data={schedule} />
+                    </Grid>))
+                ) : <CircularProgress />}
+            </Grid>
+          ) : (<div style={{
             display: 'flex',
             justifyContent: 'center'
           }}>
-            <CircularProgress />
-          </div>
-        ) : (profile ? (
-          <Grid container spacing={3}>
-            {
-              schedules ? (
-                schedules.map(schedule => {
-                  const { hour, minute } = getTime(schedule.time)
-                  return <Grid item key={schedule.id} xs={12}>
-                    <Card>
-                      <CardContent>
-                        <Chip
-                          size="small"
-                          label={schedule.schedule}
-                          className={classes[schedule.schedule.toLowerCase()]} />
-                        <Typography variant="h5" component="h5">
-                          {schedule.name}
-                        </Typography>
-                        <p></p>
-                        <Typography variant="h6" component="h6">
-                          {hour}:{minute < 10 ? '0' + minute : minute}
-                          <span className={classes.timezone}>  ({schedule.timezone})</span>
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                })
-              ) : <CircularProgress />}
-          </Grid>
-        ) : (<div style={{
-          display: 'flex',
-          justifyContent: 'center'
-        }}>
-          Please, log in to access this page.
-        </div>))
+            Please, log in to access this page.
+          </div>))
       }
 
       <Snackbar
@@ -679,6 +750,9 @@ const SchedulesPage = (props, ref) => {
             </Button>
           </Toolbar>
         </AppBar>
+        {navButtonsDisabled ? (
+          <LinearProgress />
+        ) : (<Fragment></Fragment>)}
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map(([label]) => (
             <Step key={label}>
@@ -721,6 +795,31 @@ const SchedulesPage = (props, ref) => {
         </Fragment>
       </Dialog>
 
+      <Dialog
+        open={deleteDialogOpen}
+        TransitionComponent={Transition}
+        disableBackdropClick={deleteScheduleLoading}
+        disableEscapeKeyDown={deleteScheduleLoading}
+        onClose={() => setDeleteDialogOpen(false)}
+        aria-labelledby="delete-dialog-title"
+        aria-describedby="delete-dialog-description"
+      >
+        {deleteScheduleLoading && <LinearProgress color="secondary"/>}
+        <DialogTitle id="delete-dialog-title">Delete &apos;{deleteScheduleItem.name}&apos;</DialogTitle>
+        <DialogContent style={{ textAlign: 'center' }}>
+          <DialogContentText id="auth-dialog-description">
+            Deleting this schedule can&apos;t be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button disabled={deleteScheduleLoading} onClick={() => setDeleteDialogOpen(false)} color="secondary">
+            CANCEL
+          </Button>
+          <Button disabled={deleteScheduleLoading} onClick={deleteSchedule} color="secondary">
+            DELETE
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Fragment>
   )
 }

@@ -1,6 +1,5 @@
 import axios from 'axios'
-
-const API_URL = process.env.API_URL || 'https://api.musicorumapp.com'
+import { API_URL } from './vars.js'
 
 export default class MusicorumAPI {
   static getAuthStatus (token, full) {
@@ -42,6 +41,22 @@ export default class MusicorumAPI {
 
   static getSchedules () {
     return axios.get(`${API_URL}/schedules`, {
+      headers: {
+        Authorization: MusicorumAPI.getToken()
+      }
+    })
+  }
+
+  static createSchedule (schedule) {
+    return axios.put(`${API_URL}/schedules`, schedule, {
+      headers: {
+        Authorization: MusicorumAPI.getToken()
+      }
+    })
+  }
+
+  static deleteSchedule (id) {
+    return axios.delete(`${API_URL}/schedules/${id}`, {
       headers: {
         Authorization: MusicorumAPI.getToken()
       }

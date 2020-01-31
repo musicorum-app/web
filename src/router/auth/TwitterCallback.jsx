@@ -26,6 +26,7 @@ export default function TwitterCallback () {
           window.close()
         } else location.href = '/'
       }).catch(e => {
+        console.error(e)
         setMessage('An error ocorrured. Please try again.')
         setLoading(false)
         setError(true)
