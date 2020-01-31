@@ -16,6 +16,10 @@ import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogActions from '@material-ui/core/DialogActions'
 import Slide from '@material-ui/core/Slide'
 import Toolbar from '@material-ui/core/Toolbar'
 import AppBar from '@material-ui/core/AppBar'
@@ -145,6 +149,9 @@ const SchedulesPage = (props, ref) => {
   const [dialogOpened, setDialogOpened] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
   const [navButtonsDisabled, setNavButtonsDisabled] = useState(false)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [deleteScheduleItem, setDeleteScheduleItem] = useState('')
+  const [deleteScheduleLoading, setDeleteScheduleLoading] = useState(false)
   const [alertText, setAlertText] = useState(null)
   const [previewLoading, setPreviewLoading] = useState(false)
   const [previewResult, setPreviewResult] = useState(previewResultDefault)
@@ -345,9 +352,38 @@ const SchedulesPage = (props, ref) => {
     })
   }
 
-  const deleteSchedule = (id) => {
-    console.info('DELETE')
-    console.log(schedules.find(s => s.id === id))
+  const deleteSchedule = () => {
+    const { id } = deleteScheduleItem
+    setDeleteScheduleLoading(true)
+    MusicorumAPI.deleteSchedule(id).then(res => {
+      console.log(res)
+      if (res.data.success) {
+        handleDialogClose()
+        // eslint-disable-next-line no-undef
+        const profile = localStorage.getItem('profile')
+        onLoad(JSON.parse(profile))
+        setDialogOpened(false)
+      } else {
+        let err = 'Unknown error'
+        if (res && res.data && res.data.error && res.data.error.error) err = res.data.error.message
+        setSnackbarMessage('An error ocorrured while deleting the schedule: ' + err)
+        setSnackbarOpen(true)
+      }
+    }).catch(e => {
+      console.error(e)
+      console.error(e.response.data)
+      let err = 'Unknown error'
+      if (e && e.response && e.response.data && e.response.data.error) err = e.response.data.error.message
+      setSnackbarMessage('An error ocorrured while deleting the schedule: ' + err)
+      setSnackbarOpen(true)
+    }).finally(() => {
+      setDeleteScheduleLoading(false)
+    })
+  }
+
+  const deleteScheduleDialog = schedule => {
+    setDeleteScheduleItem(schedule)
+    setDeleteDialogOpen(true)
   }
 
   const finish = () => {
@@ -357,7 +393,7 @@ const SchedulesPage = (props, ref) => {
       time: (timeValue.getHours() * 60) + timeValue.getMinutes(),
       timezone: scheduleTimezone,
       day: Number(weekDay || 0),
-      text: tweetText,
+      text: tweetText === '' ? null : tweetText,
       theme,
       themeOptions
     }
@@ -576,7 +612,7 @@ const SchedulesPage = (props, ref) => {
                   <b>*</b> Preview picture based on current last.fm data
                   <br /><br />
                   <Box className={classes.boxCard}>
-                    <Card className={classes.card}>
+                    <Card variant="outlined" className={classes.card}>
                       <CardHeader
                         avatar={
                           <Avatar src={profile.twitter.profilePicture} />
@@ -627,7 +663,7 @@ const SchedulesPage = (props, ref) => {
         <Grid item xs={6} className={classes.btnGrid}>
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             disabled={!profile}
             onClick={handleCreateNew}
             startIcon={<Icon>add</Icon>}
@@ -657,7 +693,7 @@ const SchedulesPage = (props, ref) => {
                 schedules ? (
                   schedules.map(schedule => (
                     <Grid item xs={12} key={schedule.id}>
-                      <Schedule index={schedules.indexOf(schedule)} onDelete={deleteSchedule} data={schedule} />
+                      <Schedule index={schedules.indexOf(schedule)} onDelete={deleteScheduleDialog} data={schedule} />
                     </Grid>))
                 ) : <CircularProgress />}
             </Grid>
@@ -757,6 +793,32 @@ const SchedulesPage = (props, ref) => {
             <Grid item xs={1} md={2} xl={3} />
           </Grid>
         </Fragment>
+      </Dialog>
+
+      <Dialog
+        open={deleteDialogOpen}
+        TransitionComponent={Transition}
+        disableBackdropClick={deleteScheduleLoading}
+        disableEscapeKeyDown={deleteScheduleLoading}
+        onClose={() => setDeleteDialogOpen(false)}
+        aria-labelledby="delete-dialog-title"
+        aria-describedby="delete-dialog-description"
+      >
+        {deleteScheduleLoading && <LinearProgress color="secondary"/>}
+        <DialogTitle id="delete-dialog-title">Delete &apos;{deleteScheduleItem.name}&apos;</DialogTitle>
+        <DialogContent style={{ textAlign: 'center' }}>
+          <DialogContentText id="auth-dialog-description">
+            Deleting this schedule can&apos;t be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button disabled={deleteScheduleLoading} onClick={() => setDeleteDialogOpen(false)} color="secondary">
+            CANCEL
+          </Button>
+          <Button disabled={deleteScheduleLoading} onClick={deleteSchedule} color="secondary">
+            DELETE
+          </Button>
+        </DialogActions>
       </Dialog>
     </Fragment>
   )

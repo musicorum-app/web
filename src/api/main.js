@@ -54,4 +54,12 @@ export default class MusicorumAPI {
       }
     })
   }
+
+  static deleteSchedule (id) {
+    return axios.delete(`${API_URL}/schedules/${id}`, {
+      headers: {
+        Authorization: MusicorumAPI.getToken()
+      }
+    })
+  }
 }

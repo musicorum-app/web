@@ -138,7 +138,7 @@ const Schedule = forwardRef((props, ref) => {
       open={!!anchorEl}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => { handleMenuClose(); props.onDelete(id) }}>
+      <MenuItem onClick={() => { handleMenuClose(); props.onDelete(schedule) }}>
         <ListItemIcon>
           <DeleteIcon fontSize="small" />
         </ListItemIcon>

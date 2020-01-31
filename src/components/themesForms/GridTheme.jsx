@@ -80,10 +80,11 @@ const GridTheme = forwardRef((props, ref) => {
           className={classes.form}
           variant="outlined"
           inputRef={type}
-          defaultValue=""
+          defaultValue="albums"
         >
           <MenuItem value="artists">Top artists</MenuItem>
           <MenuItem value="albums">Top albums</MenuItem>
+          <MenuItem value="tracks">Top tracks</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={4} sm={4}>
