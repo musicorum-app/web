@@ -128,6 +128,11 @@ export default function Generator () {
         success: true,
         url
       })
+      // const imageFragment = document.getElementById('imagePreview')
+      // imageFragment.innerHTML = ''
+      // const imageElement = new Image()
+      // imageElement.src = url
+      // imageElement.crossOrigin
     }).catch(({ error }) => {
       console.error(error)
       setLoading(false)
@@ -244,7 +249,10 @@ export default function Generator () {
                     {/* <Button onClick={handleOpenInANewWindow} startIcon={<Icon>open_in_new</Icon>}>Open in new window</Button> */}
                     {/* </ButtonGroup> */}
                     <br/> <br/>
-                    <img src={result.url} style={{ width: '100%' }}/>
+                    <img src={result.url} crossOrigin="anonymous" style={{ width: '100%' }}/>
+                    <Fragment id="imagePreview">
+                      2.0
+                    </Fragment>
                   </Fragment>
                 ) : (
                   <Fragment>
