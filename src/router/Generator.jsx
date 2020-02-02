@@ -13,12 +13,12 @@ import Typography from '@material-ui/core/Typography'
 
 import MusicorumGenerator from '../api/generator.js'
 import Icon from '@material-ui/core/Icon'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
+// import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Snackbar from '@material-ui/core/Snackbar'
 import Slide from '@material-ui/core/Slide'
 
 const SlideTransition = props => {
-  return <Slide {...props} direction="down" />
+  return <Slide {...props} direction="down"/>
 }
 
 const useStyles = makeStyles(theme => ({
@@ -139,15 +139,16 @@ export default function Generator () {
     })
   }
 
-  const handleOpenInANewWindow = () => {
-    window.open(result.url, '_blank')
-    setSnackAlert(true)
-  }
+  // const handleOpenInANewWindow = () => {
+  //   const newWindow = window.open('about:blank', '_blank')
+  //   newWindow.location.href = result.url
+  //   setSnackAlert(true)
+  // }
 
   const handleDownloadImage = () => {
     const a = document.createElement('a')
     a.href = result.url
-    a.setAttribute('download', 'musicorum_result.png')
+    a.setAttribute('download', `musicorum_${new Date().getTime()}.png`)
     a.click()
   }
 
@@ -237,10 +238,11 @@ export default function Generator () {
               ) : result.done
                 ? result.success ? (
                   <Fragment>
-                    <ButtonGroup size="small" color="primary" aria-label="small primary outlined button group">
-                      <Button onClick={handleDownloadImage} startIcon={<Icon>cloud_download</Icon>}>Download image</Button>
-                      <Button onClick={handleOpenInANewWindow} startIcon={<Icon>open_in_new</Icon>}>Open in new window</Button>
-                    </ButtonGroup>
+                    {/* <ButtonGroup size="small" color="primary" aria-label="small primary outlined button group"> */}
+                    <Button color="secondary" variant="outlined" onClick={handleDownloadImage} startIcon={<Icon>cloud_download</Icon>}>Download
+                      image</Button>
+                    {/* <Button onClick={handleOpenInANewWindow} startIcon={<Icon>open_in_new</Icon>}>Open in new window</Button> */}
+                    {/* </ButtonGroup> */}
                     <br/> <br/>
                     <img src={result.url} style={{ width: '100%' }}/>
                   </Fragment>
@@ -266,7 +268,10 @@ export default function Generator () {
         </Grid>
       </form>
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
         open={snackAlert}
         className={classes.warningSnack}
         TransitionComponent={SlideTransition}

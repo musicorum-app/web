@@ -13,14 +13,10 @@ export default class MusicorumGenerator {
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
-        },
-        responseType: 'arraybuffer'
+        }
       }).then(res => {
         console.log(res)
-        const fileParts = [Buffer.from(res.data, 'binary')]
-        // eslint-disable-next-line no-undef
-        const blob = new Blob(fileParts, { type: 'image/png' })
-        resolve(URL.createObjectURL(blob))
+        resolve(res.data.base64)
       }).catch(e => {
         if (e.response) reject(JSON.parse(Buffer.from(e.response.data, 'binary').toString()))
         else {
