@@ -33,14 +33,6 @@ const titleSuffix = {
 const TopsTheme = forwardRef((props, ref) => {
   const classes = useStyles()
 
-  const period = useRef(defaultPeriod)
-  const title = useRef('my month on music')
-  // const scrobblesText = useRef('SCROBBLES THIS MONTH')
-  const module1Type = useRef('albums')
-  const module1Text = useRef('TOP ALBUM')
-  const module2Type = useRef('artists')
-  const module2Text = useRef('TOP ARTIST')
-
   // const [typeHelperMessage, setTypeHelperMessage] = useState(null)
   // const [sizeHelperMessage, setSizeHelperMessage] = useState(null)
   // const [periodHelperMessage, setPeriodHelperMessage] = useState(null)
@@ -55,6 +47,14 @@ const TopsTheme = forwardRef((props, ref) => {
       setDisabledPeriod(true)
     }
   })
+
+  const period = useRef(defaultPeriod)
+  const title = useRef('my month on music')
+  // const scrobblesText = useRef('SCROBBLES THIS MONTH')
+  const module1Type = useRef('albums')
+  const module1Text = useRef('TOP ALBUM')
+  const module2Type = useRef('artists')
+  const module2Text = useRef('TOP ARTIST')
 
   useImperativeHandle(ref, () => ({
     validate,
