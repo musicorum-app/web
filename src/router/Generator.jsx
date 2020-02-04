@@ -121,12 +121,14 @@ export default function Generator () {
   const generate = data => {
     setLoading(true)
     console.log(data)
-    MusicorumGenerator.generate(data).then(url => {
+    MusicorumGenerator.generate(data).then(({ base64, duration }) => {
+      console.log(duration)
       setLoading(false)
       setResult({
         done: true,
         success: true,
-        url
+        url: base64,
+        duration
       })
       // const imageFragment = document.getElementById('imagePreview')
       // imageFragment.innerHTML = ''
@@ -251,7 +253,7 @@ export default function Generator () {
                     <br/> <br/>
                     <img src={result.url} crossOrigin="anonymous" style={{ width: '100%' }}/>
                     <Fragment id="imagePreview">
-                      2.0
+                      Generated in {result.duration / 1000}s
                     </Fragment>
                   </Fragment>
                 ) : (

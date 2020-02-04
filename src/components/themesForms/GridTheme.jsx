@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, forwardRef, useState, useRef } from 'react'
+import React, { useImperativeHandle, forwardRef, useState, useRef, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -19,15 +19,26 @@ const useStyles = makeStyles(theme => ({
 const GridTheme = forwardRef((props, ref) => {
   const classes = useStyles()
 
-  const type = useRef('albums')
-  const size = useRef('4')
-  const period = useRef('1month')
-  const names = useRef(true)
-  const playcount = useRef(false)
+  // eslint-disable-next-line react/prop-types
+  const scheduleValue = props.period
+  const defaultPeriod = scheduleValue ? scheduleValue === 'WEEKLY' ? '7day' : '1month' : '1month'
 
   const [typeHelperMessage, setTypeHelperMessage] = useState(null)
   const [sizeHelperMessage, setSizeHelperMessage] = useState(null)
   const [periodHelperMessage, setPeriodHelperMessage] = useState(null)
+  const [disabledPeriod, setDisabledPeriod] = useState(false)
+
+  useEffect(() => {
+    if (scheduleValue) {
+      setDisabledPeriod(true)
+    }
+  })
+
+  const type = useRef('albums')
+  const size = useRef('4')
+  const period = useRef(defaultPeriod)
+  const names = useRef(true)
+  const playcount = useRef(false)
 
   useImperativeHandle(ref, () => ({
     validate,
@@ -49,11 +60,11 @@ const GridTheme = forwardRef((props, ref) => {
       success = false
     }
     if (!size) {
-      setTypeHelperMessage('Please select a size')
+      setSizeHelperMessage('Please select a size')
       success = false
     }
     if (!period) {
-      setTypeHelperMessage('Please select a period')
+      setPeriodHelperMessage('Please select a period')
       success = false
     }
     return success
@@ -112,7 +123,8 @@ const GridTheme = forwardRef((props, ref) => {
           helperText={periodHelperMessage}
           className={classes.form}
           variant="outlined"
-          defaultValue="1month"
+          defaultValue={defaultPeriod}
+          disabled={disabledPeriod}
           inputRef={period}
         >
           <MenuItem value="7day">7 days</MenuItem>

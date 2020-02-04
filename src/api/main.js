@@ -47,6 +47,14 @@ export default class MusicorumAPI {
     })
   }
 
+  static getExecutions (id) {
+    return axios.get(`${API_URL}/schedules/${id}/runs`, {
+      headers: {
+        Authorization: MusicorumAPI.getToken()
+      }
+    })
+  }
+
   static createSchedule (schedule) {
     return axios.put(`${API_URL}/schedules`, schedule, {
       headers: {

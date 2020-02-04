@@ -1,11 +1,11 @@
-import React, { forwardRef, useRef, useImperativeHandle } from 'react'
+import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from 'react'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { Typography } from '@material-ui/core'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   form: {
     width: '100%'
   }
@@ -33,7 +33,7 @@ const titleSuffix = {
 const TopsTheme = forwardRef((props, ref) => {
   const classes = useStyles()
 
-  const period = useRef('1month')
+  const period = useRef(defaultPeriod)
   const title = useRef('my month on music')
   // const scrobblesText = useRef('SCROBBLES THIS MONTH')
   const module1Type = useRef('albums')
@@ -44,6 +44,17 @@ const TopsTheme = forwardRef((props, ref) => {
   // const [typeHelperMessage, setTypeHelperMessage] = useState(null)
   // const [sizeHelperMessage, setSizeHelperMessage] = useState(null)
   // const [periodHelperMessage, setPeriodHelperMessage] = useState(null)
+  const [disabledPeriod, setDisabledPeriod] = useState(false)
+
+  // eslint-disable-next-line react/prop-types
+  const scheduleValue = props.period
+  const defaultPeriod = scheduleValue ? scheduleValue === 'WEEKLY' ? '7day' : '1month' : '1month'
+
+  useEffect(() => {
+    if (scheduleValue) {
+      setDisabledPeriod(true)
+    }
+  })
 
   useImperativeHandle(ref, () => ({
     validate,
@@ -109,9 +120,10 @@ const TopsTheme = forwardRef((props, ref) => {
           label="Period"
           // helperText="Please select the period"
           className={classes.form}
-          defaultValue="1month"
+          defaultValue={defaultPeriod}
           variant="outlined"
           inputRef={period}
+          disabled={disabledPeriod}
         >
           <MenuItem value="7day">7 days</MenuItem>
           <MenuItem value="1month">1 month</MenuItem>

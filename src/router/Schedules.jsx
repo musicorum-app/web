@@ -333,7 +333,7 @@ const SchedulesPage = (props, ref) => {
       }
     }
 
-    MusicorumGenerator.generate(data).then(url => {
+    MusicorumGenerator.generate(data).then(({ url }) => {
       setPreviewResult({
         success: true,
         url
@@ -361,8 +361,8 @@ const SchedulesPage = (props, ref) => {
         handleDialogClose()
         // eslint-disable-next-line no-undef
         const profile = localStorage.getItem('profile')
+        setDeleteDialogOpen(false)
         onLoad(JSON.parse(profile))
-        setDialogOpened(false)
       } else {
         let err = 'Unknown error'
         if (res && res.data && res.data.error && res.data.error.error) err = res.data.error.message
@@ -393,7 +393,7 @@ const SchedulesPage = (props, ref) => {
       time: (timeValue.getHours() * 60) + timeValue.getMinutes(),
       timezone: scheduleTimezone,
       day: Number(weekDay || 0),
-      text: tweetText === '' ? null : tweetText,
+      text: !tweetText ? ' ' : tweetText,
       theme,
       themeOptions
     }
@@ -428,10 +428,10 @@ const SchedulesPage = (props, ref) => {
   let inputElement = (<span>Please select a theme</span>)
   switch (theme) {
     case 'grid':
-      inputElement = (<GridTheme ref={themeRef} />)
+      inputElement = (<GridTheme period={scheduleValue} ref={themeRef} />)
       break
     case 'tops':
-      inputElement = (<TopsTheme ref={themeRef} />)
+      inputElement = (<TopsTheme period={scheduleValue} ref={themeRef} />)
       break
   }
 
@@ -571,7 +571,7 @@ const SchedulesPage = (props, ref) => {
             <br />
             <Divider />
             <br />
-            <Typography variant="h5" color="primary">
+            <Typography variant="h5" color="secondary">
               Theme Options
             </Typography>
             <br />

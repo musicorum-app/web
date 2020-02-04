@@ -18,6 +18,7 @@ import Home from '../router/Home.jsx'
 import Generator from '../router/Generator.jsx'
 import Account from '../router/Account.jsx'
 import Schedules from '../router/Schedules.jsx'
+import History from '../router/History.jsx'
 import TwitterCallback from '../router/auth/TwitterCallback.jsx'
 import LastfmCallback from '../router/auth/LastfmCallback.jsx'
 
@@ -60,6 +61,7 @@ const useStyles = makeStyles(theme => ({
 export default function App () {
   const schedulesRef = useRef()
   const accountRef = useRef()
+  const historyRef = useRef()
 
   const classes = useStyles()
   const [mobileOpen, setMobileOpen] = React.useState(false)
@@ -72,6 +74,7 @@ export default function App () {
   const handleLoad = data => {
     if (schedulesRef.current) schedulesRef.current.onLoad(data)
     if (accountRef.current) accountRef.current.onLoad(data)
+    if (historyRef.current) historyRef.current.onLoad(data)
   }
 
   const drawer = (<DrawerComponent onLogin={handleLoad} onLoad={handleLoad}/>)
@@ -79,7 +82,7 @@ export default function App () {
   return (
     <div className={classes.root}>
       <BrowserRouter>
-        { !location.pathname.startsWith('/auth/') ? (
+        {!location.pathname.startsWith('/auth/') ? (
           <div>
             <AppBar position="fixed" className={classes.appBar}>
               <Toolbar>
@@ -128,13 +131,14 @@ export default function App () {
               </Hidden>
             </nav>
           </div>
-        ) : null }
+        ) : null}
         <main className={classes.content}>
           <div className={classes.toolbar}/>
           <Switch>
             <Route path="/" exact={true} component={Home}/>
             <Route path="/generate" component={Generator}/>
-            <Route path="/account" render={() => <Account ref={accountRef}/>} />
+            <Route path="/account" render={() => <Account ref={accountRef}/>}/>
+            <Route path="/schedules/:id/history" render={(props) => <History ref={historyRef} {...props}/>}/>
             <Route path="/schedules" render={() => <Schedules ref={schedulesRef}/>}/>
             <Route path="/auth/twitter/callback" component={TwitterCallback}/>
             <Route path="/auth/lastfm/callback" component={LastfmCallback}/>

@@ -16,7 +16,7 @@ export default class MusicorumGenerator {
         }
       }).then(res => {
         console.log(res)
-        resolve(res.data.base64)
+        resolve(res.data)
       }).catch(e => {
         if (e.response) reject(JSON.parse(Buffer.from(e.response.data, 'binary').toString()))
         else {
