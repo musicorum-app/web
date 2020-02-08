@@ -13,8 +13,19 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime'
 import EventIcon from '@material-ui/icons/Event'
 import DoneIcon from '@material-ui/icons/Done'
 import ErrorIcon from '@material-ui/icons/Error'
+import { Dialog } from '@material-ui/core'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogActions from '@material-ui/core/DialogActions'
+import Slide from '@material-ui/core/Slide'
 
-// eslint-disable-next-line react/display-name
+import { TwitterTweetEmbed } from 'react-twitter-embed'
+import Box from '@material-ui/core/Box'
+
+const Transition = React.forwardRef(function Transition (props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />
+})
 
 const useStyles = makeStyles(theme => ({
   buttons: {
@@ -35,6 +46,10 @@ const useStyles = makeStyles(theme => ({
   },
   successChip: {
     backgroundColor: theme.palette.success.main
+  },
+  image: {
+    height: '100%',
+    width: '100%'
   }
 }))
 
@@ -45,17 +60,31 @@ const errorIcon = <ErrorIcon/>
 const Execution = forwardRef((props, ref) => {
   const classes = useStyles()
 
-  const [anchorEl, setAnchorEl] = useState(null)
-
-  const handleMenuOpen = event => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleMenuClose = event => {
-    setAnchorEl(null)
-  }
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [dialogType, setDialogType] = useState(null)
+  const [dialogData, setDialogData] = useState(null)
 
   const execution = props.data
+
+  const handleTweetDialog = () => {
+    setDialogOpen(true)
+    setDialogType('TWEET')
+    setDialogData(execution.tweetId)
+  }
+
+  const handleImageDialog = () => {
+    setDialogOpen(true)
+    setDialogType('IMAGE')
+    setDialogData(execution.image)
+  }
+
+  const openInNewWindow = () => {
+    window.open(execution.image, '_blank')
+  }
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false)
+  }
 
   let duration
   if (execution.startTime) {
@@ -69,7 +98,7 @@ const Execution = forwardRef((props, ref) => {
     <Card variant="outlined">
       <CardContent>
         <Chip className={execution.status === 'SUCCESS' ? classes.successChip : null} label={execution.status}
-              color="primary" size="small" icon={execution.status === 'SUCCESS' ? successIcon : errorIcon}/>
+          color="primary" size="small" icon={execution.status === 'SUCCESS' ? successIcon : errorIcon}/>
         <p></p>
         <Grid container spacing={1}>
           <Grid item xs={6} md={4}>
@@ -88,15 +117,51 @@ const Execution = forwardRef((props, ref) => {
         <p></p>
         <Typography>{execution.message}</Typography>
       </CardContent>
-      <CardActions>
-        <Button onClick={handleMenuOpen} className={classes.buttons} color="secondary">
-          SEE TWEET
-        </Button>
-        <Button onClick={handleMenuOpen} className={classes.buttons} color="secondary">
-          SEE IMAGE
-        </Button>
-      </CardActions>
+      {execution.status === 'SUCCESS' ? (
+        <CardActions>
+          <Button onClick={handleTweetDialog} className={classes.buttons} color="secondary">
+            SEE TWEET
+          </Button>
+          <Button onClick={handleImageDialog} className={classes.buttons} color="secondary">
+            SEE IMAGE
+          </Button>
+        </CardActions>
+      ) : null}
     </Card>
+
+    <Dialog
+      open={dialogOpen}
+      TransitionComponent={Transition}
+      keepMounted
+      maxWidth='md'
+      fullWidth={dialogType === 'IMAGE'}
+      onClose={handleCloseDialog}
+    >
+      <DialogTitle>{dialogType === 'TWEET' ? 'Execution tweet' : 'Execution Image'}</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          {dialogType === 'TWEET' ? (
+            <TwitterTweetEmbed
+              tweetId={dialogData}
+            />
+          ) : (
+            <Fragment>
+              <img src={dialogData} className={classes.image} />
+            </Fragment>
+          )}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        {dialogType === 'IMAGE' ? (
+          <Button onClick={openInNewWindow} color="secondary">
+            Open in a new window
+          </Button>
+        ) : null}
+        <Button onClick={handleCloseDialog} color="secondary">
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
   </Fragment>
 })
 export default Execution

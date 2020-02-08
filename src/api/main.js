@@ -56,7 +56,7 @@ export default class MusicorumAPI {
   }
 
   static createSchedule (schedule) {
-    return axios.put(`${API_URL}/schedules`, schedule, {
+    return axios.post(`${API_URL}/schedules`, schedule, {
       headers: {
         Authorization: MusicorumAPI.getToken()
       }

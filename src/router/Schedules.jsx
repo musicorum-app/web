@@ -123,6 +123,8 @@ const Transition = forwardRef((props, ref) => (
   <Slide direction="up" ref={ref} {...props} />
 ))
 
+const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
 const previewResultDefault = {
   success: false,
   url: null,
@@ -407,6 +409,7 @@ const SchedulesPage = (props, ref) => {
         // eslint-disable-next-line no-undef
         const profile = localStorage.getItem('profile')
         onLoad(JSON.parse(profile))
+        setActiveStep(0)
       } else {
         let err = 'Unknown error'
         if (a && a.data && a.data.error && a.data.error.error) err = a.data.error.message
@@ -604,7 +607,7 @@ const SchedulesPage = (props, ref) => {
                 <Fragment>
                   <span className={classes.previewText}>
                     Every <b>{scheduleValue === 'WEEKLY' ? 'week' : 'month'}</b>
-                    {scheduleValue === 'WEEKLY' ? (<span> on <b>{weekDay}</b> </span>) : ' '}
+                    {scheduleValue === 'WEEKLY' ? (<span> on <b>{weekDays[weekDay]}</b> </span>) : ' '}
                     at <b>{convertTime(timeValue)} ({scheduleTimezone}) </b>
                     a tweet like the preview below* will be posted on your profile. If is that what you want, please click <b>Finish</b>.
                   </span>

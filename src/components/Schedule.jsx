@@ -21,7 +21,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import { Link } from 'react-router-dom'
 
-// eslint-disable-next-line react/display-name
+const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 const useStyles = makeStyles(theme => ({
   buttons: {
@@ -72,7 +72,7 @@ const Schedule = forwardRef((props, ref) => {
   }
 
   const schedule = props.data
-  const { id, name, text, time, schedule: scheduleType, timezone, runs } = schedule
+  const { id, name, text, time, schedule: scheduleType, timezone, runs, day } = schedule
   const { hour, minute } = getTime(time)
 
   return <Fragment>
@@ -86,7 +86,8 @@ const Schedule = forwardRef((props, ref) => {
           <Grid item xs={6} md={4}>
             <Grid container spacing={1} direction="row" alignItems="center">
               <Grid item><DateRangeIcon className={classes.icon} fontSize="small" /></Grid>
-              <Grid item><Typography color="textSecondary">{scheduleType.toUpperCase()}</Typography></Grid>
+              <Grid item><Typography color="textSecondary">{scheduleType.toUpperCase()} {
+                scheduleType === 'WEEKLY' ? `(${weekDays[day]})` : null}</Typography></Grid>
             </Grid>
           </Grid>
           <Grid item xs={6} md={4}>
