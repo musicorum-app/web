@@ -91,9 +91,6 @@ const Execution = forwardRef((props, ref) => {
     duration = (execution.endTime - execution.startTime) / 1000
   }
 
-  console.log(execution.endTime, execution.startTime)
-  console.log((execution.endTime - execution.startTime) / 1000)
-
   return <Fragment>
     <Card variant="outlined">
       <CardContent>
@@ -104,6 +101,7 @@ const Execution = forwardRef((props, ref) => {
           <Grid item xs={6} md={4}>
             <Grid container spacing={1} direction="row" alignItems="center">
               <Grid item><EventIcon className={classes.icon} fontSize="small"/></Grid>
+              {/* TODO: use moment on server-side */}
               <Grid item><Typography color="textSecondary">{execution.startTime ? moment(Number(execution.startTime)).format('lll') : '-'}</Typography></Grid>
             </Grid>
           </Grid>
