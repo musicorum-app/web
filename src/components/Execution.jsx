@@ -21,7 +21,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import Slide from '@material-ui/core/Slide'
 
 import { TwitterTweetEmbed } from 'react-twitter-embed'
-import Box from '@material-ui/core/Box'
+import moment from 'moment'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -104,7 +104,7 @@ const Execution = forwardRef((props, ref) => {
           <Grid item xs={6} md={4}>
             <Grid container spacing={1} direction="row" alignItems="center">
               <Grid item><EventIcon className={classes.icon} fontSize="small"/></Grid>
-              <Grid item><Typography color="textSecondary">{execution.startTime || '-'}</Typography></Grid>
+              <Grid item><Typography color="textSecondary">{execution.startTime ? moment(Number(execution.startTime)).format('lll') : '-'}</Typography></Grid>
             </Grid>
           </Grid>
           <Grid item xs={6} md={4}>
