@@ -47,7 +47,7 @@ const HistoryPage = (props, ref) => {
           MusicorumAPI.getExecutions(id).then(({ data }) => {
             console.log(data)
             setLoading(false)
-            setExecutions(data.runs)
+            setExecutions(data.runs.reverse())
           })
         } else {
           setError('Schedule does not exist')
