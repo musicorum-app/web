@@ -335,10 +335,10 @@ const SchedulesPage = (props, ref) => {
       }
     }
 
-    MusicorumGenerator.generate(data).then(({ url }) => {
+    MusicorumGenerator.generate(data).then(({ base64 }) => {
       setPreviewResult({
         success: true,
-        url
+        url: base64
       })
     }).catch(({ error }) => {
       console.error(error)
