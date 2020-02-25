@@ -215,6 +215,9 @@ const SchedulesPage = (props, ref) => {
     if (schedules.length >= 3) {
       setSnackbarMessage('You have reached out the schedules limit.')
       setSnackbarOpen(true)
+    } else if (!profile.lastfm) {
+      setSnackbarMessage('You need to sign in with your Last.fm account to create an schedule. Go to your account to do it. (log off and log in if you are already signed in)')
+      setSnackbarOpen(true)
     } else {
       setDialogOpened(true)
     }

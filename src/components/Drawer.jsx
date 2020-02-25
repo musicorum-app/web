@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItem from '@material-ui/core/ListItem'
@@ -14,8 +14,6 @@ import { Typography } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 import MusicorumAPI from '../api/main'
-import { ExpandLess, ExpandMore } from '@material-ui/icons'
-import Collapse from '@material-ui/core/Collapse'
 import Slide from '@material-ui/core/Slide'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContentText from '@material-ui/core/DialogContentText'
@@ -29,7 +27,7 @@ const Transition = React.forwardRef((props, ref) => (
   <Slide direction="up" ref={ref} {...props} />
 ))
 
-export default class Drawer extends Component {
+class Drawer extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -50,9 +48,7 @@ export default class Drawer extends Component {
 
   handleProfileClick () {
     if (this.state.account) {
-      this.setState({
-        profileOpened: !this.state.profileOpened
-      })
+      this.props.history.push('/account')
     } else {
       this.setState({
         twitterAuthDialogOpened: true
@@ -237,33 +233,24 @@ export default class Drawer extends Component {
               <ListItemText
                 primary={this.state.account ? this.state.account.name : 'Log in with Twitter'}
                 secondary={this.state.account ? '@' + this.state.account.user : null}/>
-              {this.state.account ? this.state.profileOpened ? <ExpandLess/> : <ExpandMore/> : null}
             </ListItem>
             {this.state.account ? (
-              <Collapse in={this.state.profileOpened} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  <div>
-                    <Link to="/account" className="routerLink">
-                      <ListItem button>
-                        <ListItemIcon><Icon>account_circle</Icon></ListItemIcon>
-                        <ListItemText primary='My account'/>
-                      </ListItem>
-                    </Link>
-                    <Link to="/schedules" className="routerLink">
-                      <ListItem button>
-                        <ListItemIcon><Icon>today</Icon></ListItemIcon>
-                        <ListItemText primary='Schedules'/>
-                      </ListItem>
-                    </Link>
-                    <ListItem button onClick={this.logOut}>
-                      <ListItemIcon><Icon color="error">input</Icon></ListItemIcon>
-                      <ListItemText primary={
-                        <Typography color="error">Log out</Typography>
-                      }/>
+              <List component="div" disablePadding>
+                <div>
+                  <Link to="/schedules" className="routerLink">
+                    <ListItem button>
+                      <ListItemIcon><Icon>today</Icon></ListItemIcon>
+                      <ListItemText primary='Schedules'/>
                     </ListItem>
-                  </div>
-                </List>
-              </Collapse>
+                  </Link>
+                  <ListItem button onClick={this.logOut}>
+                    <ListItemIcon><Icon color="error">input</Icon></ListItemIcon>
+                    <ListItemText primary={
+                      <Typography color="error">Log out</Typography>
+                    }/>
+                  </ListItem>
+                </div>
+              </List>
             ) : ''}
           </List>
         ) : (
@@ -335,13 +322,13 @@ export default class Drawer extends Component {
             </DialogContentText>
             <br/>
             <Link to="/account?lastfmConnect=true" className="routerLink">
-              <Button variant="outlined" onClick={this.handleLastfmDialogClose} color="primary">
+              <Button variant="contained" onClick={this.handleLastfmDialogClose} color="primary">
                 Connect to Last.fm
               </Button>
             </Link>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleLastfmDialogClose} color="primary">
+            <Button onClick={this.handleLastfmDialogClose} color="secondary">
               No, thanks
             </Button>
           </DialogActions>
@@ -349,3 +336,5 @@ export default class Drawer extends Component {
       </div>)
   }
 }
+
+export default withRouter(Drawer)
