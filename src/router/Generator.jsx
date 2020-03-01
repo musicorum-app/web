@@ -155,7 +155,7 @@ export default function Generator () {
   const handleDownloadImage = () => {
     const a = document.createElement('a')
     a.href = result.url
-    a.setAttribute('download', `musicorum_${new Date().getTime()}.png`)
+    a.setAttribute('download', `musicorum_${new Date().getTime()}.jpg`)
     a.click()
   }
 
