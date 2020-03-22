@@ -6,8 +6,6 @@ import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 
-import GridTheme from '../components/themesForms/GridTheme.jsx'
-import TopsTheme from '../components/themesForms/TopsTheme.jsx'
 import { CircularProgress } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 
@@ -16,6 +14,10 @@ import Icon from '@material-ui/core/Icon'
 // import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Snackbar from '@material-ui/core/Snackbar'
 import Slide from '@material-ui/core/Slide'
+
+import GridTheme from '../components/themesForms/GridTheme.jsx'
+import TopsTheme from '../components/themesForms/TopsTheme.jsx'
+import DuotoneTheme from '../components/themesForms/DuotoneTheme.jsx'
 
 const SlideTransition = props => {
   return <Slide {...props} direction="down"/>
@@ -171,6 +173,9 @@ export default function Generator () {
     case 'tops':
       inputElement = (<TopsTheme ref={themeRef}/>)
       break
+    case 'duotone':
+      inputElement = (<DuotoneTheme ref={themeRef} />)
+      break
   }
 
   return (
@@ -194,6 +199,7 @@ export default function Generator () {
                 >
                   <MenuItem value="grid">Grid</MenuItem>
                   <MenuItem value="tops">Tops</MenuItem>
+                  <MenuItem value="duotone">Duotone</MenuItem>
                 </TextField>
               </Grid>
               <Grid item xs={12} sm={6}>

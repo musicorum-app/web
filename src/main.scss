@@ -42,3 +42,26 @@ body {
 .bigAvatar.lastfm:hover {
   border-color: rgba(120, 1, 0, 0.5)
 }
+
+.colorDotGroup {
+  display: inline-grid;
+}
+
+.colorDot {
+  background-color: green;
+  width: 20px;
+  height: 10px;
+  border-radius: 200px;
+  margin-right: 5px;
+  display: block;
+}
+
+.colorDot.up {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.colorDot.down {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
