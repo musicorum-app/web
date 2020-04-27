@@ -22,6 +22,9 @@ import DialogContent from '@material-ui/core/DialogContent'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 
+import TwitterIcon from '@material-ui/icons/Twitter'
+import GitHubIcon from '@material-ui/icons/GitHub'
+
 // eslint-disable-next-line react/display-name
 const Transition = React.forwardRef((props, ref) => (
   <Slide direction="up" ref={ref} {...props} />
@@ -210,14 +213,14 @@ class Drawer extends Component {
     }
     return (
       <div>
-        <Divider/>
+        <Divider />
         {this.state.loaded ? this.state.authError ? (
           <List>
             <ListItem button>
               <ListItemIcon>
                 <Icon color="error">error</Icon>
               </ListItemIcon>
-              <ListItemText primary='An error ocorrured.'/>
+              <ListItemText primary='An error ocorrured.' />
             </ListItem>
           </List>
         ) : (
@@ -225,14 +228,14 @@ class Drawer extends Component {
             <ListItem button={this.state.loaded} onClick={this.handleProfileClick}>
               <ListItemAvatar>
                 {this.state.account ? (
-                  <Avatar alt={this.state.account.user} src={this.state.account.profilePicture}/>
+                  <Avatar alt={this.state.account.user} src={this.state.account.profilePicture} />
                 ) : (
                   <Avatar><Icon>account_circle</Icon></Avatar>
                 )}
               </ListItemAvatar>
               <ListItemText
                 primary={this.state.account ? this.state.account.name : 'Log in with Twitter'}
-                secondary={this.state.account ? '@' + this.state.account.user : null}/>
+                secondary={this.state.account ? '@' + this.state.account.user : null} />
             </ListItem>
             {this.state.account ? (
               <List component="div" disablePadding>
@@ -240,14 +243,14 @@ class Drawer extends Component {
                   <Link to="/schedules" className="routerLink">
                     <ListItem button>
                       <ListItemIcon><Icon>today</Icon></ListItemIcon>
-                      <ListItemText primary='Schedules'/>
+                      <ListItemText primary='Schedules' />
                     </ListItem>
                   </Link>
                   <ListItem button onClick={this.logOut}>
                     <ListItemIcon><Icon color="error">input</Icon></ListItemIcon>
                     <ListItemText primary={
                       <Typography color="error">Log out</Typography>
-                    }/>
+                    } />
                   </ListItem>
                 </div>
               </List>
@@ -257,28 +260,40 @@ class Drawer extends Component {
           <List>
             <ListItem button>
               <ListItemIcon>
-                <CircularProgress color="primary"/>
+                <CircularProgress color="primary" />
               </ListItemIcon>
-              <ListItemText primary='Loading...'/>
+              <ListItemText primary='Loading...' />
             </ListItem>
           </List>
         )}
-        <Divider/>
+        <Divider />
         <List>
           <Link to="/" className="routerLink">
             <ListItem button>
               <ListItemIcon><Icon>home</Icon></ListItemIcon>
-              <ListItemText primary='Home'/>
+              <ListItemText primary='Home' />
             </ListItem>
           </Link>
           <Link to="/generate" className="routerLink">
             <ListItem button>
               <ListItemIcon><Icon>image</Icon></ListItemIcon>
-              <ListItemText primary='Image Generator'/>
+              <ListItemText primary='Image Generator' />
             </ListItem>
           </Link>
+          <Divider />
+          <ListItem button component="a" href="https://medium.com/musicorum">
+            <ListItemIcon><Icon>create</Icon></ListItemIcon>
+            <ListItemText primary='Blog' />
+          </ListItem>
+          <ListItem button component="a" href="https://twitter.com/MusicorumApp">
+            <ListItemIcon><TwitterIcon /></ListItemIcon>
+            <ListItemText primary='Twitter' />
+          </ListItem>
+          <ListItem button component="a" href="https://github.com/musicorum-app">
+            <ListItemIcon><GitHubIcon /></ListItemIcon>
+            <ListItemText primary='Github' />
+          </ListItem>
         </List>
-
         <Dialog
           open={this.state.twitterAuthDialogOpened}
           TransitionComponent={Transition}
@@ -292,8 +307,8 @@ class Drawer extends Component {
             <DialogContentText id="auth-dialog-description">
               {dialogText}
             </DialogContentText>
-            <br/>
-            {this.state.dialogStatus === 'LOADING' ? (<CircularProgress/>) : null}
+            <br />
+            {this.state.dialogStatus === 'LOADING' ? (<CircularProgress />) : null}
           </DialogContent>
           <DialogActions>
             {this.state.dialogStatus === 'ERROR' || this.state.dialogStatus === 'SUCCESS' ? (
@@ -320,7 +335,7 @@ class Drawer extends Component {
             <DialogContentText id="auth-dialog-description">
               We noticed that your account isn&apos;t connected to a Last.fm account, do you want to connect it now?
             </DialogContentText>
-            <br/>
+            <br />
             <Link to="/account?lastfmConnect=true" className="routerLink">
               <Button variant="contained" onClick={this.handleLastfmDialogClose} color="primary">
                 Connect to Last.fm

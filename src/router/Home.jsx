@@ -1,10 +1,28 @@
 import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 
-export default function HomePage () {
+import { Button } from '@material-ui/core'
+import { Link } from 'react-router-dom'
+
+const useStyles = makeStyles(theme => ({
+  logo: {
+    height: 1
+  },
+  main: {
+    textAlign: 'center'
+  }
+}))
+
+export default function HomePage() {
+  const classes = useStyles()
+
   return (
-    <div>
-      <h1>Home page</h1>
-      This page is <b>Under Construction</b>. Please consider that some functions may not be working or having problems. Please report any issue at the official twitter account <a href="https://twitter.com/musicorumapp">@musicorumapp</a>
+    <div className={classes.main}>
+      {/* <img src={MusicorumLogo} alt="Musicorum Logo" className={classes.logo} /> */}
+      <h1>A fancy way to share your last.fm status</h1>
+      <Link to="/generate" className="routerLink">
+        <Button variant="contained" color="primary" disableElevation>Generate now</Button>
+      </Link>
     </div>
   )
 }

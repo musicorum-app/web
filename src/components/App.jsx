@@ -22,6 +22,8 @@ import History from '../router/History.jsx'
 import TwitterCallback from '../router/auth/TwitterCallback.jsx'
 import LastfmCallback from '../router/auth/LastfmCallback.jsx'
 
+import MusicorumLogo from '../assets/logotext.svg'
+
 const drawerWidth = 250
 
 const useStyles = makeStyles(theme => ({
@@ -55,6 +57,9 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3)
+  },
+  logo: {
+    height: 17
   }
 }))
 
@@ -96,7 +101,7 @@ export default function App () {
                   <MenuIcon/>
                 </IconButton>
                 <Typography variant="h6" noWrap>
-                  MUSICORUM
+                  <img className={classes.logo} src={MusicorumLogo} alt="Musicorum logo" draggable={false} />
                 </Typography>
               </Toolbar>
             </AppBar>
