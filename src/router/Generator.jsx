@@ -250,7 +250,7 @@ export default function Generator () {
                   </Typography>
                   <br />
                   <Typography color="textSecondary">
-                    This can take a while...
+                    This may take a while...
                   </Typography>
                 </Fragment>
               ) : result.done
