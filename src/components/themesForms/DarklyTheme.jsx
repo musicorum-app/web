@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { Typography, FormControl, FormLabel, FormGroup, FormControlLabel, Switch, Badge } from '@material-ui/core'
-import ColorPicker from 'material-ui-color-picker'
+import ColorPicker from '../ColorPicker.jsx'
 
 const useStyles = makeStyles(() => ({
   form: {
@@ -22,11 +22,15 @@ const titles = {
   overall: 'MUSIC OVER ALL THE TIME'
 }
 
+const colors = ['#FF335F', '#A144FF', '#5A00F2', '#449AFF', '#80f8f8', '#30F868', '#D7FD31', '#FAFF00', '#FFFFFF']
+
 // eslint-disable-next-line react/display-name
 const DarklyTheme = forwardRef((props, ref) => {
   const classes = useStyles()
 
   const [disabledPeriod, setDisabledPeriod] = useState(false)
+  const [primaryColor, setPrimaryColor] = useState('#FF335F')
+  const [secondaryColor, setSecondaryColor] = useState('#30F868')
 
   // eslint-disable-next-line react/prop-types
   const scheduleValue = props.period
@@ -83,6 +87,8 @@ const DarklyTheme = forwardRef((props, ref) => {
     return {
       period: period.current.value,
       story: story.current.checked,
+      color: primaryColor,
+      accent: secondaryColor,
       modules: [
         {
           type: module1Type.current.value,
@@ -128,8 +134,18 @@ const DarklyTheme = forwardRef((props, ref) => {
       </Grid>
       <Grid item xs={12} sm={6}>
         <ColorPicker
-          floatingLabelText="Primary color"
-          variant="outlined"
+          name="Primary Color"
+          color={primaryColor}
+          onChange={c => setPrimaryColor(c.hex)}
+          colors={colors}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <ColorPicker
+          name="Secondary Color"
+          color={secondaryColor}
+          onChange={c => setSecondaryColor(c.hex)}
+          colors={colors}
         />
       </Grid>
       {/* <Grid item xs={12} lg={6}> */}
@@ -226,28 +242,6 @@ const DarklyTheme = forwardRef((props, ref) => {
                   <MenuItem value="tracks">Top track</MenuItem>
                 </TextField>
               </Grid>
-              <Grid item xs={12}>
-                {showStory ? (
-                  <Grid item xs={12}>
-                    <FormControl component="fieldset">
-                      <FormLabel component="legend">
-                        Options
-                      </FormLabel>
-                      <FormGroup>
-                        <FormControlLabel
-                          control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
-                          label={
-                            <Badge color="secondary" badgeContent="NEW">
-                              Story format (for posting on places like instagram story)
-                              &nbsp;&nbsp;&nbsp;
-                            </Badge>
-                          }
-                        />
-                      </FormGroup>
-                    </FormControl>
-                  </Grid>
-                ) : ''}
-              </Grid>
               {/* <Grid item xs={12} xl={6}> */}
               {/*  <TextField */}
               {/*    required */}
@@ -265,6 +259,28 @@ const DarklyTheme = forwardRef((props, ref) => {
             </Grid>
           </Grid>
         </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        {showStory ? (
+          <Grid item xs={12}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">
+                Options
+              </FormLabel>
+              <FormGroup>
+                <FormControlLabel
+                  control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
+                  label={
+                    <Badge color="secondary" badgeContent="NEW">
+                      Story format (for posting on places like instagram story)
+                      &nbsp;&nbsp;&nbsp;
+                    </Badge>
+                  }
+                />
+              </FormGroup>
+            </FormControl>
+          </Grid>
+        ) : ''}
       </Grid>
     </Grid>
   )

@@ -37,10 +37,13 @@ import { MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
 
 import Timezones from '../api/timezones.js'
-import GridTheme from '../components/themesForms/GridTheme.jsx'
-import TopsTheme from '../components/themesForms/TopsTheme.jsx'
 import MusicorumGenerator from '../api/generator.js'
 import Schedule from '../components/Schedule.jsx'
+
+import GridTheme from '../components/themesForms/GridTheme.jsx'
+import TopsTheme from '../components/themesForms/TopsTheme.jsx'
+import DuotoneTheme from '../components/themesForms/DuotoneTheme.jsx'
+import DarklyTheme from '../components/themesForms/DarklyTheme.jsx'
 
 const useStyles = makeStyles(theme => ({
   loading: {
@@ -439,6 +442,12 @@ const SchedulesPage = (props, ref) => {
     case 'tops':
       inputElement = (<TopsTheme period={scheduleValue} ref={themeRef} />)
       break
+    case 'duotone':
+      inputElement = (<DuotoneTheme period={scheduleValue} ref={themeRef} />)
+      break
+    case 'darkly':
+      inputElement = (<DarklyTheme period={scheduleValue} ref={themeRef} />)
+      break
   }
 
   const convertTime = t => {
@@ -571,6 +580,8 @@ const SchedulesPage = (props, ref) => {
                 >
                   <MenuItem value="grid">Grid</MenuItem>
                   <MenuItem value="tops">Tops</MenuItem>
+                  <MenuItem value="duotone">Duotone</MenuItem>
+                  <MenuItem value="darkly">Darkly</MenuItem>
                 </TextField>
               </Grid>
             </Grid>
