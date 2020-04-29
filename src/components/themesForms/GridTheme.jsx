@@ -173,7 +173,7 @@ const GridTheme = forwardRef((props, ref) => {
                 control={<Switch onChange={handleStory} inputRef={story} color="primary" defaultChecked={false} />}
                 label={
                   <Badge color="secondary" badgeContent="NEW">
-                    Story format (for posting on places like instagram story)
+                    Story format
                     &nbsp;&nbsp;&nbsp;
                   </Badge>
                 }
