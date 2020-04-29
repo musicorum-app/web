@@ -231,28 +231,6 @@ const TopsTheme = forwardRef((props, ref) => {
                   <MenuItem value="tracks">Top track</MenuItem>
                 </TextField>
               </Grid>
-              <Grid item xs={12}>
-                {showStory ? (
-                  <Grid item xs={12}>
-                    <FormControl component="fieldset">
-                      <FormLabel component="legend">
-                        Options
-                      </FormLabel>
-                      <FormGroup>
-                        <FormControlLabel
-                          control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
-                          label={
-                            <Badge color="secondary" badgeContent="NEW">
-                              Story format=
-                              &nbsp;&nbsp;&nbsp;
-                            </Badge>
-                          }
-                        />
-                      </FormGroup>
-                    </FormControl>
-                  </Grid>
-                ) : ''}
-              </Grid>
               {/* <Grid item xs={12} xl={6}> */}
               {/*  <TextField */}
               {/*    required */}
@@ -270,6 +248,28 @@ const TopsTheme = forwardRef((props, ref) => {
             </Grid>
           </Grid>
         </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        {showStory ? (
+          <Grid item xs={12}>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">
+                Options
+              </FormLabel>
+              <FormGroup>
+                <FormControlLabel
+                  control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
+                  label={
+                    <Badge color="secondary" badgeContent="NEW">
+                      Story format
+                      &nbsp;&nbsp;&nbsp;
+                    </Badge>
+                  }
+                />
+              </FormGroup>
+            </FormControl>
+          </Grid>
+        ) : ''}
       </Grid>
     </Grid>
   )
