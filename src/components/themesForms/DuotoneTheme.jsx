@@ -147,6 +147,8 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
           <MenuItem value="natural"><ColorPreview colors={['#1A2A56', '#00D574']} /> Natural</MenuItem>
           <MenuItem value="divergent"><ColorPreview colors={['#a21685', '#63acbb']} /> Divergent</MenuItem>
           <MenuItem value="sun"><ColorPreview colors={['#EA1264', '#D7FD31']} /> Bright Sun</MenuItem>
+          <MenuItem value="yellish"><ColorPreview colors={['#141209', '#ffea00']} /> Yellish</MenuItem>
+          <MenuItem value="horror"><ColorPreview colors={['#000000', '#dc2c2c']} /> Horror</MenuItem>
         </TextField>
       </Grid>
       {showStory ? (
