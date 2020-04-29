@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { Typography, FormControl, FormLabel, FormGroup, FormControlLabel, Switch, Badge } from '@material-ui/core'
+import ColorPicker from 'material-ui-color-picker'
 
 const useStyles = makeStyles(() => ({
   form: {
@@ -12,31 +13,19 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const scrobblesMonthsSuffix = {
-  '7day': 'THIS WEEK',
-  '1month': 'THIS MONTH',
-  '3month': 'LAST 3 MONTHS',
-  '6month': 'LAST 6 MONTHS',
-  '12month': 'THIS YEAR',
-  overall: 'ALL THE TIME'
-}
-
-const titleSuffix = {
-  '7day': 'week',
-  '1month': 'month',
-  '3month': 'last 3 months',
-  '6month': 'last 6 months',
-  '12month': 'year',
-  overall: 'overall'
+const titles = {
+  '7day': 'WEEK ON MUSIC',
+  '1month': 'MONTH ON MUSIC',
+  '3month': 'LAST 3 MONTHS ON MUSIC',
+  '6month': 'LAST 6 MONTHS ON MUSIC',
+  '12month': 'YEAR ON MUSIC',
+  overall: 'MUSIC OVER ALL THE TIME'
 }
 
 // eslint-disable-next-line react/display-name
-const TopsTheme = forwardRef((props, ref) => {
+const DarklyTheme = forwardRef((props, ref) => {
   const classes = useStyles()
 
-  // const [typeHelperMessage, setTypeHelperMessage] = useState(null)
-  // const [sizeHelperMessage, setSizeHelperMessage] = useState(null)
-  // const [periodHelperMessage, setPeriodHelperMessage] = useState(null)
   const [disabledPeriod, setDisabledPeriod] = useState(false)
 
   // eslint-disable-next-line react/prop-types
@@ -108,8 +97,8 @@ const TopsTheme = forwardRef((props, ref) => {
       ],
       messages: {
         // title: title.current.value,
-        title: `%USER%'s ${titleSuffix[period.current.value]} on music`,
-        scrobbles: 'SCROBBLES ' + scrobblesMonthsSuffix[period.current.value]
+        title: ['%USER%\'s', titles[period.current.value]],
+        scrobbles: 'SCROBBLES'
       }
     }
   }
@@ -136,6 +125,12 @@ const TopsTheme = forwardRef((props, ref) => {
           <MenuItem value="12month">1 year</MenuItem>
           <MenuItem value="overall">Overall</MenuItem>
         </TextField>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <ColorPicker
+          floatingLabelText="Primary color"
+          variant="outlined"
+        />
       </Grid>
       {/* <Grid item xs={12} lg={6}> */}
       {/*  <TextField */}
@@ -275,4 +270,4 @@ const TopsTheme = forwardRef((props, ref) => {
   )
 })
 
-export default TopsTheme
+export default DarklyTheme

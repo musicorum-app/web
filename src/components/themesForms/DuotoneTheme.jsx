@@ -1,9 +1,11 @@
+/* eslint-disable react/prop-types */
 import React, { forwardRef, useRef, useImperativeHandle, useEffect, useState } from 'react'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import ColorPreview from '../ColorPreview.jsx'
+import { Badge, FormControl, FormLabel, FormGroup, Switch, FormControlLabel } from '@material-ui/core'
 
 const useStyles = makeStyles(() => ({
   form: {
@@ -26,8 +28,8 @@ const periods = {
   overall: 'overall'
 }
 
-// eslint-disable-next-line react/display-name
-const TopsTheme = forwardRef((props, ref) => {
+// eslint-disable-next-line react/display-name, react/prop-types
+const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
   const classes = useStyles()
 
   // const [typeHelperMessage, setTypeHelperMessage] = useState(null)
@@ -36,7 +38,7 @@ const TopsTheme = forwardRef((props, ref) => {
   const [disabledPeriod, setDisabledPeriod] = useState(false)
 
   // eslint-disable-next-line react/prop-types
-  const scheduleValue = props.period
+  const scheduleValue = periodValue
   const defaultPeriod = scheduleValue ? scheduleValue === 'WEEKLY' ? '7day' : '1month' : '1month'
 
   useEffect(() => {
@@ -48,6 +50,7 @@ const TopsTheme = forwardRef((props, ref) => {
   const period = useRef(defaultPeriod)
   const top = useRef('albums')
   const pallete = useRef('purplish')
+  const story = useRef(false)
 
   useImperativeHandle(ref, () => ({
     validate,
@@ -85,6 +88,7 @@ const TopsTheme = forwardRef((props, ref) => {
       period: period.current.value,
       top: top.current.value,
       pallete: pallete.current.value,
+      story: story.current.checked,
       messages: {
         title: titles[top.current.value],
         subtitle: periods[period.current.value],
@@ -139,12 +143,32 @@ const TopsTheme = forwardRef((props, ref) => {
           inputRef={pallete}
           defaultValue="purplish"
         >
-          <MenuItem value="purplish"> <ColorPreview colors={['#16006F', '#F7396F']}/> Purplish</MenuItem>
-          <MenuItem value="natural"><ColorPreview colors={['#1A2A56', '#00D574']}/> Natural</MenuItem>
-          <MenuItem value="divergent"><ColorPreview colors={['#a21685', '#63acbb']}/> Divergent</MenuItem>
-          <MenuItem value="sun"><ColorPreview colors={['#EA1264', '#D7FD31']}/> Bright Sun</MenuItem>
+          <MenuItem value="purplish"> <ColorPreview colors={['#16006F', '#F7396F']} /> Purplish</MenuItem>
+          <MenuItem value="natural"><ColorPreview colors={['#1A2A56', '#00D574']} /> Natural</MenuItem>
+          <MenuItem value="divergent"><ColorPreview colors={['#a21685', '#63acbb']} /> Divergent</MenuItem>
+          <MenuItem value="sun"><ColorPreview colors={['#EA1264', '#D7FD31']} /> Bright Sun</MenuItem>
         </TextField>
       </Grid>
+      {showStory ? (
+        <Grid item xs={12}>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">
+              Options
+            </FormLabel>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
+                label={
+                  <Badge color="secondary" badgeContent="NEW">
+                    Story format (for posting on places like instagram story)
+                    &nbsp;&nbsp;&nbsp;
+                  </Badge>
+                }
+              />
+            </FormGroup>
+          </FormControl>
+        </Grid>
+      ) : ''}
     </Grid>
   )
 })

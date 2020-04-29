@@ -18,9 +18,10 @@ import Slide from '@material-ui/core/Slide'
 import GridTheme from '../components/themesForms/GridTheme.jsx'
 import TopsTheme from '../components/themesForms/TopsTheme.jsx'
 import DuotoneTheme from '../components/themesForms/DuotoneTheme.jsx'
+import DarklyTheme from '../components/themesForms/DarklyTheme.jsx'
 
 const SlideTransition = props => {
-  return <Slide {...props} direction="down"/>
+  return <Slide {...props} direction="down" />
 }
 
 const useStyles = makeStyles(theme => ({
@@ -168,13 +169,16 @@ export default function Generator () {
   let inputElement
   switch (theme) {
     case 'grid':
-      inputElement = (<GridTheme ref={themeRef}/>)
+      inputElement = (<GridTheme ref={themeRef} showStory={true} />)
       break
     case 'tops':
-      inputElement = (<TopsTheme ref={themeRef}/>)
+      inputElement = (<TopsTheme ref={themeRef} showStory={true} />)
       break
     case 'duotone':
-      inputElement = (<DuotoneTheme ref={themeRef} />)
+      inputElement = (<DuotoneTheme ref={themeRef} showStory={true} />)
+      break
+    case 'darkly':
+      inputElement = (<DarklyTheme ref={themeRef} showStory={true} />)
       break
   }
 
@@ -200,6 +204,7 @@ export default function Generator () {
                   <MenuItem value="grid">Grid</MenuItem>
                   <MenuItem value="tops">Tops</MenuItem>
                   <MenuItem value="duotone">Duotone</MenuItem>
+                  <MenuItem value="darkly">Darkly</MenuItem>
                 </TextField>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -215,13 +220,13 @@ export default function Generator () {
                   className={classes.form}
                   onChange={handleLastfmUserChange}
                   name="lastfmUser"
-                  // value={lastfmUser}
+                // value={lastfmUser}
                 />
               </Grid>
             </Grid>
-            <br/>
+            <br />
             {inputElement}
-            <br/>
+            <br />
             <Grid item className={classes.center}>
               <Button
                 type="submit"
@@ -238,12 +243,12 @@ export default function Generator () {
             <Paper className={classes.paper}>
               {loading ? (
                 <Fragment>
-                  <CircularProgress size={50}/>
-                  <br/><br/>
+                  <CircularProgress size={50} />
+                  <br /><br />
                   <Typography variant="h4">
                     Loading...
                   </Typography>
-                  <br/>
+                  <br />
                   <Typography color="textSecondary">
                     This can take a while...
                   </Typography>
@@ -256,20 +261,20 @@ export default function Generator () {
                       image</Button>
                     {/* <Button onClick={handleOpenInANewWindow} startIcon={<Icon>open_in_new</Icon>}>Open in new window</Button> */}
                     {/* </ButtonGroup> */}
-                    <br/> <br/>
-                    <img src={result.url} crossOrigin="anonymous" style={{ width: '100%' }}/>
+                    <br /> <br />
+                    <img src={result.url} crossOrigin="anonymous" style={{ width: '100%' }} />
                     <Fragment id="imagePreview">
-                      Generated in {result.duration / 1000}s
+                        Generated in {result.duration / 1000}s
                     </Fragment>
                   </Fragment>
                 ) : (
                   <Fragment>
                     <Icon style={{ fontSize: 50 }} color="error">close</Icon>
-                    <br/>
+                    <br />
                     <Typography variant="h4">
                       {result.error.message}
                     </Typography>
-                    <br/>
+                    <br />
                     <Typography color="textSecondary">
                       {result.error.code}
                     </Typography>
@@ -277,7 +282,7 @@ export default function Generator () {
                 )
                 : (
                   <Fragment>
-                    Please fill the information and click on Generate
+                      Please fill the information and click on Generate
                   </Fragment>)}
             </Paper>
           </Grid>
