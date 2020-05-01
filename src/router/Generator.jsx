@@ -19,6 +19,7 @@ import GridTheme from '../components/themesForms/GridTheme.jsx'
 import TopsTheme from '../components/themesForms/TopsTheme.jsx'
 import DuotoneTheme from '../components/themesForms/DuotoneTheme.jsx'
 import DarklyTheme from '../components/themesForms/DarklyTheme.jsx'
+import { useTranslation } from 'react-i18next'
 
 const SlideTransition = props => {
   return <Slide {...props} direction="down" />
@@ -50,6 +51,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Generator () {
+  const { t } = useTranslation()
   const classes = useStyles()
   const [theme, setTheme] = useState('')
 
@@ -80,17 +82,17 @@ export default function Generator () {
     resetErrors()
     let success = true
     if (!theme) {
-      setThemeHelperMessage('Please select a theme')
+      setThemeHelperMessage(t('translations:generator.validator.selectTheme'))
       success = false
     }
     if (!lastfmUser) {
-      setLastfmUserHelperMessage('Please provide a Last.fm username')
+      setLastfmUserHelperMessage(t('translations:generator.validator.selectUsername'))
       success = false
     } else if (lastfmUser.length < 2) {
-      setLastfmUserHelperMessage('Please provide a longer Last.fm username')
+      setLastfmUserHelperMessage(t('translations:generator.validator.selectLongerUsername'))
       success = false
     } else if (lastfmUser.length > 15) {
-      setLastfmUserHelperMessage('Please provide a shorter Last.fm username')
+      setLastfmUserHelperMessage(t('translations:generator.validator.selectShorterUsername'))
       success = false
     }
     if (themeRef.current) {
@@ -184,7 +186,7 @@ export default function Generator () {
 
   return (
     <div>
-      <h1>Image generator</h1>
+      <h1>{t('translations:generator.title')}</h1>
       <form style={{ flexGrow: 1 }} onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} lg={6}>
@@ -194,7 +196,7 @@ export default function Generator () {
                   select
                   error={!!themeHelperMessage}
                   id="outlined-select-currency"
-                  label="Theme"
+                  label={t('translations:generator.theme')}
                   value={theme}
                   onChange={handleThemeChange}
                   helperText={themeHelperMessage}
@@ -214,7 +216,7 @@ export default function Generator () {
                   }}
                   error={!!lastfmUserHelperMessage}
                   id="outlined-basic"
-                  label="Last.fm username"
+                  label={t('translations:generator.user')}
                   variant="outlined"
                   helperText={lastfmUserHelperMessage}
                   className={classes.form}
@@ -235,7 +237,7 @@ export default function Generator () {
                 color="secondary"
                 disabled={loading}
               >
-                Generate
+                {t('translations:generator.generate')}
               </Button>
             </Grid>
           </Grid>
@@ -246,25 +248,26 @@ export default function Generator () {
                   <CircularProgress size={50} />
                   <br /><br />
                   <Typography variant="h4">
-                    Loading...
+                    {t('translations:generator.loading')}
                   </Typography>
                   <br />
                   <Typography color="textSecondary">
-                    This may take a while...
+                    {t('translations:generator.loadingSubtitle')}
                   </Typography>
                 </Fragment>
               ) : result.done
                 ? result.success ? (
                   <Fragment>
                     {/* <ButtonGroup size="small" color="primary" aria-label="small primary outlined button group"> */}
-                    <Button color="secondary" variant="outlined" onClick={handleDownloadImage} startIcon={<Icon>cloud_download</Icon>}>Download
-                      image</Button>
+                    <Button color="secondary" variant="outlined" onClick={handleDownloadImage} startIcon={<Icon>cloud_download</Icon>}>
+                      {t('translations:generator.download')}
+                    </Button>
                     {/* <Button onClick={handleOpenInANewWindow} startIcon={<Icon>open_in_new</Icon>}>Open in new window</Button> */}
                     {/* </ButtonGroup> */}
                     <br /> <br />
                     <img src={result.url} crossOrigin="anonymous" style={{ width: '100%' }} />
                     <Fragment id="imagePreview">
-                        Generated in {result.duration / 1000}s
+                      {t('translations:generator.generated', { seconds: result.duration / 1000 })}
                     </Fragment>
                   </Fragment>
                 ) : (
@@ -282,7 +285,7 @@ export default function Generator () {
                 )
                 : (
                   <Fragment>
-                      Please fill the information and click on Generate
+                    {t('translations:generator.fill')}
                   </Fragment>)}
             </Paper>
           </Grid>

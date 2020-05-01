@@ -1,0 +1,71 @@
+{
+  "mainPage": {
+    "text": "A fancy way to share your last.fm status",
+    "button": "Generate now"
+  },
+  "common": {
+    "language": "Language"
+  },
+  "drawer": {
+    "error": "An error ocorrured.",
+    "login": "Log in with Twitter",
+    "schedules": "Schedules",
+    "logOut": "Log out",
+    "loading": "Loading...",
+    "home": "Home",
+    "generator": "Image Generator"
+  },
+  "generator": {
+    "title": "Image Generator",
+    "theme": "Theme",
+    "user": "Last.fm username",
+    "generate": "Generate",
+    "loading": "Loading...",
+    "loadingSubtitle": "This may take a while...",
+    "download": "Download image",
+    "generated": "Generated in {{seconds}} seconds",
+    "fill": "Please fill the information and click on Generate",
+    "story": "Story Format",
+    "new": "NEW",
+    "period": "Period",
+    "type": "Type",
+    "periods": {
+      "7day": "Last 7 days",
+      "1month": "Last 30 days",
+      "3month": "Last 3 months",
+      "6month": "Last 6 months",
+      "12month": "Last ano",
+      "overall": "Overall"
+    },
+    "types": {
+      "artists": "Top artists",
+      "albums": "Top albums",
+      "tracks": "Top tracks"
+    },
+    "options": "Options",
+    "validator": {
+      "selectTheme": "Please select a theme",
+      "selectUsername": "Please provide a Last.fm username",
+      "selectLongerUsername": "Please provide a longer Last.fm username",
+      "selectShorterUsername": "Please provide a shorter Last.fm username"
+    }
+  },
+  "themes": {
+    "duotone": {
+      "titles": {
+        "artists": "MOST LISTENED ARTISTS",
+        "albums": "MOST LISTENED ALBUMS",
+        "tracks": "MOST LISTENED TRACKS"
+      },
+      "periods": {
+        "7day": "last 7 days",
+        "1month": "last 30 days",
+        "3month": "last 3 months",
+        "6month": "last 6 months",
+        "12month": "last year",
+        "overall": "overall"
+      },
+      "palette": "Palette"
+    }
+  }
+}

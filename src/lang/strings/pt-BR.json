@@ -1,0 +1,71 @@
+{
+  "mainPage": {
+    "text": "Uma maneira linda para compartilhar seu last.fm",
+    "button": "Gerar agora"
+  },
+  "common": {
+    "language": "Linguagem"
+  },
+  "drawer": {
+    "error": "Ocorreu um erro.",
+    "login": "Logar com Twitter",
+    "schedules": "Agendadores",
+    "logOut": "Deslogar",
+    "loading": "Carregando...",
+    "home": "Início",
+    "generator": "Gerador de Imagem"
+  },
+  "generator": {
+    "title": "Gerador de imagem",
+    "theme": "Tema",
+    "user": "Nome de usuário do Last.fm",
+    "generate": "Gerar",
+    "loading": "Carregando...",
+    "loadingSubtitle": "Isso pode demorar um pouco...",
+    "download": "Baixar imagem",
+    "generated": "Gerado em {{seconds}} segundos",
+    "fill": "Por favor insira as informações e clique em gerar",
+    "story": "Formato para story",
+    "new": "NEW",
+    "period": "Período",
+    "type": "Tipo",
+    "periods": {
+      "7day": "Últimos 7 dias",
+      "1month": "Últimos 30 dias",
+      "3month": "Últimos 3 meses",
+      "6month": "Últimos 6 meses",
+      "12month": "Último ano",
+      "overall": "O tempo todo"
+    },
+    "types": {
+      "artists": "Top artistas",
+      "albums": "Top álbums",
+      "tracks": "Top músicas"
+    },
+    "options": "Opções",
+    "validator": {
+      "selectTheme": "Por favor selecione um thema",
+      "selectUsername": "Por favor insira um usuário do Last.fm válido",
+      "selectLongerUsername": "Por favor insira um usuário do Last.fm maior",
+      "selectShorterUsername": "Por favor insira um usuário do Last.fm menor"
+    }
+  },
+  "themes": {
+    "duotone": {
+      "titles": {
+        "artists": "ARTISTAS MAIS OUVIDOS",
+        "albums": "ÁLBUMS MAIS OUVIDOS",
+        "tracks": "MÚSICAS MAIS OUVIDAS"
+      },
+      "periods": {
+        "7day": "ultimos 7 dias",
+        "1month": "ultimos 30 dias",
+        "3month": "ultimos 3 meses",
+        "6month": "ultimos 6 meses",
+        "12month": "ultimo ano",
+        "overall": "o tempo todo"
+      },
+      "palette": "Paleta de cores"
+    }
+  }
+}
