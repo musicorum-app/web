@@ -5,7 +5,6 @@ global.Buffer = global.Buffer || require('buffer').Buffer
 
 export default class MusicorumGenerator {
   static generate (data) {
-    data.source = 'web'
     return new Promise((resolve, reject) => {
       axios({
         url: `${GENERATOR_URL}/generate`,
