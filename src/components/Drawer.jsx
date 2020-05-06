@@ -215,16 +215,16 @@ class Drawer extends Component {
     let dialogText
     switch (this.state.dialogStatus) {
       case 'ERROR':
-        dialogText = 'An error ocorrured while getting your login URL. Please try again.'
+        dialogText = t('translations:drawer.dialog.error')
         break
       case 'LOADING':
-        dialogText = 'Preparing your login...'
+        dialogText = t('translations:drawer.dialog.loading')
         break
       case 'SUCCESS':
-        dialogText = 'A pop-up window has opened for you to login. If not, please enable your pop-ups and try again.'
+        dialogText = t('translations:drawer.dialog.success')
         break
       case 'ERROR_POPUP':
-        dialogText = 'We couldn\'t open the pop-up window for your login. Please allow pop-ups on your browser configuration.'
+        dialogText = t('translations:drawer.dialog.errorPopup')
     }
     return (
       <div>
