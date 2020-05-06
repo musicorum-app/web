@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import * as Sentry from '@sentry/browser'
+import './lang/i18n.js'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import pink from '@material-ui/core/colors/pink'
 

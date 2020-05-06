@@ -10,6 +10,7 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
 import { Badge } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 // eslint-disable-next-line react/display-name
 const GridTheme = forwardRef((props, ref) => {
+  const { t } = useTranslation()
   const classes = useStyles()
 
   // eslint-disable-next-line react/prop-types
@@ -97,7 +99,7 @@ const GridTheme = forwardRef((props, ref) => {
       <Grid item xs={8} sm={4}>
         <TextField
           select
-          label="Type"
+          label={t('translations:generator.type')}
           error={!!typeHelperMessage}
           helperText={typeHelperMessage}
           className={classes.form}
@@ -105,15 +107,15 @@ const GridTheme = forwardRef((props, ref) => {
           inputRef={type}
           defaultValue="albums"
         >
-          <MenuItem value="artists">Top artists</MenuItem>
-          <MenuItem value="albums">Top albums</MenuItem>
-          <MenuItem value="tracks">Top tracks</MenuItem>
+          <MenuItem value="artists">{t('translations:generator.types.artists')}</MenuItem>
+          <MenuItem value="albums">{t('translations:generator.types.albums')}</MenuItem>
+          <MenuItem value="tracks">{t('translations:generator.types.tracks')}</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={4} sm={4}>
         <TextField
           select
-          label="Grid Size"
+          label={t('translations:themes.grid.size')}
           error={!!sizeHelperMessage}
           helperText={sizeHelperMessage}
           className={classes.form}
@@ -130,16 +132,16 @@ const GridTheme = forwardRef((props, ref) => {
           <MenuItem value="8">8x8</MenuItem>
           <MenuItem value="9">9x9</MenuItem>
           <MenuItem value="10">10x10</MenuItem>
-          <MenuItem value="11">11x11 (will take longer)</MenuItem>
-          <MenuItem value="12">12x12 (will take longer)</MenuItem>
-          <MenuItem value="13">13x13 (will take longer)</MenuItem>
-          <MenuItem value="14">14x14 (will take longer)</MenuItem>
+          <MenuItem value="11">11x11 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="12">12x12 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="13">13x13 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="14">14x14 ({t('translations:themes.grid.takeLonger')})</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12} sm={4}>
         <TextField
           select
-          label="Period"
+          label={t('translations:generator.period')}
           error={!!periodHelperMessage}
           helperText={periodHelperMessage}
           className={classes.form}
@@ -148,32 +150,32 @@ const GridTheme = forwardRef((props, ref) => {
           disabled={disabledPeriod}
           inputRef={period}
         >
-          <MenuItem value="7day">7 days</MenuItem>
-          <MenuItem value="1month">1 month</MenuItem>
-          <MenuItem value="3month">3 months</MenuItem>
-          <MenuItem value="6month">6 months</MenuItem>
-          <MenuItem value="12month">1 year</MenuItem>
-          <MenuItem value="overall">Overall</MenuItem>
+          <MenuItem value="7day">{t('translations:generator.periods.7day')}</MenuItem>
+          <MenuItem value="1month">{t('translations:generator.periods.1month')}</MenuItem>
+          <MenuItem value="3month">{t('translations:generator.periods.3month')}</MenuItem>
+          <MenuItem value="6month">{t('translations:generator.periods.6month')}</MenuItem>
+          <MenuItem value="12month">{t('translations:generator.periods.12month')}</MenuItem>
+          <MenuItem value="overall">{t('translations:generator.periods.overall')}</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12}>
         <FormControl component="fieldset">
-          <FormLabel component="legend">Options</FormLabel>
+          <FormLabel component="legend">{t('translations:generator.options')}</FormLabel>
           <FormGroup>
             <FormControlLabel
               control={<Switch inputRef={names} color="primary" defaultChecked={true} />}
-              label="Show names"
+              label={t('translations:themes.grid.showNames')}
             />
             <FormControlLabel
               control={<Switch inputRef={playcount} color="primary" />}
-              label="Show playcount"
+              label={t('translations:themes.grid.showPlaycount')}
             />
             {showStory ? (
               <FormControlLabel
                 control={<Switch onChange={handleStory} inputRef={story} color="primary" defaultChecked={false} />}
                 label={
-                  <Badge color="secondary" badgeContent="NEW">
-                    Story format
+                  <Badge color="secondary" badgeContent={t('translations:generator.new')}>
+                    {t('translations:generator.story')}
                     &nbsp;&nbsp;&nbsp;
                   </Badge>
                 }

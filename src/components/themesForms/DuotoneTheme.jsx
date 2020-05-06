@@ -6,6 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import ColorPreview from '../ColorPreview.jsx'
 import { Badge, FormControl, FormLabel, FormGroup, Switch, FormControlLabel } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(() => ({
   form: {
@@ -13,24 +14,24 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const titles = {
-  artists: 'MOST LISTENED ARTISTS',
-  albums: 'MOST LISTENED ALBUMS',
-  tracks: 'MOST LISTENED TRACKS'
-}
-
-const periods = {
-  '7day': 'last 7 days',
-  '1month': 'last 30 days',
-  '3month': 'last 3 months',
-  '6month': 'last 6 months',
-  '12month': 'last year',
-  overall: 'overall'
-}
-
 // eslint-disable-next-line react/display-name, react/prop-types
 const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
   const classes = useStyles()
+  const { t } = useTranslation()
+  const titles = {
+    artists: t('translations:themes.duotone.titles.artists'),
+    albums: t('translations:themes.duotone.titles.albums'),
+    tracks: t('translations:themes.duotone.titles.tracks')
+  }
+
+  const periods = {
+    '7day': t('translations:themes.duotone.periods.7day'),
+    '1month': t('translations:themes.duotone.periods.1month'),
+    '3month': t('translations:themes.duotone.periods.3month'),
+    '6month': t('translations:themes.duotone.periods.6month'),
+    '12month': t('translations:themes.duotone.periods.12month'),
+    overall: t('translations:themes.duotone.periods.overall')
+  }
 
   // const [typeHelperMessage, setTypeHelperMessage] = useState(null)
   // const [sizeHelperMessage, setSizeHelperMessage] = useState(null)
@@ -104,7 +105,7 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
           required
           select
           id="outlined-select-currency"
-          label="Period"
+          label={t('translations:generator.period')}
           // helperText="Please select the period"
           className={classes.form}
           defaultValue={defaultPeriod}
@@ -112,32 +113,32 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
           inputRef={period}
           disabled={disabledPeriod}
         >
-          <MenuItem value="7day">7 days</MenuItem>
-          <MenuItem value="1month">1 month</MenuItem>
-          <MenuItem value="3month">3 month</MenuItem>
-          <MenuItem value="6month">6 month</MenuItem>
-          <MenuItem value="12month">1 year</MenuItem>
-          <MenuItem value="overall">Overall</MenuItem>
+          <MenuItem value="7day">{t('translations:generator.periods.7day')}</MenuItem>
+          <MenuItem value="1month">{t('translations:generator.periods.1month')}</MenuItem>
+          <MenuItem value="3month">{t('translations:generator.periods.3month')}</MenuItem>
+          <MenuItem value="6month">{t('translations:generator.periods.6month')}</MenuItem>
+          <MenuItem value="12month">{t('translations:generator.periods.12month')}</MenuItem>
+          <MenuItem value="overall">{t('translations:generator.periods.overall')}</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <TextField
           select
-          label="Type"
+          label={t('translations:generator.type')}
           className={classes.form}
           variant="outlined"
           inputRef={top}
           defaultValue="albums"
         >
-          <MenuItem value="artists">Top artists</MenuItem>
-          <MenuItem value="albums">Top albums</MenuItem>
-          <MenuItem value="tracks">Top tracks</MenuItem>
+          <MenuItem value="artists">{t('translations:generator.types.artists')}</MenuItem>
+          <MenuItem value="albums">{t('translations:generator.types.albums')}</MenuItem>
+          <MenuItem value="tracks">{t('translations:generator.types.tracks')}</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <TextField
           select
-          label="Pallete"
+          label={t('translations:themes.duotone.palette')}
           className={classes.form}
           variant="outlined"
           inputRef={pallete}
@@ -155,14 +156,14 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
         <Grid item xs={12}>
           <FormControl component="fieldset">
             <FormLabel component="legend">
-              Options
+              {t('translations:generator.options')}
             </FormLabel>
             <FormGroup>
               <FormControlLabel
                 control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
                 label={
-                  <Badge color="secondary" badgeContent="NEW">
-                    Story format
+                  <Badge color="secondary" badgeContent={t('translations:generator.new')}>
+                    {t('translations:generator.story')}
                     &nbsp;&nbsp;&nbsp;
                   </Badge>
                 }

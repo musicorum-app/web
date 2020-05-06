@@ -10,7 +10,7 @@ import List from '@material-ui/core/List'
 import Icon from '@material-ui/core/Icon'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
-import { Typography } from '@material-ui/core'
+import { Typography, Collapse } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 import MusicorumAPI from '../api/main'
@@ -24,6 +24,10 @@ import Dialog from '@material-ui/core/Dialog'
 
 import TwitterIcon from '@material-ui/icons/Twitter'
 import GitHubIcon from '@material-ui/icons/GitHub'
+import LanguageIcon from '@material-ui/icons/Language'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import { withTranslation } from 'react-i18next'
 
 // eslint-disable-next-line react/display-name
 const Transition = React.forwardRef((props, ref) => (
@@ -40,13 +44,15 @@ class Drawer extends Component {
       account: null,
       twitterAuthDialogOpened: false,
       dialogStatus: 'LOADING',
-      lastfmAuthConsent: false
+      lastfmAuthConsent: false,
+      languageOpened: false
     }
     this.handleProfileClick = this.handleProfileClick.bind(this)
     this.handleLoginDialogClose = this.handleLoginDialogClose.bind(this)
     this.handleLastfmDialogClose = this.handleLastfmDialogClose.bind(this)
     this.openPopUp = this.openPopUp.bind(this)
     this.logOut = this.logOut.bind(this)
+    this.handleLanguageToggle = this.handleLanguageToggle.bind(this)
   }
 
   handleProfileClick () {
@@ -58,6 +64,13 @@ class Drawer extends Component {
       })
       this.openPopUp()
     }
+  }
+
+  handleLanguageToggle () {
+    console.log(this)
+    this.setState({
+      languageOpened: !this.state.languageOpened
+    })
   }
 
   openPopUp () {
@@ -197,19 +210,21 @@ class Drawer extends Component {
   }
 
   render () {
+    const { t } = this.props
+
     let dialogText
     switch (this.state.dialogStatus) {
       case 'ERROR':
-        dialogText = 'An error ocorrured while getting your login URL. Please try again.'
+        dialogText = t('translations:drawer.dialog.error')
         break
       case 'LOADING':
-        dialogText = 'Preparing your login...'
+        dialogText = t('translations:drawer.dialog.loading')
         break
       case 'SUCCESS':
-        dialogText = 'A pop-up window has opened for you to login. If not, please enable your pop-ups and try again.'
+        dialogText = t('translations:drawer.dialog.success')
         break
       case 'ERROR_POPUP':
-        dialogText = 'We couldn\'t open the pop-up window for your login. Please allow pop-ups on your browser configuration.'
+        dialogText = t('translations:drawer.dialog.errorPopup')
     }
     return (
       <div>
@@ -220,7 +235,7 @@ class Drawer extends Component {
               <ListItemIcon>
                 <Icon color="error">error</Icon>
               </ListItemIcon>
-              <ListItemText primary='An error ocorrured.' />
+              <ListItemText primary={t('translations:drawer.error')} />
             </ListItem>
           </List>
         ) : (
@@ -234,7 +249,7 @@ class Drawer extends Component {
                 )}
               </ListItemAvatar>
               <ListItemText
-                primary={this.state.account ? this.state.account.name : 'Log in with Twitter'}
+                primary={this.state.account ? this.state.account.name : t('translations:drawer.login')}
                 secondary={this.state.account ? '@' + this.state.account.user : null} />
             </ListItem>
             {this.state.account ? (
@@ -243,13 +258,13 @@ class Drawer extends Component {
                   <Link to="/schedules" className="routerLink">
                     <ListItem button>
                       <ListItemIcon><Icon>today</Icon></ListItemIcon>
-                      <ListItemText primary='Schedules' />
+                      <ListItemText primary={t('translations:drawer.schedules')} />
                     </ListItem>
                   </Link>
                   <ListItem button onClick={this.logOut}>
                     <ListItemIcon><Icon color="error">input</Icon></ListItemIcon>
                     <ListItemText primary={
-                      <Typography color="error">Log out</Typography>
+                      <Typography color="error">{t('translations:drawer.logOut')}</Typography>
                     } />
                   </ListItem>
                 </div>
@@ -262,7 +277,7 @@ class Drawer extends Component {
               <ListItemIcon>
                 <CircularProgress color="primary" />
               </ListItemIcon>
-              <ListItemText primary='Loading...' />
+              <ListItemText primary={t('translations:drawer.loading')} />
             </ListItem>
           </List>
         )}
@@ -271,13 +286,13 @@ class Drawer extends Component {
           <Link to="/" className="routerLink">
             <ListItem button>
               <ListItemIcon><Icon>home</Icon></ListItemIcon>
-              <ListItemText primary='Home' />
+              <ListItemText primary={t('translations:drawer.home')} />
             </ListItem>
           </Link>
           <Link to="/generate" className="routerLink">
             <ListItem button>
               <ListItemIcon><Icon>image</Icon></ListItemIcon>
-              <ListItemText primary='Image Generator' />
+              <ListItemText primary={t('translations:drawer.generator')} />
             </ListItem>
           </Link>
           <Divider />
@@ -294,6 +309,26 @@ class Drawer extends Component {
             <ListItemText primary='Github' />
           </ListItem>
         </List>
+        <Divider />
+        <List>
+          <ListItem button onClick={this.handleLanguageToggle}>
+            <ListItemIcon>
+              <LanguageIcon />
+            </ListItemIcon>
+            <ListItemText primary={t('translations:common.language')} />
+            {this.state.languageOpened ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={this.state.languageOpened} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem button onClick={() => this.props.i18n.changeLanguage('en')}>
+                <ListItemText primary="English" />
+              </ListItem>
+              <ListItem button onClick={() => this.props.i18n.changeLanguage('pt')}>
+                <ListItemText primary="Português" />
+              </ListItem>
+            </List>
+          </Collapse>
+        </List>
         <Dialog
           open={this.state.twitterAuthDialogOpened}
           TransitionComponent={Transition}
@@ -302,7 +337,7 @@ class Drawer extends Component {
           aria-labelledby="auth-dialog-title"
           aria-describedby="auth-dialog-description"
         >
-          <DialogTitle id="auth-dialog-title">Log in into your Twitter Account</DialogTitle>
+          <DialogTitle id="auth-dialog-title">{t('translations:drawer.dialog.title')}</DialogTitle>
           <DialogContent style={{ textAlign: 'center' }}>
             <DialogContentText id="auth-dialog-description">
               {dialogText}
@@ -313,11 +348,11 @@ class Drawer extends Component {
           <DialogActions>
             {this.state.dialogStatus === 'ERROR' || this.state.dialogStatus === 'SUCCESS' ? (
               <Button onClick={this.openPopUp} color="primary">
-                Try again
+                {t('translations:drawer.dialog.tryAgain')}
               </Button>
             ) : null}
             <Button onClick={this.handleLoginDialogClose} color="primary">
-              Cancel
+              {t('translations:drawer.dialog.cancel')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -330,21 +365,21 @@ class Drawer extends Component {
           aria-labelledby="auth-dialog-title"
           aria-describedby="auth-dialog-description"
         >
-          <DialogTitle id="auth-dialog-title">Connect to your Last.fm account</DialogTitle>
+          <DialogTitle id="auth-dialog-title">{t('translations:drawer.lastfmDialog.title')}</DialogTitle>
           <DialogContent style={{ textAlign: 'center' }}>
             <DialogContentText id="auth-dialog-description">
-              We noticed that your account isn&apos;t connected to a Last.fm account, do you want to connect it now?
+            {t('translations:drawer.lastfmDialog.text')}
             </DialogContentText>
             <br />
             <Link to="/account?lastfmConnect=true" className="routerLink">
               <Button variant="contained" onClick={this.handleLastfmDialogClose} color="primary">
-                Connect to Last.fm
+              {t('translations:drawer.lastfmDialog.connect')}
               </Button>
             </Link>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleLastfmDialogClose} color="secondary">
-              No, thanks
+            {t('translations:drawer.lastfmDialog.cancel')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -352,4 +387,4 @@ class Drawer extends Component {
   }
 }
 
-export default withRouter(Drawer)
+export default withRouter(withTranslation()(Drawer))
