@@ -1,6 +1,6 @@
 {
   "mainPage": {
-    "text": "Uma maneira linda para compartilhar seu last.fm",
+    "text": "Uma bela maneira para compartilhar seu perfil do last.fm",
     "button": "Gerar agora"
   },
   "common": {
@@ -15,10 +15,19 @@
     "home": "Início",
     "generator": "Gerador de Imagem",
     "dialog": {
-      "error": "An error ocorrured while getting your login URL. Please try again.",
-      "loading": "Preparing your login...",
-      "success": "A pop-up window has opened for you to login. If not, please enable your pop-ups and try again.",
-      "errorPopup": "We couldn't open the pop-up window for your login. Please allow pop-ups on your browser configuration."
+      "title": "Logar com sua conta do Twitter",
+      "tryAgain": "Tente novamente",
+      "cancel": "Cancelar",
+      "error": "Ocorreu um erro ao começar o login. Por favor tente novamente.",
+      "loading": "Preparando seu login...",
+      "success": "Uma janela pop-up abriu para login. Caso não tenha aberto, tente ativar os pop-ups do seu navegador e tente novamente.",
+      "errorPopup": "Não foi possível abrir um pop-up para login. Tente habilitar nas configurações do seu navegador e tente novamente."
+    },
+    "lastfmDialog": {
+      "title": "Conecte com sua conta do Last.fm",
+      "text": "Notamos que sua conta não está conectada com o Last.fm. Deseja conectar agora?",
+      "connect": "Conectar com Last.fm",
+      "cancel": "Não, obrigado"
     }
   },
   "generator": {
@@ -31,8 +40,9 @@
     "download": "Baixar imagem",
     "generated": "Gerado em {{seconds}} segundos",
     "fill": "Por favor insira as informações e clique em gerar",
+    "options": "Opções",
     "story": "Formato para story",
-    "new": "NEW",
+    "new": "NOVO",
     "period": "Período",
     "type": "Tipo",
     "periods": {
@@ -43,12 +53,19 @@
       "12month": "Último ano",
       "overall": "O tempo todo"
     },
+    "periodsShort": {
+      "7day": "semana",
+      "1month": "mês",
+      "3month": "últimos 3 meses",
+      "6month": "últimos 6 meses",
+      "12month": "ano",
+      "verall": "todo o tempo"
+    },
     "types": {
       "artists": "Top artistas",
       "albums": "Top álbums",
       "tracks": "Top músicas"
     },
-    "options": "Opções",
     "validator": {
       "selectTheme": "Por favor selecione um thema",
       "selectUsername": "Por favor insira um usuário do Last.fm válido",
@@ -66,12 +83,45 @@
       "periods": {
         "7day": "ultimos 7 dias",
         "1month": "ultimos 30 dias",
-        "3month": "ultimos 3 meses",
-        "6month": "ultimos 6 meses",
+        "3month": "ultimos 3 mêses",
+        "6month": "ultimos 6 mêses",
         "12month": "ultimo ano",
         "overall": "o tempo todo"
       },
       "palette": "Paleta de cores"
+    },
+    "grid": {
+      "takeLonger": "demorará mais",
+      "size": "Tamanho da grade",
+      "showNames": "Mostrar nomes",
+      "showPlaycount": "Mostrar contagem"
+    },
+    "tops": {
+      "module1": "Módulo #1",
+      "module2": "Módulo #2",
+      "title": "{{period}} na música para %USER%",
+      "scrobbles": {
+        "7day": "SCROBBLES ULTIMA SEMANA",
+        "1month": "SCROBBLES ULTIMO MÊS",
+        "3month": "SCROBBLES ÚLTIMOS 3 MÊSES",
+        "6month": "SCROBBLES ÚLTIMOS 6 MÊSES",
+        "12month": "SCROBBLES ULTIMO ANO",
+        "overall": "SCROBBLES ALL THE TIME"
+      }
+    },
+    "darkly": {
+      "scrobbles": "SCROBBLES",
+      "subTitle": "%USER%",
+      "titles": {
+        "7day": "E SUA SEMANA NA MÚSICA",
+        "1month": "E SEU MÊS NA MÚSICA",
+        "3month": "E SEUS 3 MÊSES NA MÚSICA",
+        "6month": "E SEUS 6 MÊSES NA MÚSICA",
+        "12month": "E SEU ANO NA MÚSICA",
+        "overall": "E SUAS MÚSICAS O TEMPO TODO"
+      },
+      "primaryColor": "Cor primária",
+      "secondaryColor": "Cor secundária"
     }
   }
 }

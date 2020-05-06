@@ -337,7 +337,7 @@ class Drawer extends Component {
           aria-labelledby="auth-dialog-title"
           aria-describedby="auth-dialog-description"
         >
-          <DialogTitle id="auth-dialog-title">Log in into your Twitter Account</DialogTitle>
+          <DialogTitle id="auth-dialog-title">{t('translations:drawer.dialog.title')}</DialogTitle>
           <DialogContent style={{ textAlign: 'center' }}>
             <DialogContentText id="auth-dialog-description">
               {dialogText}
@@ -348,11 +348,11 @@ class Drawer extends Component {
           <DialogActions>
             {this.state.dialogStatus === 'ERROR' || this.state.dialogStatus === 'SUCCESS' ? (
               <Button onClick={this.openPopUp} color="primary">
-                Try again
+                {t('translations:drawer.dialog.tryAgain')}
               </Button>
             ) : null}
             <Button onClick={this.handleLoginDialogClose} color="primary">
-              Cancel
+              {t('translations:drawer.dialog.cancel')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -365,21 +365,21 @@ class Drawer extends Component {
           aria-labelledby="auth-dialog-title"
           aria-describedby="auth-dialog-description"
         >
-          <DialogTitle id="auth-dialog-title">Connect to your Last.fm account</DialogTitle>
+          <DialogTitle id="auth-dialog-title">{t('translations:drawer.lastfmDialog.title')}</DialogTitle>
           <DialogContent style={{ textAlign: 'center' }}>
             <DialogContentText id="auth-dialog-description">
-              We noticed that your account isn&apos;t connected to a Last.fm account, do you want to connect it now?
+            {t('translations:drawer.lastfmDialog.text')}
             </DialogContentText>
             <br />
             <Link to="/account?lastfmConnect=true" className="routerLink">
               <Button variant="contained" onClick={this.handleLastfmDialogClose} color="primary">
-                Connect to Last.fm
+              {t('translations:drawer.lastfmDialog.connect')}
               </Button>
             </Link>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleLastfmDialogClose} color="secondary">
-              No, thanks
+            {t('translations:drawer.lastfmDialog.cancel')}
             </Button>
           </DialogActions>
         </Dialog>

@@ -6,6 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { Typography, FormControl, FormLabel, FormGroup, FormControlLabel, Switch, Badge } from '@material-ui/core'
 import ColorPicker from '../ColorPicker.jsx'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(() => ({
   form: {
@@ -13,19 +14,11 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const titles = {
-  '7day': 'WEEK ON MUSIC',
-  '1month': 'MONTH ON MUSIC',
-  '3month': 'LAST 3 MONTHS ON MUSIC',
-  '6month': 'LAST 6 MONTHS ON MUSIC',
-  '12month': 'YEAR ON MUSIC',
-  overall: 'MUSIC OVER ALL THE TIME'
-}
-
 const colors = ['#FF335F', '#A144FF', '#5A00F2', '#449AFF', '#80f8f8', '#30F868', '#D7FD31', '#FAFF00', '#FFFFFF']
 
 // eslint-disable-next-line react/display-name
 const DarklyTheme = forwardRef((props, ref) => {
+  const { t } = useTranslation()
   const classes = useStyles()
 
   const [disabledPeriod, setDisabledPeriod] = useState(false)
@@ -92,19 +85,22 @@ const DarklyTheme = forwardRef((props, ref) => {
       modules: [
         {
           type: module1Type.current.value,
-          message: `TOP ${module1Type.current.value.toUpperCase().slice(0, -1)}`
+          message: t(`translations:generator.types.${module1Type.current.value}`).toUpperCase()
           // message: module1Text.current.value
         },
         {
           type: module2Type.current.value,
-          message: `TOP ${module2Type.current.value.toUpperCase().slice(0, -1)}`
+          message: t(`translations:generator.types.${module2Type.current.value}`).toUpperCase()
           // message: module2Text.current.value
         }
       ],
       messages: {
         // title: title.current.value,
-        title: ['%USER%\'s', titles[period.current.value]],
-        scrobbles: 'SCROBBLES'
+        title: [
+          t('translations:themes.darkly.subTitle'),
+          t(`translations:themes.darkly.titles.${period.current.value}`)
+        ],
+        scrobbles: t('translations:themes.darkly.scrobbles')
       }
     }
   }
@@ -116,25 +112,24 @@ const DarklyTheme = forwardRef((props, ref) => {
           required
           select
           id="outlined-select-currency"
-          label="Period"
-          // helperText="Please select the period"
+          label={t('translations:generator.period')}
           className={classes.form}
           defaultValue={defaultPeriod}
           variant="outlined"
           inputRef={period}
           disabled={disabledPeriod}
         >
-          <MenuItem value="7day">7 days</MenuItem>
-          <MenuItem value="1month">1 month</MenuItem>
-          <MenuItem value="3month">3 month</MenuItem>
-          <MenuItem value="6month">6 month</MenuItem>
-          <MenuItem value="12month">1 year</MenuItem>
-          <MenuItem value="overall">Overall</MenuItem>
+          <MenuItem value="7day">{t('translations:generator.periods.7day')}</MenuItem>
+          <MenuItem value="1month">{t('translations:generator.periods.1month')}</MenuItem>
+          <MenuItem value="3month">{t('translations:generator.periods.3month')}</MenuItem>
+          <MenuItem value="6month">{t('translations:generator.periods.6month')}</MenuItem>
+          <MenuItem value="12month">{t('translations:generator.periods.12month')}</MenuItem>
+          <MenuItem value="overall">{t('translations:generator.periods.overall')}</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12} sm={6}>
         <ColorPicker
-          name="Primary Color"
+          name={t('translations:themes.darkly.primaryColor')}
           color={primaryColor}
           onChange={c => setPrimaryColor(c.hex)}
           colors={colors}
@@ -142,7 +137,7 @@ const DarklyTheme = forwardRef((props, ref) => {
       </Grid>
       <Grid item xs={12} sm={6}>
         <ColorPicker
-          name="Secondary Color"
+          name={t('translations:themes.darkly.secondaryColor')}
           color={secondaryColor}
           onChange={c => setSecondaryColor(c.hex)}
           colors={colors}
