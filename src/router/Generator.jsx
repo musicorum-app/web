@@ -5,24 +5,34 @@ import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import makeStyles from '@material-ui/core/styles/makeStyles'
+import copy from 'copy-to-clipboard'
 
 import { CircularProgress } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 
 import MusicorumGenerator from '../api/generator.js'
 import Icon from '@material-ui/core/Icon'
-// import ButtonGroup from '@material-ui/core/ButtonGroup'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Snackbar from '@material-ui/core/Snackbar'
 import Slide from '@material-ui/core/Slide'
+import Link from '@material-ui/core/Link'
 
 import GridTheme from '../components/themesForms/GridTheme.jsx'
 import TopsTheme from '../components/themesForms/TopsTheme.jsx'
 import DuotoneTheme from '../components/themesForms/DuotoneTheme.jsx'
 import DarklyTheme from '../components/themesForms/DarklyTheme.jsx'
 import { useTranslation } from 'react-i18next'
+import MusicorumAPI from '../api/main'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import IconButton from '@material-ui/core/IconButton'
+import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined'
+import DialogActions from '@material-ui/core/DialogActions'
 
 const SlideTransition = props => {
-  return <Slide {...props} direction="down" />
+  return <Slide {...props} direction="down"/>
 }
 
 const useStyles = makeStyles(theme => ({
@@ -47,6 +57,14 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
     fontSize: 20,
     opacity: 0.85
+  },
+  spinner: {
+    marginLeft: 16
+  },
+  copyBox: {
+    backgroundColor: 'rgba(236, 64, 122, 0.090)',
+    borderRadius: 7,
+    padding: '3px 20px'
   }
 }))
 
@@ -63,6 +81,10 @@ export default function Generator () {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState({ done: false })
   const [snackAlert, setSnackAlert] = useState(false)
+  const [imageUrl, setImageUrl] = useState(null)
+  const [uploadLoading, setUploadLoading] = useState(false)
+  const [snackBar, setSnackBar] = useState(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   const handleThemeChange = event => {
     setTheme(event.target.value)
@@ -125,15 +147,17 @@ export default function Generator () {
 
   const generate = data => {
     setLoading(true)
+    setImageUrl(null)
     console.log(data)
-    MusicorumGenerator.generate(data).then(({ base64, duration }) => {
+    MusicorumGenerator.generate(data).then(({ base64, duration, signature }) => {
       console.log(duration)
       setLoading(false)
       setResult({
         done: true,
         success: true,
         url: base64,
-        duration
+        duration,
+        signature
       })
       // const imageFragment = document.getElementById('imagePreview')
       // imageFragment.innerHTML = ''
@@ -164,6 +188,39 @@ export default function Generator () {
     a.click()
   }
 
+  const handleCopyLink = async () => {
+    try {
+      if (uploadLoading) return
+      if (imageUrl) {
+        copyLink()
+      } else {
+        setUploadLoading(true)
+        const response = await MusicorumAPI.upload(result.url, result.signature)
+        console.log(response)
+        setImageUrl(response.data.url)
+        setDialogOpen(true)
+        setUploadLoading(false)
+      }
+    } catch (e) {
+      console.error(e)
+      setSnackBar('An error ocorrured: ' + e)
+      setSnackAlert(true)
+      setUploadLoading(false)
+    }
+  }
+
+  const copyLink = () => {
+    console.log(imageUrl)
+    copy(imageUrl, {
+      debug: true,
+      format: 'text/plain',
+      onCopy: () => {
+        setSnackBar('Link copied to clipboard!')
+        setSnackAlert(true)
+      }
+    })
+  }
+
   const handleCloseSnack = () => {
     setSnackAlert(false)
   }
@@ -171,16 +228,16 @@ export default function Generator () {
   let inputElement
   switch (theme) {
     case 'grid':
-      inputElement = (<GridTheme ref={themeRef} showStory={true} />)
+      inputElement = (<GridTheme ref={themeRef} showStory={true}/>)
       break
     case 'tops':
-      inputElement = (<TopsTheme ref={themeRef} showStory={true} />)
+      inputElement = (<TopsTheme ref={themeRef} showStory={true}/>)
       break
     case 'duotone':
-      inputElement = (<DuotoneTheme ref={themeRef} showStory={true} />)
+      inputElement = (<DuotoneTheme ref={themeRef} showStory={true}/>)
       break
     case 'darkly':
-      inputElement = (<DarklyTheme ref={themeRef} showStory={true} />)
+      inputElement = (<DarklyTheme ref={themeRef} showStory={true}/>)
       break
   }
 
@@ -222,20 +279,21 @@ export default function Generator () {
                   className={classes.form}
                   onChange={handleLastfmUserChange}
                   name="lastfmUser"
-                // value={lastfmUser}
+                  // value={lastfmUser}
                 />
               </Grid>
             </Grid>
-            <br />
+            <br/>
             {inputElement}
-            <br />
+            <br/>
             <Grid item className={classes.center}>
               <Button
                 type="submit"
                 size="large"
                 variant="contained"
                 color="secondary"
-                disabled={loading}
+                disableElevation
+                disabled={(loading || uploadLoading)}
               >
                 {t('translations:generator.generate')}
               </Button>
@@ -245,12 +303,12 @@ export default function Generator () {
             <Paper className={classes.paper}>
               {loading ? (
                 <Fragment>
-                  <CircularProgress size={50} />
-                  <br /><br />
+                  <CircularProgress size={50}/>
+                  <br/><br/>
                   <Typography variant="h4">
                     {t('translations:generator.loading')}
                   </Typography>
-                  <br />
+                  <br/>
                   <Typography color="textSecondary">
                     {t('translations:generator.loadingSubtitle')}
                   </Typography>
@@ -259,25 +317,44 @@ export default function Generator () {
                 ? result.success ? (
                   <Fragment>
                     {/* <ButtonGroup size="small" color="primary" aria-label="small primary outlined button group"> */}
-                    <Button color="secondary" variant="outlined" onClick={handleDownloadImage} startIcon={<Icon>cloud_download</Icon>}>
-                      {t('translations:generator.download')}
-                    </Button>
+                    <ButtonGroup>
+                      <Button
+                        color="secondary"
+                        variant="outlined"
+                        onClick={handleDownloadImage}
+                        startIcon={<Icon>cloud_download</Icon>}>
+                        {t('translations:generator.download')}
+                      </Button>
+                      <Button color="secondary" variant="outlined" onClick={handleCopyLink}
+                              startIcon={<Icon>link</Icon>}>
+                        {
+                          uploadLoading
+                            ? <div>
+                              <CircularProgress size={14} color="secondary"/>
+                              <span className={classes.spinner}>
+                                {t('translations:generator.loading')}
+                              </span>
+                            </div>
+                            : t('translations:generator.copyLink')
+                        }
+                      </Button>
+                    </ButtonGroup>
                     {/* <Button onClick={handleOpenInANewWindow} startIcon={<Icon>open_in_new</Icon>}>Open in new window</Button> */}
                     {/* </ButtonGroup> */}
-                    <br /> <br />
-                    <img src={result.url} crossOrigin="anonymous" style={{ width: '100%' }} />
-                    <Fragment id="imagePreview">
+                    <br/> <br/>
+                    <img src={result.url} crossOrigin="anonymous" style={{ width: '100%' }}/>
+                    <id id="imagePreview">
                       {t('translations:generator.generated', { seconds: result.duration / 1000 })}
-                    </Fragment>
+                    </id>
                   </Fragment>
                 ) : (
                   <Fragment>
                     <Icon style={{ fontSize: 50 }} color="error">close</Icon>
-                    <br />
+                    <br/>
                     <Typography variant="h4">
                       {result.error.message}
                     </Typography>
-                    <br />
+                    <br/>
                     <Typography color="textSecondary">
                       {result.error.code}
                     </Typography>
@@ -304,7 +381,7 @@ export default function Generator () {
         }}
         message={<span id="snack-message" className={classes.snackMessage}>
           <Icon className={classes.snackIcon}>warning</Icon>
-          Please notice that if you have AdBlock enabled, the new window won&apos;t show.
+          {snackBar}
         </span>}
         action={[
           <Button key="undo" color="secondary" size="small" onClick={handleCloseSnack}>
@@ -312,6 +389,24 @@ export default function Generator () {
           </Button>
         ]}
       />
+      <Dialog open={dialogOpen}>
+        <DialogTitle>Share image link</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <div className={classes.copyBox}>
+              <Link target="_blank" color="secondary" href={imageUrl}>{imageUrl}</Link>
+              <IconButton onClick={copyLink} color="secondary" autoFocus>
+                <FileCopyOutlinedIcon/>
+              </IconButton>
+            </div>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)} color="secondary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
