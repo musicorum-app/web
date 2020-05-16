@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_URL } from './vars.js'
+import { API_URL, UPLOAD_URL } from './vars.js'
 
 export default class MusicorumAPI {
   static getAuthStatus (token, full) {
@@ -67,6 +67,16 @@ export default class MusicorumAPI {
     return axios.delete(`${API_URL}/schedules/${id}`, {
       headers: {
         Authorization: MusicorumAPI.getToken()
+      }
+    })
+  }
+
+  static upload (file, signature) {
+    return axios.post(`${UPLOAD_URL}/upload`, {
+      file, signature
+    }, {
+      headers: {
+        'content-type': 'application/json'
       }
     })
   }

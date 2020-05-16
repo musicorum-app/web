@@ -38,6 +38,7 @@
     "loading": "Carregando...",
     "loadingSubtitle": "Isso pode demorar um pouco...",
     "download": "Baixar imagem",
+    "copyLink": "Copiar link",
     "generated": "Gerado em {{seconds}} segundos",
     "fill": "Por favor insira as informações e clique em gerar",
     "options": "Opções",
