@@ -173,6 +173,8 @@ class Drawer extends Component {
             loaded: true,
             authError: true
           })
+          localStorage.removeItem('token')
+          localStorage.removeItem('profile')
           return
         }
         if (e.response.status === 401) {
@@ -187,6 +189,8 @@ class Drawer extends Component {
             loaded: true,
             authError: true
           })
+          localStorage.removeItem('token')
+          localStorage.removeItem('profile')
         }
         this.props.onLoad(null)
       })
@@ -368,18 +372,18 @@ class Drawer extends Component {
           <DialogTitle id="auth-dialog-title">{t('translations:drawer.lastfmDialog.title')}</DialogTitle>
           <DialogContent style={{ textAlign: 'center' }}>
             <DialogContentText id="auth-dialog-description">
-            {t('translations:drawer.lastfmDialog.text')}
+              {t('translations:drawer.lastfmDialog.text')}
             </DialogContentText>
             <br />
             <Link to="/account?lastfmConnect=true" className="routerLink">
               <Button variant="contained" onClick={this.handleLastfmDialogClose} color="primary">
-              {t('translations:drawer.lastfmDialog.connect')}
+                {t('translations:drawer.lastfmDialog.connect')}
               </Button>
             </Link>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleLastfmDialogClose} color="secondary">
-            {t('translations:drawer.lastfmDialog.cancel')}
+              {t('translations:drawer.lastfmDialog.cancel')}
             </Button>
           </DialogActions>
         </Dialog>
