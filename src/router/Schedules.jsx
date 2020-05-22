@@ -683,6 +683,7 @@ const SchedulesPage = (props, ref) => {
             color="primary"
             disabled={!profile}
             onClick={handleCreateNew}
+            disableElevation
             startIcon={<Icon>add</Icon>}
           >
             Create new
@@ -762,7 +763,7 @@ const SchedulesPage = (props, ref) => {
             <Typography variant="h6" className={classes.title}>
               Create new Schedule
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleDialogClose}>
+            <Button autoFocus disableElevation color="inherit" onClick={handleDialogClose}>
               cancel
             </Button>
           </Toolbar>
@@ -787,6 +788,7 @@ const SchedulesPage = (props, ref) => {
               <Grid container direction="row" justify="flex-end" spacing={3}>
                 <Grid item>
                   <Button
+                    disableElevation
                     disabled={activeStep === 0 || navButtonsDisabled}
                     onClick={() => setActiveStep(activeStep - 1)}
                     startIcon={<Icon>navigate_before</Icon>}
@@ -796,6 +798,7 @@ const SchedulesPage = (props, ref) => {
                 </Grid>
                 <Grid item>
                   <Button
+                    disableElevation
                     disabled={navButtonsDisabled}
                     onClick={nextStep}
                     variant="contained"
@@ -829,10 +832,10 @@ const SchedulesPage = (props, ref) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button disabled={deleteScheduleLoading} onClick={() => setDeleteDialogOpen(false)} color="secondary">
+          <Button disableElevation disabled={deleteScheduleLoading} onClick={() => setDeleteDialogOpen(false)} color="secondary">
             CANCEL
           </Button>
-          <Button disabled={deleteScheduleLoading} onClick={deleteSchedule} color="secondary">
+          <Button disableElevation disabled={deleteScheduleLoading} onClick={deleteSchedule} color="secondary">
             DELETE
           </Button>
         </DialogActions>
