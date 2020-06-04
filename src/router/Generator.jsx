@@ -30,6 +30,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import IconButton from '@material-ui/core/IconButton'
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined'
 import DialogActions from '@material-ui/core/DialogActions'
+import PrideTheme from '../components/themesForms/PrideTheme.jsx'
 
 const SlideTransition = props => {
   return <Slide {...props} direction="down"/>
@@ -65,6 +66,10 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(236, 64, 122, 0.090)',
     borderRadius: 7,
     padding: '3px 20px'
+  },
+  flag: {
+    height: '1em',
+    marginRight: 4
   }
 }))
 
@@ -150,6 +155,7 @@ export default function Generator () {
     setImageUrl(null)
     console.log(data)
     MusicorumGenerator.generate(data).then(({ base64, duration, signature }) => {
+      if (!base64) throw new Error('something wrong ocorrured')
       console.log(duration)
       setLoading(false)
       setResult({
@@ -239,6 +245,9 @@ export default function Generator () {
     case 'darkly':
       inputElement = (<DarklyTheme ref={themeRef} showStory={true}/>)
       break
+    case 'pride':
+      inputElement = (<PrideTheme ref={themeRef} showStory={true}/>)
+      break
   }
 
   return (
@@ -264,6 +273,10 @@ export default function Generator () {
                   <MenuItem value="tops">Tops</MenuItem>
                   <MenuItem value="duotone">Duotone</MenuItem>
                   <MenuItem value="darkly">Darkly</MenuItem>
+                  <MenuItem value="pride">
+                    <img src="https://discordapp.com/assets/fd4b28db5d02e26f4ee43ab549ecffd4.svg"
+                         className={classes.flag}/>
+                    Pride 2020</MenuItem>
                 </TextField>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -326,7 +339,7 @@ export default function Generator () {
                         {t('translations:generator.download')}
                       </Button>
                       <Button color="secondary" variant="outlined" onClick={handleCopyLink}
-                              startIcon={<Icon>link</Icon>}>
+                        startIcon={<Icon>link</Icon>}>
                         {
                           uploadLoading
                             ? <div>
@@ -351,13 +364,23 @@ export default function Generator () {
                   <Fragment>
                     <Icon style={{ fontSize: 50 }} color="error">close</Icon>
                     <br/>
-                    <Typography variant="h4">
-                      {result.error.message}
-                    </Typography>
-                    <br/>
-                    <Typography color="textSecondary">
-                      {result.error.code}
-                    </Typography>
+                    {
+                      result.error.message ? (<>
+                        <Typography variant="h4">
+                          {result.error.message}
+                        </Typography>
+                        <br/>
+                        <Typography color="textSecondary">
+                          {result.error.code}
+                        </Typography>
+                      </>) : (
+                        <Typography variant="h4">
+                          An error ocorrued :(
+                          <br/>
+                          {result.toString()}
+                        </Typography>
+                      )
+                    }
                   </Fragment>
                 )
                 : (

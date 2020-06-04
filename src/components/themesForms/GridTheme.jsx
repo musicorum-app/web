@@ -132,10 +132,16 @@ const GridTheme = forwardRef((props, ref) => {
           <MenuItem value="8">8x8</MenuItem>
           <MenuItem value="9">9x9</MenuItem>
           <MenuItem value="10">10x10</MenuItem>
-          <MenuItem value="11">11x11 ({t('translations:themes.grid.takeLonger')})</MenuItem>
-          <MenuItem value="12">12x12 ({t('translations:themes.grid.takeLonger')})</MenuItem>
-          <MenuItem value="13">13x13 ({t('translations:themes.grid.takeLonger')})</MenuItem>
-          <MenuItem value="14">14x14 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="11">11x11</MenuItem>
+          <MenuItem value="12">12x12</MenuItem>
+          <MenuItem value="13">13x13</MenuItem>
+          <MenuItem value="14">14x14</MenuItem>
+          <MenuItem value="15">15x15</MenuItem>
+          <MenuItem value="16">16x16 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="17">17x17 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="18">18x18 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="19">19x19 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="20">20x20 ({t('translations:themes.grid.takeLonger')})</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12} sm={4}>
