@@ -156,7 +156,7 @@ const TopsTheme = forwardRef((props, ref) => {
           <Grid item xs={12} lg={6}>
             <Grid item xs={12}>
               <Typography variant="h6" color="primary">
-              {t('translations:themes.tops.module1')}
+                {t('translations:themes.tops.module1')}
               </Typography>
             </Grid>
             <br />
@@ -243,12 +243,7 @@ const TopsTheme = forwardRef((props, ref) => {
               <FormGroup>
                 <FormControlLabel
                   control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
-                  label={
-                    <Badge color="secondary" badgeContent={t('translations:generator.new')}>
-                      {t('translations:generator.story')}
-                      &nbsp;&nbsp;&nbsp;
-                    </Badge>
-                  }
+                  label={t('translations:generator.story')}
                 />
               </FormGroup>
             </FormControl>

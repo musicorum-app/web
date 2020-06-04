@@ -265,12 +265,7 @@ const DarklyTheme = forwardRef((props, ref) => {
               <FormGroup>
                 <FormControlLabel
                   control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
-                  label={
-                    <Badge color="secondary" badgeContent="NEW">
-                      Story format
-                      &nbsp;&nbsp;&nbsp;
-                    </Badge>
-                  }
+                  label={t('translations:generator.story')}
                 />
               </FormGroup>
             </FormControl>

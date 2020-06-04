@@ -9,8 +9,8 @@ import Switch from '@material-ui/core/Switch'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
-import { Badge } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
+import CustomPeriod from '../CustomPeriod.jsx'
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -33,6 +33,8 @@ const GridTheme = forwardRef((props, ref) => {
   const [periodHelperMessage, setPeriodHelperMessage] = useState(null)
   const [disabledPeriod, setDisabledPeriod] = useState(false)
   const [sizeDisabled, setSizeDisabled] = useState(false)
+  const [customPeriod, setCustomPeriod] = useState(null)
+  const [showCustomPeriod, setShowCustomPeriod] = useState(false)
 
   useEffect(() => {
     if (scheduleValue) {
@@ -83,11 +85,29 @@ const GridTheme = forwardRef((props, ref) => {
     else setSizeDisabled(false)
   }
 
+  const handleSelectPeriod = event => {
+    if (event.target.value === 'custom') setShowCustomPeriod(true)
+    else setShowCustomPeriod(false)
+    console.log(event.target.value)
+  }
+
+  const getPeriod = () => {
+    const formatDate = date => ~~(date.getTime() / 1000)
+    return showCustomPeriod ? {
+      from: formatDate(customPeriod.from),
+      to: formatDate(customPeriod.to)
+    } : period.current.value
+  }
+
+  const onCustomPeriodChange = event => {
+    setCustomPeriod(event)
+  }
+
   const getValues = () => {
     return {
       top: type.current.value,
       size: Number(size.current.value),
-      period: period.current.value,
+      period: getPeriod(),
       names: names.current.checked,
       playcount: playcount.current.checked,
       story: story.current.checked
@@ -132,10 +152,16 @@ const GridTheme = forwardRef((props, ref) => {
           <MenuItem value="8">8x8</MenuItem>
           <MenuItem value="9">9x9</MenuItem>
           <MenuItem value="10">10x10</MenuItem>
-          <MenuItem value="11">11x11 ({t('translations:themes.grid.takeLonger')})</MenuItem>
-          <MenuItem value="12">12x12 ({t('translations:themes.grid.takeLonger')})</MenuItem>
-          <MenuItem value="13">13x13 ({t('translations:themes.grid.takeLonger')})</MenuItem>
-          <MenuItem value="14">14x14 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="11">11x11</MenuItem>
+          <MenuItem value="12">12x12</MenuItem>
+          <MenuItem value="13">13x13</MenuItem>
+          <MenuItem value="14">14x14</MenuItem>
+          <MenuItem value="14">15x15</MenuItem>
+          <MenuItem value="14">16x16</MenuItem>
+          <MenuItem value="14">17x17 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="14">18x18 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="14">19x19 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="14">20x20 ({t('translations:themes.grid.takeLonger')})</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12} sm={4}>
@@ -149,6 +175,7 @@ const GridTheme = forwardRef((props, ref) => {
           defaultValue={defaultPeriod}
           disabled={disabledPeriod}
           inputRef={period}
+          onChange={handleSelectPeriod}
         >
           <MenuItem value="7day">{t('translations:generator.periods.7day')}</MenuItem>
           <MenuItem value="1month">{t('translations:generator.periods.1month')}</MenuItem>
@@ -156,8 +183,13 @@ const GridTheme = forwardRef((props, ref) => {
           <MenuItem value="6month">{t('translations:generator.periods.6month')}</MenuItem>
           <MenuItem value="12month">{t('translations:generator.periods.12month')}</MenuItem>
           <MenuItem value="overall">{t('translations:generator.periods.overall')}</MenuItem>
+          <MenuItem value="custom">{t('translations:generator.periods.custom')}</MenuItem>
         </TextField>
       </Grid>
+      <CustomPeriod
+        show={showCustomPeriod}
+        onChange={onCustomPeriodChange}
+      />
       <Grid item xs={12}>
         <FormControl component="fieldset">
           <FormLabel component="legend">{t('translations:generator.options')}</FormLabel>
@@ -173,12 +205,7 @@ const GridTheme = forwardRef((props, ref) => {
             {showStory ? (
               <FormControlLabel
                 control={<Switch onChange={handleStory} inputRef={story} color="primary" defaultChecked={false} />}
-                label={
-                  <Badge color="secondary" badgeContent={t('translations:generator.new')}>
-                    {t('translations:generator.story')}
-                    &nbsp;&nbsp;&nbsp;
-                  </Badge>
-                }
+                label={t('translations:generator.story')}
               />
             ) : ''}
           </FormGroup>

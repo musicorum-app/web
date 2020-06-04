@@ -7,6 +7,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import ColorPreview from '../ColorPreview.jsx'
 import { Badge, FormControl, FormLabel, FormGroup, Switch, FormControlLabel } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
+import CustomPeriod from '../CustomPeriod.jsx'
 
 const useStyles = makeStyles(() => ({
   form: {
@@ -37,6 +38,8 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
   // const [sizeHelperMessage, setSizeHelperMessage] = useState(null)
   // const [periodHelperMessage, setPeriodHelperMessage] = useState(null)
   const [disabledPeriod, setDisabledPeriod] = useState(false)
+  const [customPeriod, setCustomPeriod] = useState(null)
+  const [showCustomPeriod, setShowCustomPeriod] = useState(false)
 
   // eslint-disable-next-line react/prop-types
   const scheduleValue = periodValue
@@ -84,9 +87,27 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
     return true
   }
 
+  const getPeriod = () => {
+    const formatDate = date => ~~(date.getTime() / 1000)
+    return showCustomPeriod ? {
+      from: formatDate(customPeriod.from),
+      to: formatDate(customPeriod.to)
+    } : period.current.value
+  }
+
+  const onCustomPeriodChange = event => {
+    setCustomPeriod(event)
+  }
+
+  const handleSelectPeriod = event => {
+    if (event.target.value === 'custom') setShowCustomPeriod(true)
+    else setShowCustomPeriod(false)
+    console.log(event.target.value)
+  }
+
   const getValues = () => {
     return {
-      period: period.current.value,
+      period: getPeriod(),
       top: top.current.value,
       pallete: pallete.current.value,
       story: story.current.checked,
@@ -112,6 +133,7 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
           variant="outlined"
           inputRef={period}
           disabled={disabledPeriod}
+          onChange={handleSelectPeriod}
         >
           <MenuItem value="7day">{t('translations:generator.periods.7day')}</MenuItem>
           <MenuItem value="1month">{t('translations:generator.periods.1month')}</MenuItem>
@@ -119,6 +141,7 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
           <MenuItem value="6month">{t('translations:generator.periods.6month')}</MenuItem>
           <MenuItem value="12month">{t('translations:generator.periods.12month')}</MenuItem>
           <MenuItem value="overall">{t('translations:generator.periods.overall')}</MenuItem>
+          <MenuItem value="custom">{t('translations:generator.periods.custom')}</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
@@ -153,6 +176,10 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
           <MenuItem value="sea"><ColorPreview colors={['#0239d8', '#68ebc1']} /> Sea</MenuItem>
         </TextField>
       </Grid>
+      <CustomPeriod
+        show={showCustomPeriod}
+        onChange={onCustomPeriodChange}
+      />
       {showStory ? (
         <Grid item xs={12}>
           <FormControl component="fieldset">
@@ -162,12 +189,7 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
             <FormGroup>
               <FormControlLabel
                 control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
-                label={
-                  <Badge color="secondary" badgeContent={t('translations:generator.new')}>
-                    {t('translations:generator.story')}
-                    &nbsp;&nbsp;&nbsp;
-                  </Badge>
-                }
+                label={t('translations:generator.story')}
               />
             </FormGroup>
           </FormControl>

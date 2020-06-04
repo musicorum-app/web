@@ -11,7 +11,7 @@ import 'main.scss'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { red } from '@material-ui/core/colors'
 
-Sentry.init({ dsn: 'https://f1ffd8deb85a40b2af1d898b9db3cd91@o379578.ingest.sentry.io/5214333' })
+// Sentry.init({ dsn: 'https://f1ffd8deb85a40b2af1d898b9db3cd91@o379578.ingest.sentry.io/5214333' })
 
 const theme = createMuiTheme({
   palette: {
