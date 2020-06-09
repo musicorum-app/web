@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
 import makeStyles from '@material-ui/core/styles/makeStyles'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles(theme => ({
 
 const CustomPeriod = ({ show, onChange }) => {
   if (!show) return <></>
+  const { t } = useTranslation()
   const classes = useStyles()
   const [fromDate, setFrom] = useState(new Date())
   const [to, setTo] = useState(new Date())
@@ -38,7 +40,7 @@ const CustomPeriod = ({ show, onChange }) => {
     <Grid item xs={12} sm={6}>
       <DateTimePicker
         autoOk
-        label="From"
+        label={t('translations:generator.from')}
         disableFuture
         minDate={new Date(2000, 0, 0)}
         // error={!!scheduleTimeHelperMessage}
@@ -52,7 +54,7 @@ const CustomPeriod = ({ show, onChange }) => {
     <Grid item xs={12} sm={6}>
       <DateTimePicker
         autoOk
-        label="To"
+        label={t('translations:generator.to')}
         disableFuture
         minDate={new Date(2000, 0, 0)}
         showTodayButton

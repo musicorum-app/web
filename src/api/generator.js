@@ -19,7 +19,8 @@ export default class MusicorumGenerator {
         console.log(res)
         resolve(res.data)
       }).catch(e => {
-        if (e.response) reject(JSON.parse(Buffer.from(e.response.data, 'binary').toString()))
+        console.log(e.response)
+        if (e.response) reject(e.response.data)
         else {
           // eslint-disable-next-line prefer-promise-reject-errors
           reject({

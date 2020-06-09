@@ -52,7 +52,8 @@
       "3month": "Últimos 3 meses",
       "6month": "Últimos 6 meses",
       "12month": "Último ano",
-      "overall": "O tempo todo"
+      "overall": "O tempo todo",
+      "custom": "Customizado"
     },
     "periodsShort": {
       "7day": "semana",
@@ -60,8 +61,11 @@
       "3month": "últimos 3 meses",
       "6month": "últimos 6 meses",
       "12month": "ano",
-      "verall": "todo o tempo"
+      "overall": "todo o tempo",
+      "custom": "customizado"
     },
+    "from": "De",
+    "to": "Para",
     "types": {
       "artists": "Top artistas",
       "albums": "Top álbums",

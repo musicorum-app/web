@@ -52,7 +52,8 @@
       "3month": "Last 3 months",
       "6month": "Last 6 months",
       "12month": "Last year",
-      "overall": "Overall"
+      "overall": "Overall",
+      "custom": "Custom"
     },
     "periodsShort": {
       "7day": "week",
@@ -60,8 +61,11 @@
       "3month": "last 3 months",
       "6month": "last 6 months",
       "12month": "year",
-      "verall": "overall"
+      "overall": "overall",
+      "custom": "custom"
     },
+    "from": "From",
+    "to": "To",
     "types": {
       "artists": "Top artists",
       "albums": "Top albums",

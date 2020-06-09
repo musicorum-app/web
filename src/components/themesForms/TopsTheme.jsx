@@ -6,6 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import { Typography, FormControl, FormLabel, FormGroup, FormControlLabel, Switch, Badge } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
+import CustomPeriod from '../CustomPeriod.jsx'
 
 const useStyles = makeStyles(() => ({
   form: {
@@ -22,6 +23,8 @@ const TopsTheme = forwardRef((props, ref) => {
   // const [sizeHelperMessage, setSizeHelperMessage] = useState(null)
   // const [periodHelperMessage, setPeriodHelperMessage] = useState(null)
   const [disabledPeriod, setDisabledPeriod] = useState(false)
+  const [customPeriod, setCustomPeriod] = useState(null)
+  const [showCustomPeriod, setShowCustomPeriod] = useState(false)
 
   // eslint-disable-next-line react/prop-types
   const scheduleValue = props.period
@@ -47,6 +50,23 @@ const TopsTheme = forwardRef((props, ref) => {
     validate,
     getValues
   }))
+
+  const handleSelectPeriod = event => {
+    if (event.target.value === 'custom') setShowCustomPeriod(true)
+    else setShowCustomPeriod(false)
+  }
+
+  const getPeriod = () => {
+    const formatDate = date => ~~(date.getTime() / 1000)
+    return showCustomPeriod ? {
+      from: formatDate(customPeriod.from),
+      to: formatDate(customPeriod.to)
+    } : period.current.value
+  }
+
+  const onCustomPeriodChange = event => {
+    setCustomPeriod(event)
+  }
 
   // const clearValues = () => {
   //   setTypeHelperMessage(null)
@@ -77,7 +97,7 @@ const TopsTheme = forwardRef((props, ref) => {
   const getValues = () => {
     const periodText = t(`translations:generator.periodsShort.${period.current.value}`)
     return {
-      period: period.current.value,
+      period: getPeriod(),
       story: story.current.checked,
       modules: [
         {
@@ -87,13 +107,13 @@ const TopsTheme = forwardRef((props, ref) => {
         },
         {
           type: module2Type.current.value,
-          message: t(`translations:generator.types.${module1Type.current.value}`).toUpperCase()
+          message: t(`translations:generator.types.${module2Type.current.value}`).toUpperCase()
           // message: module2Text.current.value
         }
       ],
       messages: {
         // title: title.current.value,
-        title: t(`translations:themes.tops.title`, { period: periodText }),
+        title: t('translations:themes.tops.title', { period: periodText }),
         scrobbles: t(`translations:themes.tops.scrobbles.${period.current.value}`)
       }
     }
@@ -110,8 +130,9 @@ const TopsTheme = forwardRef((props, ref) => {
           className={classes.form}
           defaultValue={defaultPeriod}
           variant="outlined"
-          inputRef={period}
           disabled={disabledPeriod}
+          inputRef={period}
+          onChange={handleSelectPeriod}
         >
           <MenuItem value="7day">{t('translations:generator.periods.7day')}</MenuItem>
           <MenuItem value="1month">{t('translations:generator.periods.1month')}</MenuItem>
@@ -119,8 +140,13 @@ const TopsTheme = forwardRef((props, ref) => {
           <MenuItem value="6month">{t('translations:generator.periods.6month')}</MenuItem>
           <MenuItem value="12month">{t('translations:generator.periods.12month')}</MenuItem>
           <MenuItem value="overall">{t('translations:generator.periods.overall')}</MenuItem>
+          <MenuItem value="custom">{t('translations:generator.periods.custom')}</MenuItem>
         </TextField>
       </Grid>
+      <CustomPeriod
+        show={showCustomPeriod}
+        onChange={onCustomPeriodChange}
+      />
       {/* <Grid item xs={12} lg={6}> */}
       {/*  <TextField */}
       {/*    required */}
