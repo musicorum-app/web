@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useImperativeHandle, forwardRef, useState, useRef, useEffect } from 'react'
+import React, { useImperativeHandle, forwardRef, useRef } from 'react'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import Link from '@material-ui/core/Link'
 
 import lesbian from '../../assets/flags/lesbian.svg'
+import gay from '../../assets/flags/gay.svg'
 import bisexual from '../../assets/flags/bisexual.svg'
 import asexual from '../../assets/flags/asexual.svg'
 import genderFluid from '../../assets/flags/genderFluid.svg'
@@ -59,10 +60,14 @@ const PrideTheme = forwardRef((props, ref) => {
         >
           <MenuItem value="lgbt">
             <img src="https://discordapp.com/assets/fd4b28db5d02e26f4ee43ab549ecffd4.svg" className={classes.flag} />
-            Gay
+            LGBT+
           </MenuItem>
           <MenuItem value="lesbian">
             <img src={lesbian} className={classes.flag} />
+            Lesbian
+          </MenuItem>
+          <MenuItem value="gay">
+            <img src={gay} className={classes.flag} />
             Lesbian
           </MenuItem>
           <MenuItem value="bisexual">
