@@ -68,7 +68,7 @@ const PrideTheme = forwardRef((props, ref) => {
           </MenuItem>
           <MenuItem value="gay">
             <img src={gay} className={classes.flag} />
-            Lesbian
+            Gay man
           </MenuItem>
           <MenuItem value="bisexual">
             <img src={bisexual} className={classes.flag} />
