@@ -12,6 +12,12 @@ i18n
       },
       pt: {
         translations: require('./strings/pt-BR.json')
+      },
+      ru: {
+        translations: require('./strings/ru-RU.json')
+      },
+      ua: {
+        translations: require('./strings/uk-UA.json')
       }
     },
     fallbackLng: 'en',
