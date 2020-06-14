@@ -331,10 +331,10 @@ class Drawer extends Component {
                 <ListItemText primary="Português" />
               </ListItem>
               <ListItem button onClick={() => this.props.i18n.changeLanguage('ru')}>
-                <ListItemText primary="русский" />
+                <ListItemText primary="Русский" />
               </ListItem>
               <ListItem button onClick={() => this.props.i18n.changeLanguage('ua')}>
-                <ListItemText primary="Ukrainian" />
+                <ListItemText primary="Українська" />
               </ListItem>
             </List>
           </Collapse>
