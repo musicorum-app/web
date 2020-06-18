@@ -1,18 +1,18 @@
 {
   "mainPage": {
-    "text": "A fancy way to share your last.fm status",
-    "button": "Generate now"
+    "text": "Файний спосіб  last.fm",
+    "button": "Створити зараз"
   },
   "common": {
-    "language": "Language"
+    "language": "Мова"
   },
   "drawer": {
-    "error": "An error ocorrured.",
+    "error": "Виникла помилка.",
     "login": "Log in with Twitter",
     "schedules": "Schedules",
     "logOut": "Log out",
-    "loading": "Loading...",
-    "home": "Home",
+    "loading": "Завантажуємо...",
+    "home": "Домівка",
     "generator": "Image Generator",
     "dialog": {
       "title": "Log in into your Twitter Account",
