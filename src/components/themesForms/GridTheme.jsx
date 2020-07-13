@@ -156,12 +156,12 @@ const GridTheme = forwardRef((props, ref) => {
           <MenuItem value="12">12x12</MenuItem>
           <MenuItem value="13">13x13</MenuItem>
           <MenuItem value="14">14x14</MenuItem>
-          <MenuItem value="14">15x15</MenuItem>
-          <MenuItem value="14">16x16</MenuItem>
-          <MenuItem value="14">17x17 ({t('translations:themes.grid.takeLonger')})</MenuItem>
-          <MenuItem value="14">18x18 ({t('translations:themes.grid.takeLonger')})</MenuItem>
-          <MenuItem value="14">19x19 ({t('translations:themes.grid.takeLonger')})</MenuItem>
-          <MenuItem value="14">20x20 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="15">15x15</MenuItem>
+          <MenuItem value="16">16x16 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="17">17x17 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="18">18x18 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="19">19x19 ({t('translations:themes.grid.takeLonger')})</MenuItem>
+          <MenuItem value="20">20x20 ({t('translations:themes.grid.takeLonger')})</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12} sm={4}>
