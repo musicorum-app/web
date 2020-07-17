@@ -7,7 +7,7 @@
     "language": "Language"
   },
   "drawer": {
-    "error": "An error occurred.",
+    "error": "An error ocorrured.",
     "login": "Log in with Twitter",
     "schedules": "Schedules",
     "logOut": "Log out",
