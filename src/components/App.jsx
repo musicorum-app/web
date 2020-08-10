@@ -21,6 +21,8 @@ import Schedules from '../router/Schedules.jsx'
 import History from '../router/History.jsx'
 import TwitterCallback from '../router/auth/TwitterCallback.jsx'
 import LastfmCallback from '../router/auth/LastfmCallback.jsx'
+import TOS from '../router/TOS.jsx'
+import PrivacyPolicy from '../router/PrivacyPolicy.jsx'
 
 import MusicorumLogo from '../assets/logotext.svg'
 
@@ -147,6 +149,8 @@ export default function App () {
             <Route path="/schedules" render={() => <Schedules ref={schedulesRef}/>}/>
             <Route path="/auth/twitter/callback" component={TwitterCallback}/>
             <Route path="/auth/lastfm/callback" component={LastfmCallback}/>
+            <Route path="/tos" component={TOS}/>
+            <Route path="/privacy-policy" component={PrivacyPolicy}/>
           </Switch>
         </main>
       </BrowserRouter>
