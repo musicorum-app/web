@@ -14,6 +14,8 @@
     "loading": "Loading...",
     "home": "Home",
     "generator": "Image Generator",
+    "tos": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
     "dialog": {
       "title": "Log in into your Twitter Account",
       "tryAgain": "Try again",

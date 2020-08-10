@@ -14,6 +14,8 @@
     "loading": "Carregando...",
     "home": "Início",
     "generator": "Gerador de Imagem",
+    "tos": "Termos de Serviço",
+    "privacyPolicy": "Política de Privacidade",
     "dialog": {
       "title": "Logar com sua conta do Twitter",
       "tryAgain": "Tente novamente",

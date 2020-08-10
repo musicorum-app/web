@@ -310,8 +310,23 @@ class Drawer extends Component {
           </ListItem>
           <ListItem button component="a" href="https://github.com/musicorum-app">
             <ListItemIcon><GitHubIcon /></ListItemIcon>
-            <ListItemText primary='Github' />
+            <ListItemText primary='GitHub' />
           </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <Link to="/tos" className="routerLink">
+            <ListItem button>
+              <ListItemIcon><Icon>info</Icon></ListItemIcon>
+              <ListItemText primary={t('translations:drawer.tos')} />
+            </ListItem>
+          </Link>
+          <Link to="/privacy-policy" className="routerLink">
+            <ListItem button>
+              <ListItemIcon><Icon>lock</Icon></ListItemIcon>
+              <ListItemText primary={t('translations:drawer.privacyPolicy')} />
+            </ListItem>
+          </Link>
         </List>
         <Divider />
         <List>
