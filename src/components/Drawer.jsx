@@ -300,13 +300,17 @@ class Drawer extends Component {
             </ListItem>
           </Link>
           <Divider />
-          <ListItem button component="a" href="https://medium.com/musicorum">
-            <ListItemIcon><Icon>create</Icon></ListItemIcon>
-            <ListItemText primary='Blog' />
+          <ListItem button component="a" href="https://www.patreon.com/musicorumapp">
+            <ListItemIcon><TwitterIcon /></ListItemIcon>
+            <ListItemText primary='Patreon' />
           </ListItem>
           <ListItem button component="a" href="https://twitter.com/MusicorumApp">
             <ListItemIcon><TwitterIcon /></ListItemIcon>
             <ListItemText primary='Twitter' />
+          </ListItem>
+          <ListItem button component="a" href="https://medium.com/musicorum">
+            <ListItemIcon><Icon>create</Icon></ListItemIcon>
+            <ListItemText primary='Blog' />
           </ListItem>
           <ListItem button component="a" href="https://github.com/musicorum-app">
             <ListItemIcon><GitHubIcon /></ListItemIcon>
