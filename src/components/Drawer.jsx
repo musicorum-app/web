@@ -29,6 +29,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import { withTranslation } from 'react-i18next'
 
+import PatreonIcon from './PatreonIcon.jsx'
+
 // eslint-disable-next-line react/display-name
 const Transition = React.forwardRef((props, ref) => (
   <Slide direction="up" ref={ref} {...props} />
@@ -232,14 +234,14 @@ class Drawer extends Component {
     }
     return (
       <div>
-        <Divider />
+        <Divider/>
         {this.state.loaded ? this.state.authError ? (
           <List>
             <ListItem button>
               <ListItemIcon>
                 <Icon color="error">error</Icon>
               </ListItemIcon>
-              <ListItemText primary={t('translations:drawer.error')} />
+              <ListItemText primary={t('translations:drawer.error')}/>
             </ListItem>
           </List>
         ) : (
@@ -247,14 +249,14 @@ class Drawer extends Component {
             <ListItem button={this.state.loaded} onClick={this.handleProfileClick}>
               <ListItemAvatar>
                 {this.state.account ? (
-                  <Avatar alt={this.state.account.user} src={this.state.account.profilePicture} />
+                  <Avatar alt={this.state.account.user} src={this.state.account.profilePicture}/>
                 ) : (
                   <Avatar><Icon>account_circle</Icon></Avatar>
                 )}
               </ListItemAvatar>
               <ListItemText
                 primary={this.state.account ? this.state.account.name : t('translations:drawer.login')}
-                secondary={this.state.account ? '@' + this.state.account.user : null} />
+                secondary={this.state.account ? '@' + this.state.account.user : null}/>
             </ListItem>
             {this.state.account ? (
               <List component="div" disablePadding>
@@ -262,14 +264,14 @@ class Drawer extends Component {
                   <Link to="/schedules" className="routerLink">
                     <ListItem button>
                       <ListItemIcon><Icon>today</Icon></ListItemIcon>
-                      <ListItemText primary={t('translations:drawer.schedules')} />
+                      <ListItemText primary={t('translations:drawer.schedules')}/>
                     </ListItem>
                   </Link>
                   <ListItem button onClick={this.logOut}>
                     <ListItemIcon><Icon color="error">input</Icon></ListItemIcon>
                     <ListItemText primary={
                       <Typography color="error">{t('translations:drawer.logOut')}</Typography>
-                    } />
+                    }/>
                   </ListItem>
                 </div>
               </List>
@@ -279,62 +281,77 @@ class Drawer extends Component {
           <List>
             <ListItem button>
               <ListItemIcon>
-                <CircularProgress color="primary" />
+                <CircularProgress color="primary"/>
               </ListItemIcon>
-              <ListItemText primary={t('translations:drawer.loading')} />
+              <ListItemText primary={t('translations:drawer.loading')}/>
             </ListItem>
           </List>
         )}
-        <Divider />
+        <Divider/>
         <List>
           <Link to="/" className="routerLink">
             <ListItem button>
               <ListItemIcon><Icon>home</Icon></ListItemIcon>
-              <ListItemText primary={t('translations:drawer.home')} />
+              <ListItemText primary={t('translations:drawer.home')}/>
             </ListItem>
           </Link>
-          <Link to="/generate" className="routerLink">
+          <Link target="_blank" rel="noreferrer nofollow" to="/generate" className="routerLink">
             <ListItem button>
               <ListItemIcon><Icon>image</Icon></ListItemIcon>
-              <ListItemText primary={t('translations:drawer.generator')} />
+              <ListItemText primary={t('translations:drawer.generator')}/>
             </ListItem>
           </Link>
-          <Divider />
-          <ListItem button component="a" href="https://medium.com/musicorum">
+          <Divider/>
+
+          <ListItem
+            target="_blank"
+            rel="noreferrer nofollow"
+            button
+            component="a"
+            href="https://patreon.com/musicorumapp" style={{ backgroundColor: 'rgba(255, 66, 77, 0.1)' }}>
+            <ListItemIcon>
+              <PatreonIcon style={{ color: '#FF424D' }}/>
+            </ListItemIcon>
+            <ListItemText primary={<span style={{ color: '#FF424D' }}>
+              Patreon
+            </span>}/>
+          </ListItem>
+
+          <ListItem target="_blank" rel="noreferrer nofollow" button component="a" href="https://twitter.com/MusicorumApp">
+            <ListItemIcon><TwitterIcon/></ListItemIcon>
+            <ListItemText primary='Twitter'/>
+          </ListItem>
+          <ListItem target="_blank" rel="noreferrer nofollow" button component="a" href="https://medium.com/musicorum">
             <ListItemIcon><Icon>create</Icon></ListItemIcon>
-            <ListItemText primary='Blog' />
+            <ListItemText primary='Blog'/>
           </ListItem>
-          <ListItem button component="a" href="https://twitter.com/MusicorumApp">
-            <ListItemIcon><TwitterIcon /></ListItemIcon>
-            <ListItemText primary='Twitter' />
-          </ListItem>
-          <ListItem button component="a" href="https://github.com/musicorum-app">
-            <ListItemIcon><GitHubIcon /></ListItemIcon>
-            <ListItemText primary='Github' />
+          <ListItem target="_blank" rel="noreferrer nofollow" button component="a" href="https://github.com/musicorum-app">
+            <ListItemIcon><GitHubIcon/></ListItemIcon>
+            <ListItemText primary='Github'/>
           </ListItem>
         </List>
-        <Divider />
+        <Divider/>
         <List>
           <ListItem button onClick={this.handleLanguageToggle}>
             <ListItemIcon>
-              <LanguageIcon />
+              <LanguageIcon/>
             </ListItemIcon>
-            <ListItemText primary={t('translations:common.language')} />
-            {this.state.languageOpened ? <ExpandLess /> : <ExpandMore />}
+            <ListItemText primary={t('translations:common.language')}/>
+            {this.state.languageOpened ? <ExpandLess/> : <ExpandMore/>}
           </ListItem>
           <Collapse in={this.state.languageOpened} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem button onClick={() => this.props.i18n.changeLanguage('en')}>
-                <ListItemText primary="English" />
+                <ListItemText primary="English"/>
               </ListItem>
               <ListItem button onClick={() => this.props.i18n.changeLanguage('pt')}>
-                <ListItemText primary="Português" />
+                <ListItemText primary="Português"/>
               </ListItem>
               <ListItem button onClick={() => this.props.i18n.changeLanguage('ru')}>
-                <ListItemText primary="Русский" />
+                <ListItemText primary="Русский"/>
               </ListItem>
               <ListItem button onClick={() => this.props.i18n.changeLanguage('ua')}>
-                <ListItemText primary="Українська" />
+                <ListItemText primary="Українська"/>
               </ListItem>
             </List>
           </Collapse>
@@ -352,8 +369,8 @@ class Drawer extends Component {
             <DialogContentText id="auth-dialog-description">
               {dialogText}
             </DialogContentText>
-            <br />
-            {this.state.dialogStatus === 'LOADING' ? (<CircularProgress />) : null}
+            <br/>
+            {this.state.dialogStatus === 'LOADING' ? (<CircularProgress/>) : null}
           </DialogContent>
           <DialogActions>
             {this.state.dialogStatus === 'ERROR' || this.state.dialogStatus === 'SUCCESS' ? (
@@ -380,7 +397,7 @@ class Drawer extends Component {
             <DialogContentText id="auth-dialog-description">
               {t('translations:drawer.lastfmDialog.text')}
             </DialogContentText>
-            <br />
+            <br/>
             <Link to="/account?lastfmConnect=true" className="routerLink">
               <Button variant="contained" onClick={this.handleLastfmDialogClose} color="primary">
                 {t('translations:drawer.lastfmDialog.connect')}

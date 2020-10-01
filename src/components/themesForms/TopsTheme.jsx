@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
-import { Typography, FormControl, FormLabel, FormGroup, FormControlLabel, Switch, Badge } from '@material-ui/core'
+import { Typography, FormControl, FormLabel, FormGroup, FormControlLabel, Switch } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(() => ({
@@ -82,18 +82,18 @@ const TopsTheme = forwardRef((props, ref) => {
       modules: [
         {
           type: module1Type.current.value,
-          message: t(`translations:generator.types.${module1Type.current.value}`).toUpperCase()
+          message: t(`translations:generator.types.${module1Type.current.value.slice(0, -1)}`).toUpperCase()
           // message: module1Text.current.value
         },
         {
           type: module2Type.current.value,
-          message: t(`translations:generator.types.${module1Type.current.value}`).toUpperCase()
+          message: t(`translations:generator.types.${module2Type.current.value.slice(0, -1)}`).toUpperCase()
           // message: module2Text.current.value
         }
       ],
       messages: {
         // title: title.current.value,
-        title: t(`translations:themes.tops.title`, { period: periodText }),
+        title: t('translations:themes.tops.title', { period: periodText }),
         scrobbles: t(`translations:themes.tops.scrobbles.${period.current.value}`)
       }
     }
@@ -156,13 +156,13 @@ const TopsTheme = forwardRef((props, ref) => {
           <Grid item xs={12} lg={6}>
             <Grid item xs={12}>
               <Typography variant="h6" color="primary">
-              {t('translations:themes.tops.module1')}
+                {t('translations:themes.tops.module1')}
               </Typography>
             </Grid>
-            <br />
+            <br/>
             <Grid item xs={12}>
               <Grid container spacing={3}>
-                <Grid item xs={12} xl={6}>
+                <Grid item xs={12}>
                   <TextField
                     required
                     select
@@ -172,9 +172,9 @@ const TopsTheme = forwardRef((props, ref) => {
                     defaultValue="albums"
                     inputRef={module1Type}
                   >
-                    <MenuItem value="artists">{t('translations:generator.types.artists')}</MenuItem>
-                    <MenuItem value="albums">{t('translations:generator.types.albums')}</MenuItem>
-                    <MenuItem value="tracks">{t('translations:generator.types.tracks')}</MenuItem>
+                    <MenuItem value="artists">{t('translations:generator.types.artist')}</MenuItem>
+                    <MenuItem value="albums">{t('translations:generator.types.album')}</MenuItem>
+                    <MenuItem value="tracks">{t('translations:generator.types.track')}</MenuItem>
                   </TextField>
                 </Grid>
                 {/* <Grid item xs={12} xl={6}> */}
@@ -198,9 +198,9 @@ const TopsTheme = forwardRef((props, ref) => {
             <Typography variant="h6" color="primary">
               {t('translations:themes.tops.module2')}
             </Typography>
-            <br />
+            <br/>
             <Grid container spacing={3}>
-              <Grid item xs={12} xl={6}>
+              <Grid item xs={12}>
                 <TextField
                   required
                   select
@@ -210,9 +210,9 @@ const TopsTheme = forwardRef((props, ref) => {
                   defaultValue="artists"
                   inputRef={module2Type}
                 >
-                  <MenuItem value="artists">{t('translations:generator.types.artists')}</MenuItem>
-                  <MenuItem value="albums">{t('translations:generator.types.albums')}</MenuItem>
-                  <MenuItem value="tracks">{t('translations:generator.types.tracks')}</MenuItem>
+                  <MenuItem value="artists">{t('translations:generator.types.artist')}</MenuItem>
+                  <MenuItem value="albums">{t('translations:generator.types.album')}</MenuItem>
+                  <MenuItem value="tracks">{t('translations:generator.types.track')}</MenuItem>
                 </TextField>
               </Grid>
               {/* <Grid item xs={12} xl={6}> */}
@@ -242,13 +242,8 @@ const TopsTheme = forwardRef((props, ref) => {
               </FormLabel>
               <FormGroup>
                 <FormControlLabel
-                  control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
-                  label={
-                    <Badge color="secondary" badgeContent={t('translations:generator.new')}>
-                      {t('translations:generator.story')}
-                      &nbsp;&nbsp;&nbsp;
-                    </Badge>
-                  }
+                  control={<Switch inputRef={story} color="primary" defaultChecked={false}/>}
+                  label={t('translations:generator.story')}
                 />
               </FormGroup>
             </FormControl>

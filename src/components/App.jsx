@@ -6,7 +6,6 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-import grey from '@material-ui/core/colors/grey'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Drawer from '@material-ui/core/Drawer'
@@ -37,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   appBar: {
-    backgroundColor: grey['800'],
+    backgroundColor: theme.palette.background.paper,
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth

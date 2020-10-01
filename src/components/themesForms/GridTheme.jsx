@@ -9,10 +9,9 @@ import Switch from '@material-ui/core/Switch'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
-import { Badge } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(_ => ({
   form: {
     width: '100%'
   }
@@ -107,9 +106,9 @@ const GridTheme = forwardRef((props, ref) => {
           inputRef={type}
           defaultValue="albums"
         >
-          <MenuItem value="artists">{t('translations:generator.types.artists')}</MenuItem>
-          <MenuItem value="albums">{t('translations:generator.types.albums')}</MenuItem>
-          <MenuItem value="tracks">{t('translations:generator.types.tracks')}</MenuItem>
+          <MenuItem value="artists">{t('translations:generator.types.artist_plural')}</MenuItem>
+          <MenuItem value="albums">{t('translations:generator.types.album_plural')}</MenuItem>
+          <MenuItem value="tracks">{t('translations:generator.types.track_plural')}</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={4} sm={4}>
@@ -179,12 +178,7 @@ const GridTheme = forwardRef((props, ref) => {
             {showStory ? (
               <FormControlLabel
                 control={<Switch onChange={handleStory} inputRef={story} color="primary" defaultChecked={false} />}
-                label={
-                  <Badge color="secondary" badgeContent={t('translations:generator.new')}>
-                    {t('translations:generator.story')}
-                    &nbsp;&nbsp;&nbsp;
-                  </Badge>
-                }
+                label={t('translations:generator.story')}
               />
             ) : ''}
           </FormGroup>

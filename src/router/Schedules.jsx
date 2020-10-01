@@ -115,7 +115,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     backgroundColor: grey['900'],
-    maxWidth: '600px'
+    maxWidth: '100%'
   },
   boxCard: {
     // textAlign: 'center'
@@ -626,7 +626,7 @@ const SchedulesPage = (props, ref) => {
                     a tweet like the preview below* will be posted on your profile. If is that what you want, please click <b>Finish</b>.
                   </span>
                   <br /><br />
-                  <b>*</b> Preview picture based on current last.fm data
+                  <Typography color="textSecondary"><b>*</b> Preview picture based on current last.fm data</Typography>
                   <br /><br />
                   <Box className={classes.boxCard}>
                     <Card variant="outlined" className={classes.card}>
@@ -673,7 +673,7 @@ const SchedulesPage = (props, ref) => {
 
   return (
     <Fragment>
-      <Grid container direction="row" alignItems="center">
+      <Grid container direction="row" justify="space-between" alignItems="center">
         <Grid item>
           <h1>Schedules</h1>
         </Grid>

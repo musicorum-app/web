@@ -63,9 +63,12 @@
       "verall": "overall"
     },
     "types": {
-      "artists": "Top artists",
-      "albums": "Top albums",
-      "tracks": "Top tracks"
+      "artist": "Top artist",
+      "album": "Top album",
+      "track": "Top track",
+      "artist_plural": "Top artists",
+      "album_plural": "Top albums",
+      "track_plural": "Top tracks"
     },
     "validator": {
       "selectTheme": "Please select a theme",
