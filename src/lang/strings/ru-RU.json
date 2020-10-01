@@ -63,9 +63,12 @@
       "verall": "все время"
     },
     "types": {
-      "artists": "Топ артисты",
-      "albums": "Топ альбомы",
-      "tracks": "Топ треки"
+      "artist": "Топ артист",
+      "album": "Топ альбом",
+      "track": "Топ трек",
+      "artist_plural": "Топ артисты",
+      "album_plural": "Топ альбомы",
+      "track_plural": "Топ треки"
     },
     "validator": {
       "selectTheme": "Пожалуйста, выбери тему",

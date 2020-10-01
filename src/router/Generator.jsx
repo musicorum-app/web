@@ -1,4 +1,4 @@
-import React, { useState, useRef, Fragment } from 'react'
+import React, { useState, useRef, Fragment, useEffect } from 'react'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
@@ -16,12 +16,13 @@ import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Snackbar from '@material-ui/core/Snackbar'
 import Slide from '@material-ui/core/Slide'
 import Link from '@material-ui/core/Link'
+import Alert from '@material-ui/lab/Alert'
 
 import GridTheme from '../components/themesForms/GridTheme.jsx'
 import TopsTheme from '../components/themesForms/TopsTheme.jsx'
 import DuotoneTheme from '../components/themesForms/DuotoneTheme.jsx'
 import DarklyTheme from '../components/themesForms/DarklyTheme.jsx'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import MusicorumAPI from '../api/main'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -31,6 +32,8 @@ import IconButton from '@material-ui/core/IconButton'
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined'
 import DialogActions from '@material-ui/core/DialogActions'
 import PrideTheme from '../components/themesForms/PrideTheme.jsx'
+import PatreonIcon from '../components/PatreonIcon.jsx'
+import ColoredButton from '../components/ColoredButton.jsx'
 
 const SlideTransition = props => {
   return <Slide {...props} direction="down"/>
@@ -70,6 +73,12 @@ const useStyles = makeStyles(theme => ({
   flag: {
     height: '1em',
     marginRight: 4
+  },
+  alert: {
+    backgroundColor: '#3a0c0e',
+    color: 'white',
+    marginBottom: 25,
+    padding: '29px 16px 10px 16px'
   }
 }))
 
@@ -77,6 +86,7 @@ export default function Generator () {
   const { t } = useTranslation()
   const classes = useStyles()
   const [theme, setTheme] = useState('')
+  const [lastfmUser, setLastfmUser] = useState('')
 
   const themeRef = useRef()
 
@@ -90,6 +100,15 @@ export default function Generator () {
   const [uploadLoading, setUploadLoading] = useState(false)
   const [snackBar, setSnackBar] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [showPatreon, setShowPatreon] = useState(false)
+
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    const _profile = localStorage.getItem('profile')
+    if (!_profile) return
+    const profile = JSON.parse(_profile)
+    if (profile && profile.lastfm) setLastfmUser(profile.lastfm.user)
+  }, [])
 
   const handleThemeChange = event => {
     setTheme(event.target.value)
@@ -97,6 +116,7 @@ export default function Generator () {
   }
 
   const handleLastfmUserChange = event => {
+    setLastfmUser(event.target.value)
     setLastfmUserHelperMessage(null)
   }
 
@@ -132,17 +152,16 @@ export default function Generator () {
 
   const handleSubmit = event => {
     event.preventDefault()
-    const { lastfmUser } = event.target
     if (validate({
       theme,
-      lastfmUser: lastfmUser.value
+      lastfmUser
     })) {
       const themeData = themeRef.current.getValues()
 
       const data = {
         theme,
         options: {
-          user: lastfmUser.value,
+          user: lastfmUser,
           ...themeData
         }
       }
@@ -151,12 +170,11 @@ export default function Generator () {
   }
 
   const generate = data => {
+    setShowPatreon(false)
     setLoading(true)
     setImageUrl(null)
-    console.log(data)
     MusicorumGenerator.generate(data).then(({ base64, duration, signature }) => {
       if (!base64) throw new Error('something wrong ocorrured')
-      console.log(duration)
       setLoading(false)
       setResult({
         done: true,
@@ -165,6 +183,8 @@ export default function Generator () {
         duration,
         signature
       })
+
+      setShowPatreon(true)
       // const imageFragment = document.getElementById('imagePreview')
       // imageFragment.innerHTML = ''
       // const imageElement = new Image()
@@ -287,6 +307,7 @@ export default function Generator () {
                   helperText={lastfmUserHelperMessage}
                   className={classes.form}
                   onChange={handleLastfmUserChange}
+                  value={lastfmUser}
                   name="lastfmUser"
                   // value={lastfmUser}
                 />
@@ -300,7 +321,7 @@ export default function Generator () {
                 type="submit"
                 size="large"
                 variant="contained"
-                color="secondary"
+                color="primary"
                 disableElevation
                 disabled={(loading || uploadLoading)}
               >
@@ -310,6 +331,42 @@ export default function Generator () {
           </Grid>
           <Grid item xs={12} sm={12} lg={6}>
             <Paper className={classes.paper}>
+              {
+                showPatreon && <Alert
+                  className={classes.alert}
+                  // icon={false}
+                  icon={<PatreonIcon style={{ color: '#FF424D' }}/>}
+                >
+                  <Typography>
+                    <Trans
+                      i18nKey="translations:generator.donate"
+                      components={[
+                        <Link
+                          key={0}
+                          target="_blank"
+                          style={{ color: '#FF424D' }}
+                          component="a"
+                          href="https://www.patreon.com/musicorumapp"
+                        />
+                      ]}
+                    />
+                  </Typography>
+                  <Grid container justify="center">
+                    <ColoredButton
+                      href="https://patreon.com/musicorumapp"
+                      target="_blank"
+                      color="#FF424D"
+                      // startIcon={<PatreonIcon style={{ marginLeft: 10 }}/>}
+                      style={{
+                        marginTop: 18,
+                        color: 'black'
+                      }}
+                    >
+                      <b>{t('translations:generator.donateCta')}</b>
+                    </ColoredButton>
+                  </Grid>
+                </Alert>
+              }
               {loading ? (
                 <Fragment>
                   <CircularProgress size={50}/>
@@ -334,7 +391,8 @@ export default function Generator () {
                         startIcon={<Icon>cloud_download</Icon>}>
                         {t('translations:generator.download')}
                       </Button>
-                      <Button color="secondary" variant="outlined" onClick={handleCopyLink}
+                      <Button
+                        color="secondary" variant="outlined" onClick={handleCopyLink}
                         startIcon={<Icon>link</Icon>}>
                         {
                           uploadLoading
