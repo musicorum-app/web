@@ -353,7 +353,7 @@ export default function Generator () {
                   </Typography>
                   <Grid container justify="center">
                     <ColoredButton
-                      href="https://patreon.com/musicorumapp"
+                      href="https://patreon.com/join/musicorumapp"
                       target="_blank"
                       color="#FF424D"
                       // startIcon={<PatreonIcon style={{ marginLeft: 10 }}/>}
