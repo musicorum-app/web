@@ -85,12 +85,12 @@ const DarklyTheme = forwardRef((props, ref) => {
       modules: [
         {
           type: module1Type.current.value,
-          message: t(`translations:generator.types.${module1Type.current.value}`).toUpperCase()
+          message: t(`translations:generator.types.${module1Type.current.value.slice(0, -1)}`).toUpperCase()
           // message: module1Text.current.value
         },
         {
           type: module2Type.current.value,
-          message: t(`translations:generator.types.${module2Type.current.value}`).toUpperCase()
+          message: t(`translations:generator.types.${module2Type.current.value.slice(0, -1)}`).toUpperCase()
           // message: module2Text.current.value
         }
       ],
