@@ -40,10 +40,6 @@ const TopsTheme = forwardRef((props, ref) => {
   const story = useRef(false)
   const period = useRef(defaultPeriod)
   // const title = useRef('my month on music')
-  // const scrobblesText = useRef('SCROBBLES THIS MONTH')
-  const module1Type = useRef('albums')
-  // const module1Text = useRef('TOP ALBUM')
-  const module2Type = useRef('artists')
   // const module2Text = useRef('TOP ARTIST')
 
   useImperativeHandle(ref, () => ({
@@ -56,6 +52,10 @@ const TopsTheme = forwardRef((props, ref) => {
     else setShowCustomPeriod(false)
   }
 
+  // const scrobblesText = useRef('SCROBBLES THIS MONTH')
+  const module1Type = useRef('albums')
+  // const module1Text = useRef('TOP ALBUM')
+  const module2Type = useRef('artists')
   const getPeriod = () => {
     const formatDate = date => ~~(date.getTime() / 1000)
     return showCustomPeriod ? {
