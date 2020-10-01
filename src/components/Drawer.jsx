@@ -295,7 +295,7 @@ class Drawer extends Component {
               <ListItemText primary={t('translations:drawer.home')}/>
             </ListItem>
           </Link>
-          <Link target="_blank" rel="noreferrer nofollow" to="/generate" className="routerLink">
+          <Link to="/generate" className="routerLink">
             <ListItem button>
               <ListItemIcon><Icon>image</Icon></ListItemIcon>
               <ListItemText primary={t('translations:drawer.generator')}/>

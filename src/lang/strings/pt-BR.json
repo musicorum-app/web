@@ -76,7 +76,8 @@
       "selectLongerUsername": "Por favor insira um usuário do Last.fm maior",
       "selectShorterUsername": "Por favor insira um usuário do Last.fm menor"
     },
-    "donate": "Você gosta do Musicorum? Nos ajude à mantê-lo de graça e funcionando para todos, e ganhe acesso exclusivo à novas atualizações e novos projetos, além de poder usá-los antecipadamente! Doe para nosso <0>Patreon</0> e ajude o projeto à crescer!"
+    "donate": "Você gosta do Musicorum? Nos ajude à mantê-lo de graça e funcionando para todos, e ganhe acesso exclusivo à novas atualizações e novos projetos, além de poder usá-los antecipadamente! Doe para nosso <0>Patreon</0> e ajude o projeto a crescer!",
+    "donateCta": "DOAR"
   },
   "themes": {
     "duotone": {

@@ -33,6 +33,7 @@ import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined'
 import DialogActions from '@material-ui/core/DialogActions'
 import PrideTheme from '../components/themesForms/PrideTheme.jsx'
 import PatreonIcon from '../components/PatreonIcon.jsx'
+import ColoredButton from '../components/ColoredButton.jsx'
 
 const SlideTransition = props => {
   return <Slide {...props} direction="down"/>
@@ -77,7 +78,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#3a0c0e',
     color: 'white',
     marginBottom: 25,
-    padding: '29px 16px'
+    padding: '29px 16px 10px 16px'
   }
 }))
 
@@ -333,6 +334,7 @@ export default function Generator () {
               {
                 showPatreon && <Alert
                   className={classes.alert}
+                  // icon={false}
                   icon={<PatreonIcon style={{ color: '#FF424D' }}/>}
                 >
                   <Typography>
@@ -349,6 +351,20 @@ export default function Generator () {
                       ]}
                     />
                   </Typography>
+                  <Grid container justify="center">
+                    <ColoredButton
+                      href="https://patreon.com/musicorumapp"
+                      target="_blank"
+                      color="#FF424D"
+                      // startIcon={<PatreonIcon style={{ marginLeft: 10 }}/>}
+                      style={{
+                        marginTop: 18,
+                        color: 'black'
+                      }}
+                    >
+                      <b>{t('translations:generator.donateCta')}</b>
+                    </ColoredButton>
+                  </Grid>
                 </Alert>
               }
               {loading ? (
