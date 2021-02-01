@@ -1,0 +1,31 @@
+$kinda-black: #131313;
+
+@font-face {
+  font-family: "Segoe UI";
+  src: url("../fonts/Segoe-UI.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "Segoe UI";
+  src: url("../fonts/Segoe-UI-Bold.otf") format("otf");
+  font-weight: bold;
+}
+
+
+body {
+  background: $kinda-black;
+  font-family: "Poppins", sans-serif;
+  color: white;
+  margin: 0;
+}
+
+
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+
+.twemoji-item {
+  vertical-align: middle;
+  width: 20px;
+}
