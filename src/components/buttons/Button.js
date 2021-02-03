@@ -35,6 +35,13 @@ const ButtonWrapper = styled.button`
     background: ${p => p.variant === "none" ? "rgba(255, 255, 255, 0.09)" : chroma(p.color).darken().hex()};
     border: 3px solid ${p => p.variant === "none" ? "rgba(255, 255, 255, 0.2)" : chroma(p.color).brighten(.5).hex()};
   }
+
+  :disabled,
+  [disabled] {
+    color: rgba(255, 255, 255, 0.65) !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    cursor: no-drop;
+  }
 `
 
 const IconWrapper = styled.div`

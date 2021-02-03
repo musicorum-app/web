@@ -43,22 +43,35 @@ const Mono = styled.span`
 
 const Blank = styled.span``
 
+const errorDefault = {
+  user: null
+}
+
 export default function GeneratePage() {
   const [debugOpen, setDebugOpen] = useState(false)
-  const [theme, setTheme] = useState(null)
+  const [theme, setTheme] = useState({
+    label: 'Grid',
+    value: 'grid'
+  })
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
+  const [error, setError] = useState(errorDefault)
   const userRef = useRef()
 
   const Element = theme ? themes[theme.value] : Blank
 
   const generate = event => {
+    const user = userRef.current.value
     event.preventDefault()
     console.log(userRef.current)
-    if (!theme) return
+    if (user === '' || !user) {
+      return setError({
+        user: 'Please input a valid username.'
+      })
+    }
     setResult(null)
     setLoading(true)
-    GenerateAPI.generate(theme.value, userRef.current.value, {
+    GenerateAPI.generate(theme.value, user, {
       "rows": 5,
       "columns": 5,
       "show_names": false,
@@ -128,7 +141,7 @@ export default function GeneratePage() {
       <ContentGrid>
         <form tw="grid gap-y-4" onSubmit={generate}>
           <div tw="grid grid-cols-1 md:grid-cols-2 md:gap-x-4 gap-y-4">
-            <TextInput fullWidth placeholder="Last.fm username" ref={userRef} />
+            <TextInput onChange={() => setError(errorDefault)} error={error.user} fullWidth placeholder="Last.fm username" ref={userRef} />
             <SelectInput
               value={theme}
               onChange={e => setTheme(e)}
@@ -143,7 +156,7 @@ export default function GeneratePage() {
           </Card>
           <div tw="flex justify-end mt-4">
 
-            <Button type="submit">
+            <Button type="submit" disabled={loading}>
               Generate
             </Button>
           </div>
