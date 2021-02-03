@@ -9,7 +9,7 @@ const Content = styled.div`
 `
 
 export default function Page ({ children, page }) {
-  return <Base>
+  return <Base id="mus_app">
     <NavBar page={page}/>
     {children}
     <Footer />

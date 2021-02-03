@@ -109,7 +109,7 @@ export default function NavBar ({page}) {
           <NavIcon height={isMobile ? 23 : 27}/>
         </Link>
         <MediaQuery query="(min-width: 768px)">
-          <NavBarItem active={page === 'generate'} to="/about">
+          <NavBarItem active={page === 'generate'} to="/generate">
             Generate
           </NavBarItem>
           <NavBarItem active={page === 'about'} to="/about">
@@ -133,7 +133,7 @@ export default function NavBar ({page}) {
     <MediaQuery query="(max-width: 767px)">
       {
         isOpen && <MobileNavsItems>
-          <NavBarItem active={page === 'generate'} to="/about">
+          <NavBarItem active={page === 'generate'} to="/generate">
             Generate
           </NavBarItem>
           <NavBarItem active={page === 'about'} to="/about">

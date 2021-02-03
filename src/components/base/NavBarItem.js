@@ -4,7 +4,7 @@ import { darkerRed, donateColor, likelyGrey } from '../../config/colors'
 import { Link } from 'gatsby'
 
 const Item = styled.div`
-  ${tw`md:h-16 flex items-center px-3 md:w-full`}
+  ${tw`md:h-16 flex items-center px-3 md:w-full transition`}
   border-top: 6px solid transparent;
   color: ${props => props.donate ? donateColor : 'white'};
   border-bottom: 6px solid ${props => props.active ? (props.donate ? donateColor : darkerRed) : 'transparent'};

@@ -29,3 +29,19 @@ a {
   vertical-align: middle;
   width: 20px;
 }
+
+.ReactModal__Overlay {
+  opacity: 0;
+  backdrop-filter: blur(80px);
+  //backdrop-filter: blur(0px);
+  transition: opacity 180ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+  opacity: 0;
+  //backdrop-filter: blur(0px);
+}
