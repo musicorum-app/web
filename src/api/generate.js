@@ -8,17 +8,16 @@ export default class GenerateAPI {
       ...options
     }).then(r => r.json())
   }
-  
-  static async generate(theme, user, options) {
-    return GenerateAPI.doRequest('generate', {
+
+  static async generate(theme, user, options, extra) {
+    return GenerateAPI.doRequest('generations/generate', {
       method: 'POST',
       body: JSON.stringify({
         user,
         theme,
-        story: false,
         language: 'en',
-        hide_username: false,
-        options
+        options,
+        ...extra
       })
     })
   }

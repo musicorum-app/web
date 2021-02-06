@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import "@fontsource/roboto-mono/500.css"
 import Page from "../components/base/Page"
 import Header from "../components/base/Header"
@@ -15,6 +15,7 @@ import themes from "../components/themes/themes"
 import GenerateAPI from "../api/generate"
 import { darkerRed } from "../config/colors"
 import { Img } from "react-image"
+import SwitchInput from "../components/form/SwitchInput"
 
 const ContentGrid = styled.div`
   ${tw`grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-2 md:gap-x-8 lg:gap-x-12 items-start`}
@@ -47,23 +48,42 @@ const errorDefault = {
   user: null
 }
 
+const themesThatDoesntShowUser = ['grid']
+
 export default function GeneratePage() {
   const [debugOpen, setDebugOpen] = useState(false)
   const [theme, setTheme] = useState({
     label: 'Grid',
     value: 'grid'
   })
+  const [values, setValues] = useState({
+    story: false,
+    hideUsername: false
+  })
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
   const [error, setError] = useState(errorDefault)
   const userRef = useRef()
+  const themeRef = useRef(null)
 
   const Element = theme ? themes[theme.value] : Blank
+
+  const handleChangeSwitch = (input) => ev => {
+    setValues({
+      ...values,
+      [input]: ev.currentTarget.checked
+    })
+  }
 
   const generate = event => {
     const user = userRef.current.value
     event.preventDefault()
-    console.log(userRef.current)
+    if (!themeRef) {
+      return console.error('Theme ref not defined')
+    }
+
+    const themeData = themeRef.current.getData()
+
     if (user === '' || !user) {
       return setError({
         user: 'Please input a valid username.'
@@ -71,14 +91,9 @@ export default function GeneratePage() {
     }
     setResult(null)
     setLoading(true)
-    GenerateAPI.generate(theme.value, user, {
-      "rows": 5,
-      "columns": 5,
-      "show_names": false,
-      "show_playcount": false,
-      "period": "ALO",
-      "type": "ALBUM",
-      "style": "DEFAULT"
+    GenerateAPI.generate(theme.value, user, themeData, {
+      hide_username: values.hideUsername,
+      story: values.story
     })
       .then(a => {
         if (a) {
@@ -108,7 +123,7 @@ export default function GeneratePage() {
     if (!result && loading) return <div tw="w-full flex flex-col items-center">
       <h2>Working...</h2>
       <span tw="pb-3">This shouldn't take long</span>
-      <Spinner radius={60} color={darkerRed} />
+      <Spinner radius={40} color={darkerRed} />
     </div>
     if (result && !loading) return <div tw="w-full flex flex-col items-center">
       {
@@ -117,7 +132,7 @@ export default function GeneratePage() {
               src={result.result}
               loader={<>
                 <h2>Downloading image</h2>
-                <Spinner radius={60} color={darkerRed} />
+                <Spinner radius={40} color={darkerRed} />
               </>}
               container={c => <ImageWrapper>{c}</ImageWrapper>}
             />
@@ -135,6 +150,10 @@ export default function GeneratePage() {
     </div>
   }
 
+  console.log(theme.value, themesThatDoesntShowUser.includes(theme.value))
+
+  const canShowHideUser = themesThatDoesntShowUser.includes(theme.value)
+
   return <Page page="generate">
     <Container>
       <Header>Generate</Header>
@@ -150,10 +169,26 @@ export default function GeneratePage() {
                 { value: "grid", label: "Grid" }
               ]} />
           </div>
-          <Card>
-            <CardTitle>Theme options</CardTitle>
-            <Element />
-          </Card>
+          {
+            theme && <Card>
+              <CardTitle>Theme options</CardTitle>
+              <Element ref={themeRef} />
+              <div tw="grid grid-cols-1 gap-y-1 pt-4">
+                <hr />
+                <SwitchInput
+                  checked={values.story}
+                  onChange={handleChangeSwitch('story')}
+                  label="Story format (9:16 format)"
+                />
+                <SwitchInput
+                  checked={values.hideUsername}
+                  onChange={handleChangeSwitch('hideUsername')}
+                  disabled={canShowHideUser}
+                  label="Hide username"
+                />
+              </div>
+            </Card>
+          }
           <div tw="flex justify-end mt-4">
 
             <Button type="submit" disabled={loading}>
@@ -187,7 +222,7 @@ export default function GeneratePage() {
             <b>Total duration (including rendering):</b> <Mono>{result.total_duration}s</Mono>
           </span>
           <span>
-            <b>Rendering duration</b> <Mono>{result.generation_duration}s</Mono>
+            <b>Rendering duration</b> <Mono>{result.render_duration}s</Mono>
           </span>
         </DetailsContent>
       }
