@@ -36,7 +36,7 @@ export default function Home () {
           <ContentHeader>
             Share your musical charts automatically to Twitter
           </ContentHeader>
-          Musicorum automatically tweets every week or month on your twitter account a fancy image(or just text) with
+          Musicorum automatically tweets every week or month on your twitter account a fancy image (or just text) with
           your Last.fm charts.
         </ContentBox>
         <TwitterPost
