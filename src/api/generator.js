@@ -13,7 +13,8 @@ export default class MusicorumGenerator {
         data: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': '*',
+          'X-Source': 'web'
         }
       }).then(res => {
         console.log(res)

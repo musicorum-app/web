@@ -63,16 +63,21 @@
       "verall": "overall"
     },
     "types": {
-      "artists": "Top artists",
-      "albums": "Top albums",
-      "tracks": "Top tracks"
+      "artist": "Top artist",
+      "album": "Top album",
+      "track": "Top track",
+      "artist_plural": "Top artists",
+      "album_plural": "Top albums",
+      "track_plural": "Top tracks"
     },
     "validator": {
       "selectTheme": "Please select a theme",
       "selectUsername": "Please provide a Last.fm username",
       "selectLongerUsername": "Please provide a longer Last.fm username",
       "selectShorterUsername": "Please provide a shorter Last.fm username"
-    }
+    },
+    "donate": "Do you like Musicorum? Help us keep it free and running for everyone, and earn exclusive access to new updates and new projects, in addition to use them before everyone! Donate to our <0>Patreon</0> and help the project!",
+    "donateCta": "DONATE"
   },
   "themes": {
     "duotone": {

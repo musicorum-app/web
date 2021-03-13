@@ -5,7 +5,6 @@ import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Typography from '@material-ui/core/Typography'
-import { useTranslation } from 'react-i18next'
 import Link from '@material-ui/core/Link'
 
 import lesbian from '../../assets/flags/lesbian.svg'
@@ -17,7 +16,7 @@ import nonBinary from '../../assets/flags/nonBinary.svg'
 import pansexual from '../../assets/flags/pansexual.svg'
 import transgender from '../../assets/flags/transgender.svg'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(_ => ({
   form: {
     width: '100%'
   },
@@ -29,7 +28,6 @@ const useStyles = makeStyles(theme => ({
 
 // eslint-disable-next-line react/display-name
 const PrideTheme = forwardRef((props, ref) => {
-  const { t } = useTranslation()
   const classes = useStyles()
 
   const flag = useRef('lgbt')
@@ -59,39 +57,39 @@ const PrideTheme = forwardRef((props, ref) => {
           defaultValue="lgbt"
         >
           <MenuItem value="lgbt">
-            <img src="https://discordapp.com/assets/fd4b28db5d02e26f4ee43ab549ecffd4.svg" className={classes.flag} />
+            <img alt="LGBT Flag" src="https://discordapp.com/assets/fd4b28db5d02e26f4ee43ab549ecffd4.svg" className={classes.flag} />
             LGBT+
           </MenuItem>
           <MenuItem value="lesbian">
-            <img src={lesbian} className={classes.flag} />
+            <img alt="LGBT Flag" src={lesbian} className={classes.flag} />
             Lesbian
           </MenuItem>
           <MenuItem value="gay">
-            <img src={gay} className={classes.flag} />
+            <img alt="LGBT Flag" src={gay} className={classes.flag} />
             Gay man
           </MenuItem>
           <MenuItem value="bisexual">
-            <img src={bisexual} className={classes.flag} />
+            <img alt="LGBT Flag" src={bisexual} className={classes.flag} />
             Bisexual
           </MenuItem>
           <MenuItem value="transgender">
-            <img src={transgender} className={classes.flag} />
+            <img alt="LGBT Flag" src={transgender} className={classes.flag} />
             Transgender
           </MenuItem>
           <MenuItem value="pansexual">
-            <img src={pansexual} className={classes.flag} />
+            <img alt="LGBT Flag" src={pansexual} className={classes.flag} />
             Pansexual
           </MenuItem>
           <MenuItem value="nonBinary">
-            <img src={nonBinary} className={classes.flag} />
+            <img alt="LGBT Flag" src={nonBinary} className={classes.flag} />
             Non binary
           </MenuItem>
           <MenuItem value="asexual">
-            <img src={asexual} className={classes.flag} />
+            <img alt="LGBT Flag" src={asexual} className={classes.flag} />
             Asexual
           </MenuItem>
           <MenuItem value="genderFluid">
-            <img src={genderFluid} className={classes.flag} />
+            <img alt="LGBT Flag" src={genderFluid} className={classes.flag} />
             Gender Fluid
           </MenuItem>
         </TextField>

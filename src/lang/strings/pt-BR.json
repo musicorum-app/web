@@ -40,7 +40,7 @@
     "download": "Baixar imagem",
     "copyLink": "Copiar link",
     "generated": "Gerado em {{seconds}} segundos",
-    "fill": "Por favor insira as informações e clique em gerar",
+    "fill": "Por favor, insira as informações e clique em gerar",
     "options": "Opções",
     "story": "Formato para story",
     "new": "NOVO",
@@ -63,16 +63,21 @@
       "verall": "todo o tempo"
     },
     "types": {
-      "artists": "Top artistas",
-      "albums": "Top álbums",
-      "tracks": "Top músicas"
+      "artist": "Top artista",
+      "album": "Top álbum",
+      "track": "Top música",
+      "artist_plural": "Top artistas",
+      "album_plural": "Top álbums",
+      "track_plural": "Top músicas"
     },
     "validator": {
       "selectTheme": "Por favor selecione um thema",
       "selectUsername": "Por favor insira um usuário do Last.fm válido",
       "selectLongerUsername": "Por favor insira um usuário do Last.fm maior",
       "selectShorterUsername": "Por favor insira um usuário do Last.fm menor"
-    }
+    },
+    "donate": "Você gosta do Musicorum? Nos ajude à mantê-lo de graça e funcionando para todos, e ganhe acesso exclusivo à novas atualizações e novos projetos, além de poder usá-los antecipadamente! Doe para nosso <0>Patreon</0> e ajude o projeto a crescer!",
+    "donateCta": "DOAR"
   },
   "themes": {
     "duotone": {
@@ -84,8 +89,8 @@
       "periods": {
         "7day": "ultimos 7 dias",
         "1month": "ultimos 30 dias",
-        "3month": "ultimos 3 mêses",
-        "6month": "ultimos 6 mêses",
+        "3month": "ultimos 3 meses",
+        "6month": "ultimos 6 meses",
         "12month": "ultimo ano",
         "overall": "o tempo todo"
       },
@@ -104,8 +109,8 @@
       "scrobbles": {
         "7day": "SCROBBLES ULTIMA SEMANA",
         "1month": "SCROBBLES ULTIMO MÊS",
-        "3month": "SCROBBLES ÚLTIMOS 3 MÊSES",
-        "6month": "SCROBBLES ÚLTIMOS 6 MÊSES",
+        "3month": "SCROBBLES ÚLTIMOS 3 MESES",
+        "6month": "SCROBBLES ÚLTIMOS 6 MESES",
         "12month": "SCROBBLES ULTIMO ANO",
         "overall": "SCROBBLES ALL THE TIME"
       }
@@ -116,8 +121,8 @@
       "titles": {
         "7day": "E SUA SEMANA NA MÚSICA",
         "1month": "E SEU MÊS NA MÚSICA",
-        "3month": "E SEUS 3 MÊSES NA MÚSICA",
-        "6month": "E SEUS 6 MÊSES NA MÚSICA",
+        "3month": "E SEUS 3 MESES NA MÚSICA",
+        "6month": "E SEUS 6 MESES NA MÚSICA",
         "12month": "E SEU ANO NA MÚSICA",
         "overall": "E SUAS MÚSICAS O TEMPO TODO"
       },

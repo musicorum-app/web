@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import ColorPreview from '../ColorPreview.jsx'
-import { Badge, FormControl, FormLabel, FormGroup, Switch, FormControlLabel } from '@material-ui/core'
+import { FormControl, FormLabel, FormGroup, Switch, FormControlLabel } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(() => ({
@@ -130,9 +130,9 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
           inputRef={top}
           defaultValue="albums"
         >
-          <MenuItem value="artists">{t('translations:generator.types.artists')}</MenuItem>
-          <MenuItem value="albums">{t('translations:generator.types.albums')}</MenuItem>
-          <MenuItem value="tracks">{t('translations:generator.types.tracks')}</MenuItem>
+          <MenuItem value="artists">{t('translations:generator.types.artist')}</MenuItem>
+          <MenuItem value="albums">{t('translations:generator.types.album')}</MenuItem>
+          <MenuItem value="tracks">{t('translations:generator.types.track')}</MenuItem>
         </TextField>
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
@@ -162,12 +162,7 @@ const TopsTheme = forwardRef(({ period: periodValue, showStory }, ref) => {
             <FormGroup>
               <FormControlLabel
                 control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
-                label={
-                  <Badge color="secondary" badgeContent={t('translations:generator.new')}>
-                    {t('translations:generator.story')}
-                    &nbsp;&nbsp;&nbsp;
-                  </Badge>
-                }
+                label={t('translations:generator.story')}
               />
             </FormGroup>
           </FormControl>

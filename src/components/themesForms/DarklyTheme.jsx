@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 import makeStyles from '@material-ui/core/styles/makeStyles'
-import { Typography, FormControl, FormLabel, FormGroup, FormControlLabel, Switch, Badge } from '@material-ui/core'
+import { Typography, FormControl, FormLabel, FormGroup, FormControlLabel, Switch } from '@material-ui/core'
 import ColorPicker from '../ColorPicker.jsx'
 import { useTranslation } from 'react-i18next'
 
@@ -85,12 +85,12 @@ const DarklyTheme = forwardRef((props, ref) => {
       modules: [
         {
           type: module1Type.current.value,
-          message: t(`translations:generator.types.${module1Type.current.value}`).toUpperCase()
+          message: t(`translations:generator.types.${module1Type.current.value.slice(0, -1)}`).toUpperCase()
           // message: module1Text.current.value
         },
         {
           type: module2Type.current.value,
-          message: t(`translations:generator.types.${module2Type.current.value}`).toUpperCase()
+          message: t(`translations:generator.types.${module2Type.current.value.slice(0, -1)}`).toUpperCase()
           // message: module2Text.current.value
         }
       ],
@@ -178,7 +178,7 @@ const DarklyTheme = forwardRef((props, ref) => {
           <Grid item xs={12} lg={6}>
             <Grid item xs={12}>
               <Typography variant="h6" color="primary">
-                Module #1
+                {t('translations:themes.tops.module1')}
               </Typography>
             </Grid>
             <br />
@@ -194,9 +194,9 @@ const DarklyTheme = forwardRef((props, ref) => {
                     defaultValue="albums"
                     inputRef={module1Type}
                   >
-                    <MenuItem value="artists">Top artist</MenuItem>
-                    <MenuItem value="albums">Top album</MenuItem>
-                    <MenuItem value="tracks">Top track</MenuItem>
+                    <MenuItem value="artists">{t('translations:generator.types.artist')}</MenuItem>
+                    <MenuItem value="albums">{t('translations:generator.types.album')}</MenuItem>
+                    <MenuItem value="tracks">{t('translations:generator.types.track')}</MenuItem>
                   </TextField>
                 </Grid>
                 {/* <Grid item xs={12} xl={6}> */}
@@ -218,7 +218,7 @@ const DarklyTheme = forwardRef((props, ref) => {
           </Grid>
           <Grid item xs={12} lg={6}>
             <Typography variant="h6" color="primary">
-              Module #2
+              {t('translations:themes.tops.module2')}
             </Typography>
             <br />
             <Grid container spacing={3}>
@@ -232,9 +232,9 @@ const DarklyTheme = forwardRef((props, ref) => {
                   defaultValue="artists"
                   inputRef={module2Type}
                 >
-                  <MenuItem value="artists">Top artist</MenuItem>
-                  <MenuItem value="albums">Top album</MenuItem>
-                  <MenuItem value="tracks">Top track</MenuItem>
+                  <MenuItem value="artists">{t('translations:generator.types.artist')}</MenuItem>
+                  <MenuItem value="albums">{t('translations:generator.types.album')}</MenuItem>
+                  <MenuItem value="tracks">{t('translations:generator.types.track')}</MenuItem>
                 </TextField>
               </Grid>
               {/* <Grid item xs={12} xl={6}> */}
@@ -260,17 +260,12 @@ const DarklyTheme = forwardRef((props, ref) => {
           <Grid item xs={12}>
             <FormControl component="fieldset">
               <FormLabel component="legend">
-                Options
+                {t('translations:generator.options')}
               </FormLabel>
               <FormGroup>
                 <FormControlLabel
                   control={<Switch inputRef={story} color="primary" defaultChecked={false} />}
-                  label={
-                    <Badge color="secondary" badgeContent="NEW">
-                      Story format
-                      &nbsp;&nbsp;&nbsp;
-                    </Badge>
-                  }
+                  label={t('translations:generator.story')}
                 />
               </FormGroup>
             </FormControl>
