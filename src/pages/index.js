@@ -2,9 +2,11 @@ import React from 'react'
 import Page from '../components/base/Page'
 import Container from '../components/base/Container'
 import Header from '../components/base/Header'
-import LogoType from '../assets/logotype.svg'
+import LogoType from '../assets/svg/logotype.svg'
 import tw, { styled } from 'twin.macro'
 import { TwitterPost } from '../components/social/TwitterPost'
+import duotoneImage from '../assets/examples/duotone.jpg'
+import gridImage from '../assets/examples/grid.jpg'
 
 const MainLogo = styled(LogoType)`
   ${tw`mt-8 h-9 lg:h-14`}
@@ -49,11 +51,11 @@ export default function Home () {
             date: new Date(),
             app: 'Musicorum'
           }}
-          image="https://share.musc.pw/19anS4.jpg"
+          image={duotoneImage}
         >
           {'🎵 This was my week on music ✨'}
         </TwitterPost>
-        <img width="100%" src="https://result.musicorumapp.com/V_5R7XF6EEkzhNqx_mexTEY-LFGpJ5B07PvkVW_HKEckZJ.webp"/>
+        {/*<img width="100%" src={gridImage}/>*/}
         <ContentBox>
           <ContentHeader>
             Or just create an image and share where you like

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import tw, { styled } from 'twin.macro'
 import { lightLineCSS, likelyGrey } from '../../config/colors'
 import NavBarItem from './NavBarItem'
-import logo from '../../assets/logo.svg'
-import { Link } from 'gatsby'
+import logo from '../../assets/svg/logo.svg'
+import { Link, useI18next } from 'gatsby-plugin-react-i18next'
 import Button from '../buttons/Button'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded'
@@ -62,6 +62,7 @@ const ScreenRead = styled.div`
 `
 
 export default function NavBar ({page}) {
+  const {t, languages} = useI18next()
   const isMobile = useMediaQuery({
     query: '(max-width: 767px)'
   })
@@ -145,5 +146,12 @@ export default function NavBar ({page}) {
         </MobileNavsItems>
       }
     </MediaQuery>
+    {/*{*/}
+    {/*  t('common:pages.generate')*/}
+    {/*}*/}
+    {/*<br/>*/}
+    {/*{*/}
+    {/*  languages.join(', ')*/}
+    {/*}*/}
   </Bar>
 }

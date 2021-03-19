@@ -3,11 +3,11 @@ import tw, { styled } from 'twin.macro'
 import { colorSecondary, darkerRed, lightLineCSS, likelyGrey } from "../../config/colors"
 import TwitterIcon from '@material-ui/icons/Twitter'
 import MediaQuery, { useMediaQuery } from 'react-responsive'
-import LogoType from '../../assets/logotype.svg'
-import DiscordIcon from '../../assets/icons/discord.svg'
-import PatreonIcon from '../../assets/icons/patreon.svg'
-import MediumIcon from '../../assets/icons/medium.svg'
-import GithubIcon from '../../assets/icons/github.svg'
+import LogoType from '../../assets/svg/logotype.svg'
+import DiscordIcon from '../../assets/svg/icons/discord.svg'
+import PatreonIcon from '../../assets/svg/icons/patreon.svg'
+import MediumIcon from '../../assets/svg/icons/medium.svg'
+import GithubIcon from '../../assets/svg/icons/github.svg'
 
 const bp = 'md'
 

@@ -6,7 +6,7 @@ module.exports = {
       resolve: "gatsby-plugin-react-svg",
       options: {
         rule: {
-          include: /assets/
+          include: /assets\/svg/
         }
       }
     },
@@ -14,7 +14,21 @@ module.exports = {
       resolve: `gatsby-plugin-nprogress`,
       options: {
         color: `#B71C1C`,
-        showSpinner: true
+        showSpinner: false
+      }
+    },
+    {
+      resolve: `@jbseo/gatsby-plugin-react-i18next`,
+      options: {
+        path: `${__dirname}/locales`,
+        languages: [`en`, `pt`],
+        defaultLanguage: `en`,
+        i18nextOptions: {
+          interpolation: {
+            escapeValue: false // not needed for react as it escapes by default
+          },
+          ns: ['common']
+        }
       }
     }
   ]
