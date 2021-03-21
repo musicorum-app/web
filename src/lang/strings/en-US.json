@@ -18,7 +18,7 @@
       "title": "Log in into your Twitter Account",
       "tryAgain": "Try again",
       "cancel": "Cancel",
-      "error": "An error ocorrured while getting your login URL. Please try again.",
+      "error": "An error occurred while getting your login URL. Please try again.",
       "loading": "Preparing your login...",
       "success": "A pop-up window has opened for you to login. If not, please enable your pop-ups and try again.",
       "errorPopup": "We couldn't open the pop-up window for your login. Please allow pop-ups on your browser configuration."
