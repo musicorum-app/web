@@ -60,7 +60,7 @@
       "3month": "last 3 months",
       "6month": "last 6 months",
       "12month": "year",
-      "verall": "overall"
+      "overall": "overall"
     },
     "types": {
       "artist": "Top artist",
