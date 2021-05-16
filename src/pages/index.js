@@ -45,20 +45,20 @@ export default function Home() {
         <TwitterPost
           user={{
             avatar: <StaticImage
-              src={"https://lastfm.freetls.fastly.net/i/u/64s/d0d749fa16e88ce5c452283a37ec7516.png"}
-              alt={"Pedro fracassi"}
+              src={"https://pbs.twimg.com/profile_images/1391818170864967680/DpF5zKHr_400x400.jpg"}
+              alt={"analua twitter profile"}
               placeholder="blurred"
               layout="constrained"
             />,
-            name: "Pedro Fracassi",
-            user: "plfracassi"
+            name: "analua",
+            user: "fatalbratz"
           }}
           footer={{
             date: new Date(),
             app: "Musicorum"
           }}
           image={<StaticImage
-            src={"https://i.imgur.com/3zUOVdP.jpg"}
+            src={"https://result.musicorumapp.com/BZuUg4Il35_wJUyeJaMrKd1-.webp"}
             alt={"Twitter media sample"}
             placeholder="blurred"
             layout="constrained"

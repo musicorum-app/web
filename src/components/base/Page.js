@@ -14,9 +14,11 @@ export default function Page ({ name, children, page }) {
       <meta name="description" content="Set of tools and utilities for last.fm / TODO" />
     </Helmet>
     <MuiPickersUtilsProvider utils={MomentUtils}>
-      <NavBar page={page}/>
-      {children}
-      <Footer />
+     <div>
+       <NavBar page={page}/>
+       {children}
+       <Footer />
+     </div>
     </MuiPickersUtilsProvider>
   </Base>
 }
