@@ -16,6 +16,7 @@ import GenerateAPI from "../api/generate"
 import { darkerRed } from "../config/colors"
 import { Img } from "react-image"
 import SwitchInput from "../components/form/SwitchInput"
+import * as Sentry from "@sentry/gatsby"
 
 const ContentGrid = styled.div`
   ${tw`grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-2 md:gap-x-8 lg:gap-x-12 items-start`}
@@ -104,11 +105,16 @@ export default function GeneratePage() {
             message: "Unknown front-end error."
           })
         }
+
+        if (!a || !a.success) {
+          Sentry.captureException(new Error(a))
+        }
       })
-      .catch(a => {
+      .catch(e => {
+        Sentry.captureException(e)
         setResult({
           success: false,
-          message: "Unknown front-end error: " + a
+          message: "Unknown front-end error: " + e
         })
       })
       .finally(() => {
