@@ -107,7 +107,11 @@ export default function GeneratePage() {
         }
 
         if (!a || !a.success) {
-          Sentry.captureException(new Error(a))
+          if (a.error) {
+            Sentry.captureException(new Error(`${a.error}: ${a.message}`))
+          } else {
+            Sentry.captureException(new Error('Unexpected problem'))
+          }
         }
       })
       .catch(e => {
