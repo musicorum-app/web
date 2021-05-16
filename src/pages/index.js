@@ -1,12 +1,13 @@
-import React from 'react'
-import Page from '../components/base/Page'
-import Container from '../components/base/Container'
-import Header from '../components/base/Header'
-import LogoType from '../assets/svg/logotype.svg'
-import tw, { styled } from 'twin.macro'
-import { TwitterPost } from '../components/social/TwitterPost'
-import duotoneImage from '../assets/examples/duotone.jpg'
-import gridImage from '../assets/examples/grid.jpg'
+import React from "react"
+import Page from "../components/base/Page"
+import Container from "../components/base/Container"
+import Header from "../components/base/Header"
+import LogoType from "../assets/svg/logotype.svg"
+import tw, { styled } from "twin.macro"
+import { TwitterPost } from "../components/social/TwitterPost"
+import duotoneImage from "../assets/examples/duotone.jpg"
+import gridImage from "../assets/examples/grid.jpg"
+import { StaticImage } from "gatsby-plugin-image"
 
 const MainLogo = styled(LogoType)`
   ${tw`mt-8 h-9 lg:h-14`}
@@ -27,11 +28,11 @@ const ContentHeader = styled.h3`
   font-size: 1.7rem;
 `
 
-export default function Home () {
+export default function Home() {
   return <Page page="home">
     <Container>
       <Header>
-        <MainLogo/>
+        <MainLogo />
       </Header>
       <ContentGrid>
         <ContentBox>
@@ -43,19 +44,34 @@ export default function Home () {
         </ContentBox>
         <TwitterPost
           user={{
-            avatar: 'https://pbs.twimg.com/profile_images/1325957152054374400/XTjFh45Y_400x400.jpg',
-            name: 'Pedro Fracassi',
-            user: 'plfracassi'
+            avatar: <StaticImage
+              src={"https://lastfm.freetls.fastly.net/i/u/64s/d0d749fa16e88ce5c452283a37ec7516.png"}
+              alt={"Pedro fracassi"}
+              placeholder="blurred"
+              layout="constrained"
+            />,
+            name: "Pedro Fracassi",
+            user: "plfracassi"
           }}
           footer={{
             date: new Date(),
-            app: 'Musicorum'
+            app: "Musicorum"
           }}
-          image={duotoneImage}
+          image={<StaticImage
+            src={"https://i.imgur.com/3zUOVdP.jpg"}
+            alt={"Twitter media sample"}
+            placeholder="blurred"
+            layout="constrained"
+          />}
         >
-          {'🎵 This was my week on music ✨'}
+          {"🎵 This was my week on music ✨"}
         </TwitterPost>
-        {/*<img width="100%" src={gridImage}/>*/}
+        <StaticImage
+          src="https://result.musicorumapp.com/DRZZwfUL4J9g9KMzcKd-TwiS.webp"
+          alt="Grid image example"
+          placeholder="blurred"
+          layout="constrained"
+        />
         <ContentBox>
           <ContentHeader>
             Or just create an image and share where you like

@@ -1,6 +1,5 @@
 import React from "react"
 import Select from "react-select"
-import { colorSecondary, darkerRed, kindaBlack } from "../../config/colors"
 
 const selectStyles = {
   control: (base, { isFocused }) => ({

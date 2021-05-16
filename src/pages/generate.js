@@ -150,11 +150,9 @@ export default function GeneratePage() {
     </div>
   }
 
-  console.log(theme.value, themesThatDoesntShowUser.includes(theme.value))
-
   const canShowHideUser = themesThatDoesntShowUser.includes(theme.value)
 
-  return <Page page="generate">
+  return <Page page="generate" name="Generate">
     <Container>
       <Header>Generate</Header>
       <ContentGrid>
@@ -166,7 +164,8 @@ export default function GeneratePage() {
               onChange={e => setTheme(e)}
               placeholder="Theme"
               options={[
-                { value: "grid", label: "Grid" }
+                { value: "grid", label: "Grid" },
+                { value: "duotone", label: "Duotone" }
               ]} />
           </div>
           {

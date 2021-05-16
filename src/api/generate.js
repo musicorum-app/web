@@ -15,7 +15,7 @@ export default class GenerateAPI {
       body: JSON.stringify({
         user,
         theme,
-        language: 'en',
+        language: 'en-US',
         options,
         ...extra
       })

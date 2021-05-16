@@ -1,7 +1,8 @@
-import React, {useRef, useEffect} from 'react'
-import tw, {styled} from 'twin.macro'
-import twemoji from 'twemoji'
-import moment from 'moment'
+import React, { useRef, useEffect } from "react"
+import tw, { styled } from "twin.macro"
+import twemoji from "twemoji"
+import moment from "moment"
+import { StaticImage } from "gatsby-plugin-image"
 
 const TwitterCard = styled.div`
   ${tw`p-3`}
@@ -16,8 +17,10 @@ const TwitterUser = styled.div`
   font-weight: bold;
 `
 
-const TwitterAvatar = styled.img`
-  ${tw`rounded-full h-11 w-11`}
+const TwitterAvatar = styled.div`
+  img {
+    ${tw`rounded-full h-11 w-11`}
+  }
 `
 
 const TwitterUserContent = styled.div`
@@ -29,8 +32,11 @@ const TwitterUsername = styled.span`
   font-weight: 400;
 `
 
-const TwitterMedia = styled.img`
-  ${tw`rounded-md max-w-full mt-4 flex`}
+const TwitterMedia = styled.div`
+  img {
+    height: auto;
+    ${tw`rounded-md max-w-full mt-4 flex`}
+  }
 `
 
 const TwitterFooter = styled.span`
@@ -47,26 +53,31 @@ export function TwitterPost({
                               user,
                               image,
                               footer,
-                              children
+                              children,
+                              staticImage
                             }) {
   const textRef = useRef(null)
 
-  const getDate = () => moment(footer.date).format('H:mm [·] MMM D, YYYY')
+  console.log(image)
+
+  const getDate = () => moment(footer.date).format("H:mm [·] MMM D, YYYY")
 
   useEffect(() => {
     console.log(textRef)
     if (textRef) {
       twemoji.parse(textRef.current, {
-        className: 'twemoji-item',
-        ext: '.svg',
-        size: 'svg'
+        className: "twemoji-item",
+        ext: ".svg",
+        size: "svg"
       })
     }
   }, [textRef, children])
 
   return <TwitterCard>
     <TwitterUser>
-      <TwitterAvatar src={user.avatar} alt={user.name}/>
+      <TwitterAvatar>
+        {user.avatar}
+      </TwitterAvatar>
       <TwitterUserContent>
         {user.name}
         <TwitterUsername>
@@ -78,7 +89,9 @@ export function TwitterPost({
       {children}
     </div>
     {
-      image && <TwitterMedia src={image} alt="Twitter media sample"/>
+      image && <TwitterMedia>
+        {image}
+      </TwitterMedia>
     }
     {
       footer && <TwitterFooter>

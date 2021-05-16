@@ -6,8 +6,6 @@ import '@fontsource/poppins/700.css'
 import { styled } from 'twin.macro'
 import '../../styles/base.scss'
 
-import { kindaBlack } from '../../config/colors'
-
 const Wrapper = styled.div`
   
 `
