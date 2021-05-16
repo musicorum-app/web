@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import tw, { styled } from 'twin.macro'
 import { colorSecondary, darkerRed, lightLineCSS, likelyGrey } from "../../config/colors"
 import TwitterIcon from '@material-ui/icons/Twitter'
-import MediaQuery, { useMediaQuery } from 'react-responsive'
 import LogoType from '../../assets/svg/logotype.svg'
 import DiscordIcon from '../../assets/svg/icons/discord.svg'
 import PatreonIcon from '../../assets/svg/icons/patreon.svg'
@@ -52,11 +51,7 @@ const Disclaimer = styled.span`
   font-size: 11px;
 `
 
-export default function Footer ({page}) {
-  const isMobile = useMediaQuery({
-    query: '(max-width: 767px)'
-  })
-
+export default function Footer () {
   return <Bar>
     <BarInside>
       <FooterLogo />

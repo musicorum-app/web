@@ -8,7 +8,7 @@ import Button from '../buttons/Button'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded'
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
-import MediaQuery, { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from 'react-responsive'
 
 const bp = 'md'
 
@@ -61,6 +61,15 @@ const ScreenRead = styled.div`
   ${tw`sr-only`}
 `
 
+const OnlySmall = styled.div`
+  ${tw`sm:flex md:hidden`}
+  ${p => p.fullWidth ? tw`w-full` : ''}
+`
+
+const OnlyMedium = styled.div`
+  ${tw`hidden md:flex`}
+`
+
 export default function NavBar ({page}) {
   const {t, languages} = useI18next()
   const isMobile = useMediaQuery({
@@ -80,7 +89,7 @@ export default function NavBar ({page}) {
 
   return <Bar>
     <BarInside>
-      <MediaQuery query="(max-width: 767px)">
+      <OnlySmall>
         <NavBarItems>
           <MobileDrawerIcon onClick={toggleOpen}>
             <ScreenRead>{isOpen ? 'Close menu' : 'Open menu'}</ScreenRead>
@@ -98,7 +107,7 @@ export default function NavBar ({page}) {
           </MobileDrawerIcon>
           <MobileSizeGap/>
         </NavBarItems>
-      </MediaQuery>
+      </OnlySmall>
       <NavBarItems>
         <Link to="/" style={{
           padding: 0,
@@ -109,21 +118,21 @@ export default function NavBar ({page}) {
         }}>
           <NavIcon height={isMobile ? 23 : 27}/>
         </Link>
-        <MediaQuery query="(min-width: 768px)">
+        <OnlyMedium>
           <NavBarItem active={page === 'generate'} to="/generate">
             Generate
           </NavBarItem>
           <NavBarItem active={page === 'about'} to="/about">
             About
           </NavBarItem>
-        </MediaQuery>
+        </OnlyMedium>
       </NavBarItems>
       <NavBarItems>
-        <MediaQuery query="(min-width: 768px)">
+        <OnlyMedium>
           <NavBarItem active={page === 'donate'} donate to="/donate">
             Donate
           </NavBarItem>
-        </MediaQuery>
+        </OnlyMedium>
         <Button size="small" color="#1da1f2" icon={!isMobile ? <TwitterIcon/> : null} buttonStyle={{
           marginLeft: 10
         }}>
@@ -131,7 +140,7 @@ export default function NavBar ({page}) {
         </Button>
       </NavBarItems>
     </BarInside>
-    <MediaQuery query="(max-width: 767px)">
+    <OnlySmall fullWidth>
       {
         isOpen && <MobileNavsItems>
           <NavBarItem active={page === 'generate'} to="/generate">
@@ -145,7 +154,7 @@ export default function NavBar ({page}) {
           </NavBarItem>
         </MobileNavsItems>
       }
-    </MediaQuery>
+    </OnlySmall>
     {/*{*/}
     {/*  t('common:pages.generate')*/}
     {/*}*/}

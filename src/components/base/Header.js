@@ -1,4 +1,3 @@
-import React from 'react'
 import tw, { styled } from 'twin.macro'
 
 const Header = styled.h1`
