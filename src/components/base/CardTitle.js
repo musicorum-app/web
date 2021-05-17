@@ -1,4 +1,4 @@
-import tw, { styled } from "twin.macro"
+import tw, { styled } from 'twin.macro'
 
 const CardTitle = styled.span`
   ${tw`mb-3 flex subpixel-antialiased`}

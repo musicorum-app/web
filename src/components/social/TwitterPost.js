@@ -1,15 +1,15 @@
-import React, { useRef, useEffect } from "react"
-import tw, { styled } from "twin.macro"
-import twemoji from "twemoji"
-import moment from "moment"
-import { StaticImage } from "gatsby-plugin-image"
+import React, { useRef, useEffect } from 'react'
+import tw, { styled } from 'twin.macro'
+import twemoji from 'twemoji'
+import moment from 'moment'
+import { StaticImage } from 'gatsby-plugin-image'
 
 const TwitterCard = styled.div`
   ${tw`p-3`}
   background: #15202B;
-  border: 2px solid #313B45;
+  border: 2px solid #313b45;
   border-radius: 10px;
-  font-family: "Segoe UI";
+  font-family: apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 `
 
 const TwitterUser = styled.div`
@@ -28,7 +28,7 @@ const TwitterUserContent = styled.div`
 `
 
 const TwitterUsername = styled.span`
-  color: #8899A6;
+  color: #8899a6;
   font-weight: 400;
 `
 
@@ -45,67 +45,51 @@ const TwitterFooter = styled.span`
   font-weight: 400;
 `
 
-const TwitterFooterItem = styled.a`
+const TwitterFooterItem = styled.a``
 
-`
-
-export function TwitterPost({
-                              user,
-                              image,
-                              footer,
-                              children,
-                              staticImage
-                            }) {
+export function TwitterPost({ user, image, footer, children, staticImage }) {
   const textRef = useRef(null)
 
   console.log(image)
 
-  const getDate = () => moment(footer.date).format("H:mm [·] MMM D, YYYY")
+  const getDate = () => moment(footer.date).format('H:mm [·] MMM D, YYYY')
 
   useEffect(() => {
     console.log(textRef)
     if (textRef) {
       twemoji.parse(textRef.current, {
-        className: "twemoji-item",
-        ext: ".svg",
-        size: "svg"
+        className: 'twemoji-item',
+        ext: '.svg',
+        size: 'svg',
       })
     }
   }, [textRef, children])
 
-  return <TwitterCard>
-    <TwitterUser>
-      <TwitterAvatar>
-        {user.avatar}
-      </TwitterAvatar>
-      <TwitterUserContent>
-        {user.name}
-        <TwitterUsername>
-          @{user.user}
-        </TwitterUsername>
-      </TwitterUserContent>
-    </TwitterUser>
-    <div ref={textRef}>
-      {children}
-    </div>
-    {
-      image && <TwitterMedia>
-        {image}
-      </TwitterMedia>
-    }
-    {
-      footer && <TwitterFooter>
-        <TwitterFooterItem>
-          {getDate()}
-        </TwitterFooterItem>
-        <span style={{
-          marginLeft: 4,
-          marginRight: 4
-        }}>·</span>
-        <TwitterFooterItem>
-          {footer.app}
-        </TwitterFooterItem>
-      </TwitterFooter>
-    }
-  </TwitterCard>
+  return (
+    <TwitterCard>
+      <TwitterUser>
+        <TwitterAvatar>{user.avatar}</TwitterAvatar>
+        <TwitterUserContent>
+          {user.name}
+          <TwitterUsername>@{user.user}</TwitterUsername>
+        </TwitterUserContent>
+      </TwitterUser>
+      <div ref={textRef}>{children}</div>
+      {image && <TwitterMedia>{image}</TwitterMedia>}
+      {footer && (
+        <TwitterFooter>
+          <TwitterFooterItem>{getDate()}</TwitterFooterItem>
+          <span
+            style={{
+              marginLeft: 4,
+              marginRight: 4,
+            }}
+          >
+            ·
+          </span>
+          <TwitterFooterItem>{footer.app}</TwitterFooterItem>
+        </TwitterFooter>
+      )}
+    </TwitterCard>
+  )
 }

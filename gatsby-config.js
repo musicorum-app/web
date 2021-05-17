@@ -15,44 +15,62 @@ module.exports = {
         background_color: `#131313`,
         theme_color: `#B71C1C`,
         display: `standalone`,
-        icon: 'src/assets/icons/logo-circle.png'
+        icon: 'src/assets/icons/logo-circle.png',
       },
     },
     {
-      resolve: "@sentry/gatsby",
+      resolve: '@sentry/gatsby',
       options: {
         dsn: process.env.SENTRY_DSN,
         sampleRate: 1.0,
       },
     },
     {
-      resolve: "gatsby-plugin-react-svg",
+      resolve: 'gatsby-plugin-react-svg',
       options: {
         rule: {
-          include: /assets\/svg/
-        }
-      }
+          include: /\.svg/,
+        },
+      },
     },
     {
       resolve: `gatsby-plugin-nprogress`,
       options: {
         color: `#B71C1C`,
-        showSpinner: false
+        showSpinner: false,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/locales`,
+        name: `locale`,
+        ignore: [`**/\.*`, `**/*~`]
       }
     },
     {
       resolve: `@jbseo/gatsby-plugin-react-i18next`,
       options: {
-        path: `${__dirname}/locales`,
+        sourceInstanceName: `locale`,
         languages: [`en`, `pt`],
         defaultLanguage: `en`,
+        ns: ['common'],
+        defaultNS: 'common',
         i18nextOptions: {
+          languages: [`en`, `pt`],
           interpolation: {
-            escapeValue: false // not needed for react as it escapes by default
+            escapeValue: false, // not needed for react as it escapes by default
           },
-          ns: ['common']
-        }
-      }
-    }
-  ]
+          ns: ['common'],
+          defaultNS: 'common'
+        },
+        pages: [
+          {
+            matchPath: '/:lang?',
+            getLanguageFromPath: true
+          }
+          ]
+      },
+    },
+  ],
 }

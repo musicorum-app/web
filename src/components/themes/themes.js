@@ -1,9 +1,9 @@
 import GridTheme from '../themes/GridTheme'
-import DuotoneTheme from "./DuotoneTheme"
+import DuotoneTheme from './DuotoneTheme'
 
 const themes = {
   grid: GridTheme,
-  duotone: DuotoneTheme
+  duotone: DuotoneTheme,
 }
 
 export default themes

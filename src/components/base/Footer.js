@@ -1,6 +1,11 @@
 import React from 'react'
 import tw, { styled } from 'twin.macro'
-import { colorSecondary, darkerRed, lightLineCSS, likelyGrey } from "../../config/colors"
+import {
+  colorSecondary,
+  darkerRed,
+  lightLineCSS,
+  likelyGrey,
+} from '../../config/colors'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import LogoType from '../../assets/svg/logotype.svg'
 import DiscordIcon from '../../assets/svg/icons/discord.svg'
@@ -34,12 +39,12 @@ const SocialIcons = styled.div`
 const SocialIcon = styled.a`
   text-decoration: none;
   display: flex;
-  
+
   &:hover {
     cursor: pointer;
   }
-  
-  &>svg {
+
+  & > svg {
     width: 30px;
     height: 30px;
   }
@@ -51,31 +56,53 @@ const Disclaimer = styled.span`
   font-size: 11px;
 `
 
-export default function Footer () {
-  return <Bar>
-    <BarInside>
-      <FooterLogo />
-      <SocialIcons>
-        <SocialIcon href="https://twitter.com/MusicorumApp" rel="nofollow noreferrer" target="_blank">
-          <TwitterIcon />
-        </SocialIcon>
-        <SocialIcon href="https://discord.musc.pw" rel="nofollow noreferrer" target="_blank">
-          <DiscordIcon />
-        </SocialIcon>
-        <SocialIcon href="https://www.patreon.com/musicorumapp" rel="nofollow noreferrer" target="_blank">
-          <PatreonIcon />
-        </SocialIcon>
-        <SocialIcon href="https://medium.com/musicorum" rel="nofollow noreferrer" target="_blank">
-          <MediumIcon />
-        </SocialIcon>
-        <SocialIcon href="https://github.com/musicorum-app/" rel="nofollow noreferrer" target="_blank">
-          <GithubIcon />
-        </SocialIcon>
-      </SocialIcons>
-      <Disclaimer>
-
-        Musicorum is not associated or affiliated, in any way, with Last.fm, CBSi or Twitter, with their logos and trademarks owned by themself
-      </Disclaimer>
-    </BarInside>
-  </Bar>
+export default function Footer() {
+  return (
+    <Bar>
+      <BarInside>
+        <FooterLogo />
+        <SocialIcons>
+          <SocialIcon
+            href="https://twitter.com/MusicorumApp"
+            rel="nofollow noreferrer"
+            target="_blank"
+          >
+            <TwitterIcon />
+          </SocialIcon>
+          <SocialIcon
+            href="https://discord.musc.pw"
+            rel="nofollow noreferrer"
+            target="_blank"
+          >
+            <DiscordIcon />
+          </SocialIcon>
+          <SocialIcon
+            href="https://www.patreon.com/musicorumapp"
+            rel="nofollow noreferrer"
+            target="_blank"
+          >
+            <PatreonIcon />
+          </SocialIcon>
+          <SocialIcon
+            href="https://medium.com/musicorum"
+            rel="nofollow noreferrer"
+            target="_blank"
+          >
+            <MediumIcon />
+          </SocialIcon>
+          <SocialIcon
+            href="https://github.com/musicorum-app/"
+            rel="nofollow noreferrer"
+            target="_blank"
+          >
+            <GithubIcon />
+          </SocialIcon>
+        </SocialIcons>
+        <Disclaimer>
+          Musicorum is not associated or affiliated, in any way, with Last.fm,
+          CBSi or Twitter, with their logos and trademarks owned by themself
+        </Disclaimer>
+      </BarInside>
+    </Bar>
+  )
 }

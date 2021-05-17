@@ -3,12 +3,13 @@ import tw, { styled } from 'twin.macro'
 import { lightLineCSS, likelyGrey } from '../../config/colors'
 import NavBarItem from './NavBarItem'
 import logo from '../../assets/svg/logo.svg'
-import { Link, useI18next } from 'gatsby-plugin-react-i18next'
+import { Link, useI18next, useTranslation } from "gatsby-plugin-react-i18next"
 import Button from '../buttons/Button'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded'
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { useMediaQuery } from 'react-responsive'
+import { graphql } from "gatsby"
 
 const bp = 'md'
 
@@ -63,17 +64,18 @@ const ScreenRead = styled.div`
 
 const OnlySmall = styled.div`
   ${tw`sm:flex md:hidden`}
-  ${p => p.fullWidth ? tw`w-full` : ''}
+  ${p => (p.fullWidth ? tw`w-full` : '')}
 `
 
 const OnlyMedium = styled.div`
   ${tw`hidden md:flex`}
 `
 
-export default function NavBar ({page}) {
-  const {t, languages} = useI18next()
+export default function NavBar({ page }) {
+  const { t, languages } = useI18next()
+  console.log(languages)
   const isMobile = useMediaQuery({
-    query: '(max-width: 767px)'
+    query: '(max-width: 767px)',
   })
   const [isOpen, setOpen] = useState(false)
 
@@ -87,80 +89,98 @@ export default function NavBar ({page}) {
     }
   }, [isMobile])
 
-  return <Bar>
-    <BarInside>
-      <OnlySmall>
+  return (
+    <Bar>
+      <BarInside>
+        <OnlySmall>
+          <NavBarItems>
+            <MobileDrawerIcon onClick={toggleOpen}>
+              <ScreenRead>{isOpen ? 'Close menu' : 'Open menu'}</ScreenRead>
+              {isOpen ? (
+                <CloseRoundedIcon
+                  style={{
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    fontSize: 28,
+                  }}
+                />
+              ) : (
+                <MenuRoundedIcon
+                  style={{
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    fontSize: 28,
+                  }}
+                />
+              )}
+            </MobileDrawerIcon>
+            <MobileSizeGap />
+          </NavBarItems>
+        </OnlySmall>
         <NavBarItems>
-          <MobileDrawerIcon onClick={toggleOpen}>
-            <ScreenRead>{isOpen ? 'Close menu' : 'Open menu'}</ScreenRead>
-            {
-              isOpen
-                ? <CloseRoundedIcon style={{
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  fontSize: 28
-                }}/>
-                : <MenuRoundedIcon style={{
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  fontSize: 28
-                }}/>
-            }
-          </MobileDrawerIcon>
-          <MobileSizeGap/>
+          <Link
+            to="/"
+            style={{
+              padding: 0,
+              marginTop: 6,
+              border: 'none',
+              textDecoration: 'none',
+              marginRight: 24,
+            }}
+          >
+            <NavIcon height={isMobile ? 23 : 27} />
+          </Link>
+          <OnlyMedium>
+            <NavBarItem active={page === 'generate'} to="/generate">
+              {/*{t('pages.generate')}*/}
+              Generate
+            </NavBarItem>
+            <NavBarItem active={page === 'about'} to="/about">
+              {/*{t('common:pages.about')}*/}
+              About
+            </NavBarItem>
+          </OnlyMedium>
         </NavBarItems>
+        <NavBarItems>
+          <OnlyMedium>
+            <NavBarItem active={page === 'donate'} donate to="/donate">
+              Donate
+            </NavBarItem>
+          </OnlyMedium>
+          <Button
+            size="small"
+            color="#1da1f2"
+            icon={!isMobile ? <TwitterIcon /> : null}
+            buttonStyle={{
+              marginLeft: 10,
+            }}
+          >
+            Login
+          </Button>
+        </NavBarItems>
+      </BarInside>
+      <OnlySmall fullWidth>
+        {isOpen && (
+          <MobileNavsItems>
+            <NavBarItem active={page === 'generate'} to="/generate">
+              {/*{t('common:pages.generate')}*/}
+              Generate
+            </NavBarItem>
+            <NavBarItem active={page === 'about'} to="/about">
+              {/*{t('common:pages.about')}*/}
+              About
+            </NavBarItem>
+            <NavBarItem active={page === 'donate'} donate to="/donate">
+              Donate
+            </NavBarItem>
+          </MobileNavsItems>
+        )}
       </OnlySmall>
-      <NavBarItems>
-        <Link to="/" style={{
-          padding: 0,
-          marginTop: 6,
-          border: 'none',
-          textDecoration: 'none',
-          marginRight: 24
-        }}>
-          <NavIcon height={isMobile ? 23 : 27}/>
-        </Link>
-        <OnlyMedium>
-          <NavBarItem active={page === 'generate'} to="/generate">
-            Generate
-          </NavBarItem>
-          <NavBarItem active={page === 'about'} to="/about">
-            About
-          </NavBarItem>
-        </OnlyMedium>
-      </NavBarItems>
-      <NavBarItems>
-        <OnlyMedium>
-          <NavBarItem active={page === 'donate'} donate to="/donate">
-            Donate
-          </NavBarItem>
-        </OnlyMedium>
-        <Button size="small" color="#1da1f2" icon={!isMobile ? <TwitterIcon/> : null} buttonStyle={{
-          marginLeft: 10
-        }}>
-          Login
-        </Button>
-      </NavBarItems>
-    </BarInside>
-    <OnlySmall fullWidth>
-      {
-        isOpen && <MobileNavsItems>
-          <NavBarItem active={page === 'generate'} to="/generate">
-            Generate
-          </NavBarItem>
-          <NavBarItem active={page === 'about'} to="/about">
-            About
-          </NavBarItem>
-          <NavBarItem active={page === 'donate'} donate to="/donate">
-            Donate
-          </NavBarItem>
-        </MobileNavsItems>
-      }
-    </OnlySmall>
-    {/*{*/}
-    {/*  t('common:pages.generate')*/}
-    {/*}*/}
-    {/*<br/>*/}
-    {/*{*/}
-    {/*  languages.join(', ')*/}
-    {/*}*/}
-  </Bar>
+      {/*{*/}
+      {/*  t('common:pages.generate')*/}
+      {/*}*/}
+      {/*<br/>*/}
+      {/*{*/}
+      {/*  languages.join(', ')*/}
+      {/*}*/}
+    </Bar>
+  )
 }

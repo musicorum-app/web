@@ -3,9 +3,9 @@ export default class GenerateAPI {
     return fetch(process.env.GATSBY_GENERATOR_URL + path, {
       headers: {
         Authorization: `Key ${process.env.GATSBY_API_KEY}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      ...options
+      ...options,
     }).then(r => r.json())
   }
 
@@ -17,8 +17,8 @@ export default class GenerateAPI {
         theme,
         language: 'en-US',
         options,
-        ...extra
-      })
+        ...extra,
+      }),
     })
   }
 }
