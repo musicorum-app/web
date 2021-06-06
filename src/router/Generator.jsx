@@ -296,7 +296,7 @@ export default function Generator () {
                   <MenuItem value="pride">
                     <img src="https://discordapp.com/assets/fd4b28db5d02e26f4ee43ab549ecffd4.svg"
                          className={classes.flag}/>
-                    Pride 2020
+                    Pride 2021
                   </MenuItem>
                 </TextField>
               </Grid>
