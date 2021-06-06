@@ -65,31 +65,31 @@ const PrideTheme = forwardRef((props, ref) => {
             Lesbian
           </MenuItem>
           <MenuItem value="gay">
-            <img alt="LGBT Flag" src={gay} className={classes.flag} />
-            Gay man
+            <img alt="GAY Flag" src={gay} className={classes.flag} />
+            Gay
           </MenuItem>
           <MenuItem value="bisexual">
-            <img alt="LGBT Flag" src={bisexual} className={classes.flag} />
+            <img alt="Bissexual Flag" src={bisexual} className={classes.flag} />
             Bisexual
           </MenuItem>
           <MenuItem value="transgender">
-            <img alt="LGBT Flag" src={transgender} className={classes.flag} />
+            <img alt="Transgender Flag" src={transgender} className={classes.flag} />
             Transgender
           </MenuItem>
           <MenuItem value="pansexual">
-            <img alt="LGBT Flag" src={pansexual} className={classes.flag} />
+            <img alt="Pansexual Flag" src={pansexual} className={classes.flag} />
             Pansexual
           </MenuItem>
           <MenuItem value="nonBinary">
-            <img alt="LGBT Flag" src={nonBinary} className={classes.flag} />
+            <img alt="Non Binary Flag" src={nonBinary} className={classes.flag} />
             Non binary
           </MenuItem>
           <MenuItem value="asexual">
-            <img alt="LGBT Flag" src={asexual} className={classes.flag} />
+            <img alt="Asexual Flag" src={asexual} className={classes.flag} />
             Asexual
           </MenuItem>
           <MenuItem value="genderFluid">
-            <img alt="LGBT Flag" src={genderFluid} className={classes.flag} />
+            <img alt="Gender fluid Flag" src={genderFluid} className={classes.flag} />
             Gender Fluid
           </MenuItem>
         </TextField>
