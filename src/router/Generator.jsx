@@ -293,6 +293,11 @@ export default function Generator () {
                   <MenuItem value="tops">Tops</MenuItem>
                   <MenuItem value="duotone">Duotone</MenuItem>
                   <MenuItem value="darkly">Darkly</MenuItem>
+                  <MenuItem value="pride">
+                    <img src="https://discordapp.com/assets/fd4b28db5d02e26f4ee43ab549ecffd4.svg"
+                         className={classes.flag}/>
+                    Pride 2020
+                  </MenuItem>
                 </TextField>
               </Grid>
               <Grid item xs={12} sm={6}>
