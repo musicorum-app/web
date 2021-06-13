@@ -15,6 +15,9 @@ import genderFluid from '../../assets/flags/genderFluid.svg'
 import nonBinary from '../../assets/flags/nonBinary.svg'
 import pansexual from '../../assets/flags/pansexual.svg'
 import transgender from '../../assets/flags/transgender.svg'
+import agender from '../../assets/flags/agender.svg'
+import aromantic from '../../assets/flags/aromantic.svg'
+import unlabeled from '../../assets/flags/unlabeled.svg'
 
 const useStyles = makeStyles(_ => ({
   form: {
@@ -91,6 +94,18 @@ const PrideTheme = forwardRef((props, ref) => {
           <MenuItem value="genderFluid">
             <img alt="Gender fluid Flag" src={genderFluid} className={classes.flag} />
             Gender Fluid
+          </MenuItem>
+          <MenuItem value="agender">
+            <img alt="Agender Flag" src={agender} className={classes.flag} />
+            Agender
+          </MenuItem>
+          <MenuItem value="unlabeled">
+            <img alt="Unlabeled Flag" src={unlabeled} className={classes.flag} />
+            Unlabeled
+          </MenuItem>
+          <MenuItem value="aromantic">
+            <img alt="Aromantic Flag" src={aromantic} className={classes.flag} />
+            Aromantic
           </MenuItem>
         </TextField>
       </Grid>
