@@ -22,6 +22,7 @@ import TwitterCallback from '../router/auth/TwitterCallback.jsx'
 import LastfmCallback from '../router/auth/LastfmCallback.jsx'
 
 import MusicorumLogo from '../assets/logotext.svg'
+import MobilePrivacyPolicy from '../router/mobile/MobilePrivacyPolicy.jsx'
 
 const drawerWidth = 250
 
@@ -146,6 +147,8 @@ export default function App () {
             <Route path="/schedules" render={() => <Schedules ref={schedulesRef}/>}/>
             <Route path="/auth/twitter/callback" component={TwitterCallback}/>
             <Route path="/auth/lastfm/callback" component={LastfmCallback}/>
+
+            <Route path="/mobile/privacy-policy" component={MobilePrivacyPolicy}/>
           </Switch>
         </main>
       </BrowserRouter>
