@@ -21,7 +21,7 @@ export default function Home() {
           </Center>
         </Flex>
         <Grid templateColumns={"repeat(2, 1fr)"}>
-          <Center>
+          
         </Grid>
       </Container>
     </Fragment>
