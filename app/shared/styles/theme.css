@@ -1,0 +1,15 @@
+:root {
+  --almost-black: #131313;
+  --kinda-black: #2A2A2A;
+  --mostly-red: #B71C1C;
+  --secondary-text: #FFFFFFAB;
+}
+
+.dark, .dark-theme {
+  --gray-1: var(--almost-black);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+}

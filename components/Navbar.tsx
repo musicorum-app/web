@@ -1,3 +1,4 @@
+
 import {
   Box,
   Center,
@@ -10,22 +11,17 @@ import {
   Show,
   useDisclosure,
 } from "@chakra-ui/react"
-import styled from "@emotion/styled"
 import Link from "next/link"
 import Logo from "../assets/logo.svg"
 import NavbarItem from "./NavbarItem"
 import { MdMenu, MdOutlineClose } from "react-icons/md"
-import { useRouter } from "next/router"
-
-const StyledLogo = styled(Logo)`
-  width: auto;
-  height: 1.2rem;
-`
+import { usePathname, useRouter } from "next/navigation"
+import { Image } from "@chakra-ui/next-js"
 
 const breakPoint = "md"
 
 const Navbar = () => {
-  const router = useRouter()
+  const pathName = usePathname()
   const { isOpen: mobileNavOpen, onToggle: toggleMobileNav } = useDisclosure()
 
   return (
@@ -63,19 +59,19 @@ const Navbar = () => {
           </Hide>
 
           <Center as={Link} href="/" h="100%" px={3} mr={2}>
-            <StyledLogo viewBox="0 0 75 27" />
+            <Image src={Logo} alt="" />
           </Center>
 
           {/* Navbar items on desktop */}
           <Show above={breakPoint}>
             <Flex align="center" height="100%" gap={1}>
               <NavbarItem
-                active={router.pathname.startsWith('/generate')}
-                label="Generate"
-                destination="/generate"
+                active={!!pathName?.startsWith('/collages')}
+                label="Collages"
+                destination="/collages"
               />
               <NavbarItem
-                active={router.pathname.startsWith('/about')}
+                active={!!pathName?.startsWith('/about')}
                 label="About"
                 destination="/about"
               />
@@ -93,13 +89,13 @@ const Navbar = () => {
             <Flex py={2} direction="column" alignItems="start">
               <NavbarItem
                 mobile
-                active={router.pathname.startsWith('/generate')}
-                label="Generate"
-                destination="/generate"
+                active={!!pathName?.startsWith('/collages')}
+                label="Collages"
+                destination="/collages"
               />
               <NavbarItem
                 mobile
-                active={router.pathname.startsWith('/about')}
+                active={!!pathName?.startsWith('/about')}
                 label="About"
                 destination="/about"
               />

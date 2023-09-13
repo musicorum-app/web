@@ -1,0 +1,14 @@
+import { FormEvent, Fragment, useState } from "react"
+import NavBar from "$shared/components/navbar/NavBar";
+
+export default function CollagesPage() {
+  
+  return (
+    <Fragment>
+      <NavBar />
+      {/* <Navbar /> */}
+      {/* <CollageCreation /> */}
+      {/* <Footer /> */}
+    </Fragment>
+  )
+}

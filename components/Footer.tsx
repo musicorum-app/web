@@ -1,5 +1,7 @@
+'use client';
 import { Box, Container, Flex, Icon, Select, Text } from "@chakra-ui/react"
 import Logo from "../assets/logotype.svg"
+import { Image } from "@chakra-ui/next-js"
 
 export function Footer() {
   return (
@@ -12,16 +14,14 @@ export function Footer() {
       pb={6}
     >
       <Container maxW="container.xl">
-        <Box as={Logo} viewBox="0 0 649 76" h={6} w="auto" />
-        <Flex mt={5}>
-          (icons)
-        </Flex>
+        <Image src={Logo} alt="" h={6} w="auto" />
+        <Flex mt={5}>(icons)</Flex>
 
-       <Box mt={12} mb={9}>
-       <Select w="200px" size="sm" variant='unstyled' fontWeight="bold">
-          <option>English</option>
-        </Select>
-       </Box>
+        <Box mt={12} mb={9}>
+          <Select w="200px" size="sm" variant="unstyled" fontWeight="bold">
+            <option>English</option>
+          </Select>
+        </Box>
 
         <Text fontSize="xs" color="GrayText">
           Musicorum is not associated or affiliated, in any way, with Last.fm,
