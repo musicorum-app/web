@@ -21,13 +21,16 @@ import { Footer } from "../components/Footer"
 // `
 
 export default function Home() {
+  return 'home'
+}
+
+export default function _Home() {
   return (
     <Fragment>
       <Navbar />
 
       <Container maxW="container.xl" px={8} my={8}>
         <Center w="100%" mt={8} mb={8}>
-          {/* <StyledLogo viewBox={"0 0 649 76"} /> */}
         </Center>
         <Flex
           direction="column"

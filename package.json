@@ -25,6 +25,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.46.1",
     "react-icons": "^4.7.1",
+    "sass": "^1.67.0",
     "styled-components": "^6.0.8",
     "typescript": "5.1.6",
     "zustand": "^4.4.1"

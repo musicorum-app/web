@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "components/NavbarItem.tsx.bkp"  ],
   "exclude": [
     "node_modules"
   ]

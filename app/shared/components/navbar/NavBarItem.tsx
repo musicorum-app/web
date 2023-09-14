@@ -1,52 +1,59 @@
-'use client'
+"use client"
 
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { ReactNode } from "react"
 import styled from "styled-components"
 
-const Item = styled.div<{ active: boolean }>`
-  border-top: 6px solid transparent;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`
+
+const Item = styled.div`
+  transition: all 150ms ease-in-out;
   color: white;
-  border-bottom: 6px solid
-    ${props =>
-      props.active ? "var(--chakra-colors-mostlyRed)" : "transparent"};
-  height: 100%;
-  width: 100%;
-  padding: 0 10px;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  height: 60px;
+  padding: 0 14px;
   display: flex;
   justify-content: start;
   align-items: center;
   box-sizing: border-box;
+  text-decoration: none;
+
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--gray-a3);
     cursor: pointer;
   }
-&.mobile {
-  border-left: 6px solid transparent;
-  border-left-color: ${props =>
-  props.active ? "var(--chakra-colors-mostlyRed)" : "transparent"};
-  border-bottom: none;
-  border-top: none;
-  padding: 2px 10px;
-  margin: 2px 0;
-}
+
+  &.active {
+    border-bottom-color: var(--mostly-red);
+  }
+
+  &.mobile {
+    border-left: 6px solid transparent;
+    border-bottom: none;
+    border-top: none;
+    padding: 2px 10px;
+    margin: 2px 0;
+  }
 `
 
 interface NavbarItemProps {
   destination: string
-  label: string
-  active: boolean
+  children: ReactNode
   mobile?: boolean
 }
 
 export default function NavbarItem(props: NavbarItemProps) {
+  const pathName = usePathname()
+
+  const active = pathName === props.destination
+
   return (
-    <Link
-      href={props.destination}
-      passHref
-    >
-       <Item active={props.active} className={props.mobile ? 'mobile' : ''}>
-          {props.label}
-        </Item>
-    </Link>
+    <StyledLink href={props.destination} passHref>
+      <Item className={active ? "active" : ""}>{props.children}</Item>
+    </StyledLink>
   )
 }

@@ -3,10 +3,16 @@
   --kinda-black: #2A2A2A;
   --mostly-red: #B71C1C;
   --secondary-text: #FFFFFFAB;
+
+  --container-md: 1024px;
 }
 
-.dark, .dark-theme {
+.dark, .dark-theme, .radix-themes {
   --gray-1: var(--almost-black);
+}
+
+.radix-themes {
+  --default-font-family: var(--font-poppins);
 }
 
 body {
