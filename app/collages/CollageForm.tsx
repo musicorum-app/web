@@ -1,17 +1,12 @@
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Flex,
-  FormControl,
-  Grid,
-  Input,
-  Select,
-} from "@chakra-ui/react"
+"use client"
+
 import { FormEvent } from "react"
 import { ThemeEnum, useCollageCreationStore } from "./collageCreationStore"
-import GridForm from "./forms/GridForm"
+import { Flex, Grid, TextField } from "@radix-ui/themes"
+import * as Form from "@radix-ui/react-form"
+import Card from "$shared/components/cards/Card"
+import CardBody from "$shared/components/cards/CardBody"
+// import GridForm from "./forms/GridForm"
 
 export default function CollageForm() {
   const [theme, setTheme] = useCollageCreationStore(s => [s.theme, s.setTheme])
@@ -24,11 +19,11 @@ export default function CollageForm() {
       new FormData(event.currentTarget).entries()
     )
 
-    const res = await fetch("https://mus-api-stg--proxy.musc.pw/collages", {
-      method: 'POST',
+    const res = await fetch("localhost:8080", {
+      method: "POST",
       headers: {
-        'content-type': "application/json",
-        authorization: "Super SdPU7pLXAFLF3cQr7s"
+        "content-type": "application/json",
+        authorization: "Super dev",
       },
       body: JSON.stringify({
         user: username,
@@ -39,7 +34,7 @@ export default function CollageForm() {
             show_names: true,
             show_playcount: true,
             padded: false,
-            ...options
+            ...options,
           },
         },
         hide_username: false,
@@ -50,9 +45,42 @@ export default function CollageForm() {
   }
 
   return (
-    <Grid width={"100%"} rowGap={4}>
-      <form onSubmit={handleSubmit}>
-        <FormControl isRequired placeholder={"Last.fm username"}>
+    <Grid
+      columns="2"
+      gap="4"
+      style={{ maxWidth: "var(--container-md)" }}
+      mx="auto"
+      px="4"
+    >
+      <Form.Root onSubmit={handleSubmit}>
+        <Flex gap="4">
+          <Form.Field name="username">
+            <Form.Control asChild>
+              <TextField.Input required placeholder="Last.fm username" type="text" />
+            </Form.Control>
+          </Form.Field>
+
+          <Form.Field name="theme">
+            <Form.Control value={theme || ""} asChild onChange={e => console.log(e.target)}>
+              <select required>
+              <option value="" disabled hidden color="whiteAlpha.400">
+                Theme
+              </option>
+                <option>grid</option>
+                <option>other</option>
+              </select>
+            </Form.Control>
+          </Form.Field>
+        </Flex>
+
+        <Card>
+          <CardBody>
+            oi teste
+          </CardBody>
+        </Card>
+      </Form.Root>
+
+      {/* <FormControl isRequired placeholder={"Last.fm username"}>
           <Flex width={"100%"} direction={"row"} gap={"1em"}>
             <Input
               name="username"
@@ -73,7 +101,6 @@ export default function CollageForm() {
                 Theme
               </option>
               <option value={ThemeEnum.ClassicCollage}>Grid</option>
-              {/* <option value={"duotone"}>Duotone</option> */}
             </Select>
           </Flex>
         </FormControl>
@@ -82,12 +109,10 @@ export default function CollageForm() {
             <CardHeader>THEME OPTIONS</CardHeader>
             <CardBody>{theme && <GridForm />}</CardBody>
           </Card>
-          {/* <ThemeOptionsCard theme={theme} /> */}
         </FormControl>
         <Button type="submit" width={"20%"} bg="mostlyRed" fontWeight={400}>
           Generate
-        </Button>
-      </form>
+        </Button> */}
     </Grid>
   )
 }

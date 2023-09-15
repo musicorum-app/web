@@ -10,6 +10,11 @@ import { styled } from "styled-components"
 const LogoLink = styled(Link)`
   display: flex;
   margin-right: 12px;
+  
+  & img {
+    width: 60px;
+    height: auto;
+  }
 `
 
 export default function NavBar() {
@@ -17,7 +22,7 @@ export default function NavBar() {
     <Box
       style={{
         background: "var(--kinda-black)",
-        borderBottom: "2px solid var(--gray-a4)",
+        boxShadow: "inset 0 calc(var(--border-weight) * -1) var(--gray-a4)",
       }}
       px="4"
     >

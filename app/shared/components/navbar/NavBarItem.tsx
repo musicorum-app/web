@@ -12,9 +12,8 @@ const StyledLink = styled(Link)`
 const Item = styled.div`
   transition: all 150ms ease-in-out;
   color: white;
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  height: 60px;
+  font-weight: 500;
+  height: 56px;
   padding: 0 14px;
   display: flex;
   justify-content: start;
@@ -27,8 +26,14 @@ const Item = styled.div`
     cursor: pointer;
   }
 
+  &::after {
+    background: var(--mostly-red);
+    width: 100%;
+    height: 2px;
+  }
+
   &.active {
-    border-bottom-color: var(--mostly-red);
+    box-shadow: inset 0 -5px var(--mostly-red);
   }
 
   &.mobile {

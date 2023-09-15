@@ -1,3 +1,5 @@
+"use client"
+
 import { Theme } from "@radix-ui/themes"
 import { Poppins } from "next/font/google"
 import "@radix-ui/themes/styles.css"
@@ -7,7 +9,8 @@ import StyledComponentsRegistry from "$shared/styles/StyledComponentsRegistry"
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: '--font-poppins'
+  variable: '--font-poppins',
+  display: 'swap',
 })
 
 export const metadata = {
@@ -21,12 +24,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${poppins.variable} dark`}>
       <body>
         <Theme
           appearance="dark"
           grayColor="gray"
-          className={`${poppins.variable} musicorum-theme`}
+          radius="large"
+          className={`musicorum-theme`}
         >
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
         </Theme>
