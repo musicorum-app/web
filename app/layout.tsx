@@ -1,5 +1,3 @@
-"use client"
-
 import { Theme } from "@radix-ui/themes"
 import { Poppins } from "next/font/google"
 import "@radix-ui/themes/styles.css"
