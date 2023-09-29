@@ -26,14 +26,8 @@ const Item = styled.div`
     cursor: pointer;
   }
 
-  &::after {
-    background: var(--mostly-red);
-    width: 100%;
-    height: 2px;
-  }
-
   &.active {
-    box-shadow: inset 0 -5px var(--mostly-red);
+    box-shadow: inset 0 -7px var(--mostly-red);
   }
 
   &.mobile {

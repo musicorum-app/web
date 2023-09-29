@@ -9,7 +9,7 @@ export default function CollagesPage() {
     <Fragment>
       <NavBar />
 
-      <Heading align="center">
+      <Heading size="8" align="center" my="6">
         Create a collage
       </Heading>
 

@@ -5,6 +5,7 @@
   --secondary-text: #FFFFFFAB;
 
   --container-md: 1024px;
+  --container-lg: 1240px;
 
   --border-weight: 2px;
 }
@@ -15,6 +16,14 @@
 
 .radix-themes {
   --default-font-family: var(--font-poppins);
+}
+
+[data-accent-color='red'] {
+  --accent-9: var(--mostly-red);
+}
+
+.rt-Button {
+  cursor: pointer;
 }
 
 body {

@@ -1,6 +1,7 @@
-import { Card, CardBody, CardHeader, Grid, Input, Select } from "@chakra-ui/react"
+import { Grid, Select, Switch, TextField } from "@radix-ui/themes"
 import { useCollageCreationStore } from "../collageCreationStore"
 import { useForm } from "react-hook-form"
+import SelectInput from "$shared/components/inputs/SelectInput"
 
 interface GridFormData {
   period: string
@@ -15,46 +16,56 @@ export default function GridForm() {
   // const {  } = useForm<GridFormData>()
 
   return (
-    <Grid
-      templateColumns={"repeat(2, minmax(0, 1fr))"}
-      rowGap={"1rem"}
-      columnGap={"1rem"}
-    >
-      <Select name="period">
-        <option value="7DAY" defaultChecked >
-          7 days
-        </option>
-        <option value="1MONTH">1 month</option>
-        <option value="3MONTH">3 months</option>
-        <option value="6MONTH">6 months</option>
-        <option value="12MONTH">1 year</option>
-        <option value="OVERALL">All time</option>
-      </Select>
+    <Grid columns={"2"} gap="4">
+      <SelectInput
+        size="3"
+        name="period"
+        placeholder="Period"
+        required
+        defaultValue="7DAY"
+        // onChange={e => console.log(e.target)}
+      >
+        <Select.Item value="7DAY">7 days</Select.Item>
+        <Select.Item value="1MONTH">1 month</Select.Item>
+        <Select.Item value="3MONTH">3 months</Select.Item>
+        <Select.Item value="6MONTH">6 months</Select.Item>
+        <Select.Item value="12MONTH">1 year</Select.Item>
+        <Select.Item value="OVERALL">All time</Select.Item>
+      </SelectInput>
 
-      <Select name="entity">
-        <option value="ARTIST">Artists</option>
-        <option value="ALBUM" defaultChecked>
-          Albums
-        </option>
-        <option value="TRACK">Tracks</option>
-      </Select>
+      <SelectInput
+        size="3"
+        name="entity"
+        placeholder="Entity"
+        required
+        defaultValue="ALBUM"
+        // onChange={e => console.log(e.target)}
+      >
+        <Select.Item value="ARTIST">Artists</Select.Item>
+        <Select.Item value="ALBUM">Albums</Select.Item>
+        <Select.Item value="TRACK">Tracks</Select.Item>
+      </SelectInput>
 
-      <Input
-      name="rows"
-            type="number"
-            placeholder={"Rows"}
-            defaultValue={5}
-            min={2}
-            max={10}
-          />
-          <Input
-          name="columns"
-            type="number"
-            placeholder={"Columns"}
-            defaultValue={5}
-            min={2}
-            max={10}
-          />
+      <TextField.Input
+        size="3"name="rows"
+
+        type="number"
+        placeholder={"Rows"}
+        defaultValue={5}
+        min={2}
+        max={10}
+      />
+      <TextField.Input
+      size="3"
+        name="columns"
+        type="number"
+        placeholder={"Columns"}
+        defaultValue={5}
+        min={2}
+        max={10}
+      />
+
+      {/* <Switch radius="full" /> */}
     </Grid>
   )
 }
